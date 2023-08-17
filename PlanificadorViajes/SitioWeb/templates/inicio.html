@@ -1,1 +1,30 @@
-<h1>Hola mundo!</h1>
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+    <title>Inicio</title>
+</head>
+<body>
+    <nav>
+        <button id="nav-button">Iniciar Sesion</buttom>
+    </nav>
+    <main>
+        <section id="cont-bienvenida">
+            <div id="cont-titulo">
+                <h1>Bienvenido a nuestro futuro Planificador de Viajes!</h1>
+            </div>
+            <div id="divisor"></div>
+            <div id="cont-texto">
+                <p>La idea para realizar un sitio que principalmente sea un planificador de viajes surge 
+                porque normalmente queremos planificar un viaje de manera detallada, indicando el 
+                itinerario de cada día, pero no encontramos dónde gestionar los diferentes lugares 
+                de una manera fácil, sencilla y que plasme de forma intuitiva que es lo que se tiene en 
+                mente, con los destinos y actividades a realizar en el orden cronológico deseado.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
