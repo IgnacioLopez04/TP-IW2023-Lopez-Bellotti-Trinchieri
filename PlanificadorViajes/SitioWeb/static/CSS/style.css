@@ -22,14 +22,22 @@ nav{
 #nav-button{
     margin: 5px 20px;
     padding: 5px;
+    background-color: #F2EFE1;
+    border: 0px solid #F2EFE1;
+    border-radius: 10px;
+}
+
+#nav-button:hover{
+    background-color: #DDDACD;
 }
 
 main{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
-    height: 100vh;
+    height: 90vh;
 }
 
 #cont-bienvenida{
@@ -64,4 +72,12 @@ main{
 
 #cont-texto p{
     margin: 10px;
+}
+
+#cont-button{
+    margin-top: 10px;
+}
+
+#btn-crear-viaje{
+    padding: 5px;
 }
