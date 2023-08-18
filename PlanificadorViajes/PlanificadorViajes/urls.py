@@ -24,4 +24,5 @@ urlpatterns = [
     path('inicio/', views.inicio),
     path('accounts/', include("django.contrib.auth.urls")),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    #path('carga/', views.persona_Carga),     (esto lleva a la carga de persona)
 ]
