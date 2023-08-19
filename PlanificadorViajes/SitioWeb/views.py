@@ -9,13 +9,13 @@ from django.contrib.auth.decorators import login_required
 def inicio(request):
     return render(request, 'inicio.html', {})
 
-# def persona_Carga(request): (esto es lo que vimos en clase, deberiamos implementarlo)
-    if request.method == "POST":
-        form = FormPersona(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("/inicio/")
-    else:
-        form = FormPersona()
+#  def persona_Carga(request): (esto es lo que vimos en clase, deberiamos implementarlo)
+#     if request.method == "POST":
+#         form = FormPersona(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("/inicio/")
+#     else:
+#         form = FormPersona()
 
-    return render(request, 'inicio.html', {'form_Persona': form})
+#     return render(request, 'inicio.html', {'form_Persona': form})
