@@ -125,6 +125,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
 
+LOGIN_REDIRECT_URL = 'sitio-inicio'
+LOGOUT_REDIRECT_URL = 'sitio-inicio'
+
 # code needed to deploy in Render.com:
 # import os
 # import dj_database_url

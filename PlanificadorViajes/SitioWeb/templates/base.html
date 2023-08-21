@@ -8,6 +8,14 @@
     <title>Inicio</title>
 </head>
 <body>
+    <nav>
+        {%if user.is_authenticated%}
+            <button><a href="{% url 'logout'%}">Cerrar Sesion</a></button>
+        {% else %}
+            <button><a href="{% url 'login'%}">Iniciar Sesion<a></button>
+            <button><a href="{% url 'singup'%}">Registrarse<a></button>
+        {%endif%}
+    </nav>
     <main>
         {% block content %}
         {% endblock %}

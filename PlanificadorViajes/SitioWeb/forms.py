@@ -1,9 +1,10 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from SitioWeb.models import Persona
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
-class FormPersona(forms.ModelForm):
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
     class Meta:
-        model = Persona
-        fields = ['nombreUsuario', 'email', 'password']
-
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
