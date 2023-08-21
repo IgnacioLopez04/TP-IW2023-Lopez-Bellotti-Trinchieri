@@ -135,10 +135,10 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
- import os
- import dj_database_url
+import os
+import dj_database_url
 
- if 'RENDER' in os.environ:
+if 'RENDER' in os.environ:
      print("USING RENDER.COM SETTINGS!")
      DEBUG = False
      ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
