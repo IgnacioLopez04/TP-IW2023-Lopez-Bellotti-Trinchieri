@@ -8,10 +8,14 @@
         <h1>Empieza a organizar tu viaje!</h1>
     </div>
     <div id="divisor"></div>
-    <div id="cont-texto">
-        <p>Aca podras crear y organizar tu viaje a medida, eligiendo los destinos, las actividades y
-            las rutas, pudiendo calificarlas para que los viajeros posteriores puedan decidir
-            que actividades realizar</p>
+    <div id="cont-form-viaje">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" id="nav-button">
+              Continuar con el viaje
+          </button>
+      </form>
     </div>
 </section>
 {% endblock %}
