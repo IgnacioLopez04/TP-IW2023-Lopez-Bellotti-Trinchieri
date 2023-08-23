@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'SitioWeb',
+    'registration',
+    'viajes'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'PlanificadorViajes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, "templates"],
+        'DIRS': [BASE_DIR, "base-templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,17 +137,17 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
-import os
-import dj_database_url
+#import os
+#import dj_database_url
 
-if 'RENDER' in os.environ:
-     print("USING RENDER.COM SETTINGS!")
-     DEBUG = False
-     ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
-     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-     MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
-                       'whitenoise.middleware.WhiteNoiseMiddleware')
-     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#if 'RENDER' in os.environ:
+#     print("USING RENDER.COM SETTINGS!")
+#     DEBUG = False
+#     ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+#     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+#     MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
+#                       'whitenoise.middleware.WhiteNoiseMiddleware')
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 

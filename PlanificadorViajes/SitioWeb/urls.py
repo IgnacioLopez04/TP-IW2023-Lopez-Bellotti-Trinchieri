@@ -3,5 +3,5 @@ from SitioWeb import views
 
 urlpatterns = [
     path('', views.inicio, name='sitio-inicio'),
-    path('cargar-viaje/', views.cargarViaje, name='sitio-cargar-viaje'),
+    path('cargar-viaje/', include('viajes.urls')),
 ]

@@ -13,8 +13,7 @@
         {%if user.is_authenticated%}
             <button id="nav-button"><a href="{% url 'logout'%}">Cerrar Sesion</!--a></button>
         {% else %}
-            <button id="nav-button"><a href="{% url 'login'%}">Iniciar Sesion<a></button>
-            <button id="nav-button"><a href="{% url 'singup'%}">Registrarse<a></button>
+
         {%endif%}
     </nav>
     <main>
