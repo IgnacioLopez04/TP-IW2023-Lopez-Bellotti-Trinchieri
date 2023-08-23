@@ -1,21 +1,15 @@
-{% extends 'base.html' %}
-
-{% block title %}Viaje{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Viaje{% endblock %} {% block content
+%}
 <section id="cont-bienvenida">
-    <div id="cont-titulo">
-        <h1>Empieza a organizar tu viaje!</h1>
-    </div>
-    <div id="divisor"></div>
-    <div id="cont-form-viaje">
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" id="nav-button">
-              Continuar con el viaje
-          </button>
-      </form>
-    </div>
+  <div id="cont-titulo">
+    <h1>Empieza a organizar tu viaje!</h1>
+  </div>
+  <div id="divisor"></div>
+  <div id="cont-form-viaje">
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" id="nav-button">Continuar con el viaje</button>
+    </form>
+  </div>
 </section>
 {% endblock %}
