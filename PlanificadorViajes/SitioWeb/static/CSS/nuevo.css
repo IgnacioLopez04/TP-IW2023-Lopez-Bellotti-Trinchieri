@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+nav{
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    box-shadow: 0px 0px 10px #A4A4A4;
+    background-color: #F2EFE1;
+}
+
+#nav-button{
+    margin: 5px 20px;
+    padding: 5px;
+    background-color: #F2EFE1;
+    border: 0px solid #F2EFE1;
+    border-radius: 10px;
+}
+
+
+#nav-button:hover{
+    background-color: #DDDACD;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    height: 90vh;
+}
+
+#cont-bienvenida{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    max-width: 600px;
+    height: 300px;
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px #A4A4A4;
+    text-align: center;
+}
+
+#cont-titulo{
+    display: flex;
+    align-items: center;
+    
+    margin: 10px;
+    padding: 10px 0px;
+}
+#divisor{
+    width: 80%;
+    border: 1px solid #A4A4A4;
+}
+#cont-texto{
+    display: flex;
+    justify-content: center;
+
+    height: 100%;
+}
+
+#cont-texto p{
+    margin: 10px;
+}
+
+#cont-button{
+    margin-top: 10px;
+}
+
+#btn-cargar-viaje{
+    padding: 8px;
+    background-color: #F2EFE1;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #A4A4A4;
+}
+
+#btn-cargar-viaje:hover{
+    background-color: #DDDACD
+}
