@@ -1,23 +1,26 @@
 {%extends 'base.html'%}
 {% load crispy_forms_tags %}
 {% load static %}
-
+{%block estilo%}<link rel="stylesheet" href={%static 'CSS/singup.css'%}>{%endblock%}
 {%block content%}
-    <div class="content-section">
+<main>
+    <section class="content-section">
         <form method="POST">
             {%csrf_token%}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Registrate hoy para tener los beneficios como viajero </legend>
+                <h2 class="border-bottom mb-4"> Registrate hoy para tener los beneficios como viajero </h2>
+                <div class="divisor"></div>
                 {{registration_form|crispy:"bootstrap4"}}
             </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            <div class="form-group-btn">
+                <button class="btn" type="submit">Sign Up</button>
             </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Tienes una cuenta? <a class="ml-2" href="{% url 'login'%}"> Ingresa </a>
+        <div class="cont-login-text">
+            <small class="text-login">
+                Tienes una cuenta? <a class="ml-2" href="{% url 'login'%}"> Ingresá </a>
             </small>
         </div>
-    </div>
+    </section>
+</main>
 {%endblock content%}
