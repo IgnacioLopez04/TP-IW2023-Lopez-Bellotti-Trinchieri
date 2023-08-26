@@ -1,5 +1,5 @@
 from django import forms
-from viajes.models import Viaje_General, Viaje_Dia, Imagen_Archivo
+from viajes.models import Viaje_General, Viaje_Dia
 
 class ViajeForm(forms.ModelForm):
 
@@ -19,8 +19,3 @@ class DiaViajeForm(forms.ModelForm):
         widgets = {
             'fecha': forms.DateInput(attrs={'type':'date'}),
         }
-
-class CargarImagenForm(forms.ModelForm):
-    class Meta:
-        model = Imagen_Archivo
-        fields = ['image']

@@ -20,6 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('sitio/', include('SitioWeb.urls')),
-    path('registration/', include('registration.urls')),
-    path('viaje/', include('viajes.urls')),
+    path('registration/', include('registration.urls'))
 ]
