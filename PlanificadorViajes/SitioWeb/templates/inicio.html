@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-
-{% block title %}Inicio{% endblock %}
+{%load  static %}
+{% block title %}<title>Inicio</title>{% endblock %}
+{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio3.css'%}>{%endblock%}
 
 {% block content %}
     {%if messages%}
@@ -11,23 +12,43 @@
         {%endfor%}
     {% endif %}     
 <main>
-    <section id="cont-bienvenida">
-        <div id="cont-titulo">
-            <h1>Bienvenido a nuestro futuro Planificador de Viajes!</h1>
-        </div>
-        <div id="divisor"></div>
-        <div id="cont-texto">
-            <p>La idea para realizar un sitio que principalmente sea un planificador de viajes surge
-            porque normalmente queremos planificar un viaje de manera detallada, indicando el
-            itinerario de cada día, pero no encontramos dónde gestionar los diferentes lugares
-            de una manera fácil, sencilla y que plasme de forma intuitiva que es lo que se tiene en
-            mente, con los destinos y actividades a realizar en el orden cronológico deseado.</p>
+    <section id="carrusel">
+        <div class="carrusel-div">
+            <div class="cont-ctrl-fotos">
+                <div class="cont-fotos">
+                    <img src="https://lujandecuyo.gob.ar/wp-content/uploads/2018/12/1.-Potrerillos-1080x675.jpg" alt="foto montaña">
+                    <img src="https://www.welcomeargentina.com/potrerillos/imagenes/potrerillos-176.jpg">
+                    <img src="https://www.welcomeargentina.com/potrerillos/imagenes/potrerillos-m-montanas2.jpg">
+                </div>
+                <div class="cont-btn-fotos">
+                    <button class="btn-flecha-izq">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                            <style>svg{fill:#ffa200}</style>
+                            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-flecha-der">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                            <style>svg{fill:#ff9500}</style>
+                            <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
-    <section id="cont-button">
+    <section id="cont-info-viaje">
+    </section>
+    {% comment %} <section id="cont-button">
         <button id="btn-cargar-viaje">
             <a href="{%url 'viajes-cargar-viaje'%}">Cargar viaje<a/>
         </button>
-    </section>
+    </section> 
+    Se puede realizar un sidebar donde coloquemos cada uno de los opciones que podemos hacer, inicio de sesion, cargar viaje, perfil, viajes, etc.
+    {% endcomment %}
 </main>
 {% endblock %}
+
+{%block js%}
+    <script src={% static 'JS/inicio2.js'%}></script>
+{%endblock%}
