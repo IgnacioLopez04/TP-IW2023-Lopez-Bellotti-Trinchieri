@@ -7,13 +7,14 @@ class Viaje_General(models.Model):
     fechaFinalizacion = models.DateField()
     descripcion = models.CharField(max_length=250)
 
+    # FileField lo usamos para manejar la carga del archivo a través del formulario
+    image = models.FileField(null=True)
+    # El atributo image_data es un BinaryField que almacenará los datos binarios sin procesar de la imagen.
+    image_data = models.BinaryField(null=True)
+
 class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
     actividades = models.CharField(max_length=250) #por ahora lo dejamos en un solo campo
     destinos = models.CharField(max_length=250) #por ahora lo dejamos en un solo campo
     fecha = models.DateField()
     notas = models.CharField(max_length=250)
-
-class Imagen_Archivo(models.Model):
-    image = models.FileField() #FileField lo usamos para manejar la carga del archivo a través del formulario
-    image_data = models.BinaryField(null=True) #El atributo image_data es un BinaryField que almacenará los datos binarios sin procesar de la imagen.
