@@ -1,7 +1,9 @@
 {% extends 'base.html' %} 
 {%load static%}
 {% block title %}Viaje{% endblock title%} 
-{%block estilo%}<link rel="stylesheet" href={% static 'CSS/viaje.css' %}>{%endblock%}
+{%block estilo%}
+  <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
+{%endblock%}
 
 {% block content%}
 <main>
@@ -12,7 +14,8 @@
     <div id="divisor"></div>
     <div id="cont-form-viaje">
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+        {{ form.as_p }}
         <button type="submit" id="nav-button">Continuar con el viaje</button>
       </form>
     </div>
