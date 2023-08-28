@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
+<<<<<<< Updated upstream
 
 {%block estilo%}<link rel="stylesheet" href={% static 'CSS/dia_viaje.css' %}>{%endblock%}
+=======
+{%load static%}
+{%block estilo%}
+    <link rel="stylesheet" href={% static 'CSS/dia_viaje.css' %}>
+{% endblock %}
+>>>>>>> Stashed changes
 {% block title %}Dia_Viaje{% endblock %}
 
 {% block content %}
