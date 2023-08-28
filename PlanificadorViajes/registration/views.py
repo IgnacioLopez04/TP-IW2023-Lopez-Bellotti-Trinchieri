@@ -12,4 +12,4 @@ def registration(request):
             return redirect('sitio-inicio')
     else:
         form = UserRegisterForm()
-    return render(request, 'singup.html', {'registration_form': form})
+    return render(request, 'signup.html', {'registration_form': form})

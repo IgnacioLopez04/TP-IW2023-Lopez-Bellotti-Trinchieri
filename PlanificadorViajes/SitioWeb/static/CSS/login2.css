@@ -46,5 +46,5 @@ main{
 }
 
 .link-signup:hover{
-    border-bottom: #FF8000;
+    border-bottom: 1px solid #FF8000;
 }
