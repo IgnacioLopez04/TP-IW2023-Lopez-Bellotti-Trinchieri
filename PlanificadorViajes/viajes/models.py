@@ -1,20 +1,26 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+    
+class Destino(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=200, default="")
+    def __str__(self):
+        return self.nombre
+    
+class Viaje_Dia(models.Model):
+    nombreDia = models.CharField(max_length=250)
+    destinos= models.ManyToManyField(Destino, related_name='dias_viaje')
+    notas = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.nombreDia
 
 class Viaje_General(models.Model):
     nombreViaje = models.CharField(max_length=250)
     cantidadDias = models.IntegerField()
-    fechaInicio = models.DateField()
-    fechaFinalizacion = models.DateField()
     descripcion = models.CharField(max_length=250)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    diasViaje= models.ManyToManyField(Viaje_Dia, related_name='viaje', null=True)
 
-    # FileField lo usamos para manejar la carga del archivo a través del formulario
-    image = models.FileField(null=True)
-    # El atributo image_data es un BinaryField que almacenará los datos binarios sin procesar de la imagen.
-    image_data = models.BinaryField(null=True)
 
-class Viaje_Dia(models.Model):
-    nombreDia = models.CharField(max_length=250)
-    actividades = models.CharField(max_length=250) #por ahora lo dejamos en un solo campo
-    destinos = models.CharField(max_length=250) #por ahora lo dejamos en un solo campo
-    fecha = models.DateField()
-    notas = models.CharField(max_length=250)
