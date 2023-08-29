@@ -16,10 +16,13 @@ function agregar_inputs() {
         return pTag;
     }
 
+    var dia = document.createElement('h1');
+    dia.innerHTML = 'Dia ' + (parseInt(total_form.value) + parseInt(1));
+
+    formDia.appendChild(dia);
     formDia.appendChild(createFormField('Nombre:', 'nombreDia'));
-    formDia.appendChild(createFormField('Actividades:', 'actividades'));
-    formDia.appendChild(createFormField('Destinos:', 'destinos'));
     formDia.appendChild(createFormField('Notas:', 'notas'));
+    formDia.appendChild(createFormField('Destinos:', 'destinos'));
     formDia.appendChild(document.createElement('br'));
 
     total_form.value = parseInt(total_form.value) + 1;
