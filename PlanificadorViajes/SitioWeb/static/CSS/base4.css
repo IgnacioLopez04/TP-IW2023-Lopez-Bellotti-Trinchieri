@@ -31,7 +31,7 @@ nav{
     background-color: #1B3358;
     color: #FF8000;
 
-    position: absolute;
+    position: fixed;
     z-index: 50;
 
     display: flex;
