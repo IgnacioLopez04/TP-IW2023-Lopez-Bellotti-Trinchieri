@@ -6,15 +6,15 @@ const btn_sig = document.querySelector('.btn-flecha-der');
 btn_prev.addEventListener('click',()=>{
     const cont_fotos = document.querySelector('.cont-fotos');
     if(contador_movimiento < 0){
-        contador_movimiento += 100;
+        contador_movimiento += 20;
         cont_fotos.style.transform = `translateX(${contador_movimiento}%)`;
     }
 })
 
 btn_sig.addEventListener('click',()=>{
     const cont_fotos = document.querySelector('.cont-fotos');
-    if(contador_movimiento > -200){
-        contador_movimiento -= 100;
+    if(contador_movimiento > -80){
+        contador_movimiento -= 20;
         cont_fotos.style.transform = `translateX(${contador_movimiento}%)`;
     }
 })

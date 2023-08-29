@@ -25,38 +25,6 @@ nav{
     z-index: 100;
 }
 
-.buscador{
-    display: flex;
-    justify-content: start;
-    flex-direction: row;
-
-    width: 250px;
-    height: 60%;
-    background-color: white;
-
-    border-radius: 10px;
-}
-
-#lupa{
-    width: 20%;
-    border: none;
-    background-color: white;
-    border-radius: 10px 0px 0px 10px;
-}
-
-#lupa:hover{
-    background-color: rgba(0,0,0,0.1);
-}
-
-#text-buscador{
-    flex-grow: 1;
-
-    width: 80%;
-    height: 100%;
-    border: none;
-    border-radius: 0px 10px 10px 0px;
-}
-
 .sidebar{
     width: 0;
     height: 100vh;
