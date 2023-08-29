@@ -7,13 +7,31 @@ def cargarViaje(request):
     if request.method == 'POST':
         form = ViajeForm(request.POST)
         if form.is_valid():
-            form.save()
+            viaje = form.save(commit=False)  # Crea una instancia del Viaje sin guardarla aún
+            viaje.usuario = request.user  # Asigna el usuario actual al campo user
+            viaje.save() #ahora si guarda el viaje con el usuario asignado
             return redirect('viajes-cargar-dia-viaje')
     else:
         form = ViajeForm()
 
     return render(request, 'viaje.html', {'form': form})
 
+
+@login_required
+def cargar_dia_viaje(request):
+    if request.method == 'POST':
+        form = CargarDiaViajeForm(request.POST)
+        if form.is_valid():
+            dia_viaje = form.save()
+            return redirect('viajes-cargar-dia-viaje')
+    else:
+        form = CargarDiaViajeForm()
+    
+    dia_actual = request.session.get('dia_actual', 1)
+    titulo = f'Día {dia_actual}'
+    return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
+
+#es el cargarDia viejo... por eso dejo asi
 """@login_required
 def cargarDiaViaje(request):
     if request.method == 'POST':
@@ -31,19 +49,3 @@ def cargarDiaViaje(request):
     dia_actual = request.session.get('dia_actual', 1)
     titulo = f'Día {dia_actual}'
     return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})"""
-
-@login_required
-def cargar_dia_viaje(request):
-    if request.method == 'POST':
-        form = CargarDiaViajeForm(request.POST)
-        if form.is_valid():
-            dia_viaje = form.save()
-            destinos_seleccionados = form.cleaned_data['destinos']
-            dia_viaje.destinos.set(destinos_seleccionados)
-            return redirect('viajes-cargar-dia-viaje')
-    else:
-        form = CargarDiaViajeForm()
-    
-    dia_actual = request.session.get('dia_actual', 1)
-    titulo = f'Día {dia_actual}'
-    return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
