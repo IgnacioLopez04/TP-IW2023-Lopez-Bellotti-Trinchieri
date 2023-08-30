@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
+from viajes.models import Viaje_General
+from django.http import HttpResponse
 
 @login_required
 def cargarViaje(request):
@@ -30,6 +32,7 @@ def cargar_dia_viaje(request):
     dia_actual = request.session.get('dia_actual', 1)
     titulo = f'Día {dia_actual}'
     return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
+
 
 #es el cargarDia viejo... por eso dejo asi
 """@login_required

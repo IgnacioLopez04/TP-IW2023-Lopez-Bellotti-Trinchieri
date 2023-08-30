@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load  static %}
 {% block title %}<title>Inicio</title>{% endblock %}
-{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio6.css'%}>{%endblock%}
+{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio7.css'%}>{%endblock%}
 
 {% block content %}
     {%if messages%}
@@ -58,9 +58,17 @@
         </button>
         <input type="text" placeholder="Buscar" id="text-buscador">
     </section>
+    <div class="cont-lista-viajes" hx-get="/api/viajes" hx-trigger="click every 10s">
+        <p>Cargando...</p>
+    </div>
 </main>
 {% endblock %}
-
 {%block js%}
     <script src={% static 'JS/inicio3.js'%}></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script> 
+        $(document).ready(function(){
+            $('.cont-lista-viajes').trigger('click');
+        });
+    </script>
 {%endblock%}

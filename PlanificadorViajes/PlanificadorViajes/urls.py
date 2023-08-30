@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from viajes import views as viaje_views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('sitio/', include('SitioWeb.urls')),
-    path('registration/', include('registration.urls'))
+    path('registration/', include('registration.urls')),
+    path('api/', include('apis.urls')),
 ]

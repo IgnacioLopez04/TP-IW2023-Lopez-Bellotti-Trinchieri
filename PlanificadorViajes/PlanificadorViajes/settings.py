@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SitioWeb',
     'registration',
-    'viajes'
+    'viajes',
+    'apis',
 ]
 
 MIDDLEWARE = [
