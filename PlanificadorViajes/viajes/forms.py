@@ -2,7 +2,10 @@ from django import forms
 from viajes.models import Viaje_General, Viaje_Dia, Destino
 
 class ViajeForm(forms.ModelForm):
-
+    #le doy un formato y label diferente a los campos
+    cantidadDias = forms.IntegerField(min_value=0, max_value= 90, label="Cantidad de dias")
+    nombreViaje= forms.CharField(label= "Nombre del viaje")
+    descripcion= forms.CharField(label= "Descripcion")
     class Meta:
         model = Viaje_General
         fields = ['nombreViaje', 'cantidadDias', 'descripcion']
