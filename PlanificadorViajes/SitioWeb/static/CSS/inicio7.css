@@ -148,7 +148,7 @@ main{
     width: 80%;
     height: 1px;
 
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid #ff8000;
     margin: 10px 0px;
 }
 
