@@ -12,7 +12,9 @@ def cargarViaje(request):
             viaje = form.save(commit=False)  # Crea una instancia del Viaje sin guardarla aún
             viaje.usuario = request.user  # Asigna el usuario actual al campo user
             viaje.save() #ahora si guarda el viaje con el usuario asignado
-            return redirect('viajes-cargar-dia-viaje')
+
+            viaje_id = viaje.id
+            return redirect('viajes-cargar-dia-viaje', viaje_id=viaje_id)
     else:
         form = ViajeForm()
 

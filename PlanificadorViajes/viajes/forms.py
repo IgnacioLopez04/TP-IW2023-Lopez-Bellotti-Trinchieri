@@ -28,10 +28,9 @@ class CargarDiaViajeForm(forms.ModelForm):
         nuevo_destino = self.cleaned_data.get('nuevo_destino')
         if nuevo_destino:
             destino_nuevo, created = Destino.objects.get_or_create(nombre=nuevo_destino)
+            dia_viaje.save() #Primero se guarda la instancia para despues agregar el destino m2m
             dia_viaje.destinos.add(destino_nuevo)
 
-        if commit:
-            dia_viaje.save()
         return dia_viaje
 
     class Meta:

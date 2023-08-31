@@ -12,7 +12,7 @@ class AdminViaje(admin.ModelAdmin):
 admin.site.register(Viaje_General, AdminViaje)
 
 class AdminDiaViaje(admin.ModelAdmin):
-    list_display = ('nombreDia', 'get_destinos')  # uso una función get_destinos para mostrar la lista en el admin
+    list_display = ('nombreDia', 'viaje','get_destinos','notas')  # uso una función get_destinos para mostrar la lista en el admin
     
     def get_destinos(self, obj):
         return ", ".join([destino.nombre for destino in obj.destinos.all()])
