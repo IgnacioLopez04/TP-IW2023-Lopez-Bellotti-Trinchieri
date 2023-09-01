@@ -20,6 +20,12 @@
           Necesitas una cuenta? <a class="link-signup" href="{% url 'signup'%}"> Registrarse </a>
       </small>
     </div>
+    <div>
+      {% load socialaccount %}
+      <button>
+        <a href="{% provider_login_url 'google' %}?next=/">Inicia sesion con Google</a>
+      </button>
+    </div>
   </section>
 </main>
 {% endblock %}
