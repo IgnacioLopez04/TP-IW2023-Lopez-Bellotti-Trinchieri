@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 
 *{
     margin: 0;
@@ -52,8 +53,50 @@ main{
 .cont-google{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+}
+
+.divisores{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .divisor-izq{
+    border: 1px solid #FF8000;
+    width: 45%;
+    height: 1px;
+}
 
+.divisores p{
+    padding: 0px 5px;
+}
+
+.divisor-der{
+    border: 1px solid #FF8000;
+    width: 45%;
+    height: 1px;
+}
+
+.btn-google{
+    padding: 10px 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    
+    padding: 16px;
+    
+    background-color: white;
+    border-radius: 10px;
+}
+
+.btn-google a{
+    letter-spacing: 0.0575em; /* 0.69px */
+    color: #5F6368;
+    line-height: 16px;
+}
+
+.btn-google:hover{
+    background-color: rgba(0,0,0,0.1);
 }
