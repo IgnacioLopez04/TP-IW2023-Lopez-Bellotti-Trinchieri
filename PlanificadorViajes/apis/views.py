@@ -27,23 +27,20 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['GET'])
     def filtrar_viajes(self, request):
         destino = request.GET.get('destino')
-        dias_desde = request.GET.get('dias-desde')
         dias_hasta = request.GET.get('dias-hasta')
-
+          
         # Obtener todos los viajes desde la base de datos
         viajes = self.get_queryset()
 
         # Aplicar filtro por destino si se proporciona
         if destino:
-            viajes = viajes.filter(viaje_dia__destinos__nombre__icontains=destino)
+            viajes = viajes.filter(viaje_dia__destinos__nombre__icontains=destino).distinct()
 
-        # Aplicar filtro por rango de días si se proporciona
-        if dias_desde and dias_hasta:
-            viajes = viajes.filter(cantidadDias__gte=dias_desde, cantidadDias__lte=dias_hasta)
-        elif dias_desde:
-            viajes = viajes.filter(cantidadDias__gte=dias_desde)
-        elif dias_hasta:
-            viajes = viajes.filter(cantidadDias__lte=dias_hasta)
+        # Aplicar filtro por rango de días si se proporciona la cantidad de dias, para que busque al rededor de esa cantidad
+        if dias_hasta:
+            min_dias = max(0, int(dias_hasta) - 2) 
+            max_dias = int(dias_hasta) + 2 
+            viajes = viajes.filter(cantidadDias__range=(min_dias, max_dias))
 
         
         serializer = self.get_serializer(viajes, many=True)

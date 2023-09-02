@@ -10,7 +10,7 @@ class Destino(models.Model):
 
 class Viaje_General(models.Model):
     nombreViaje = models.CharField(max_length=250)
-    cantidadDias = models.IntegerField()
+    cantidadDias = models.IntegerField(null=True)
     descripcion = models.CharField(max_length=250)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -21,7 +21,7 @@ class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
     destinos= models.ManyToManyField(Destino, related_name='destinos')
     notas = models.CharField(max_length=250)
-    viaje = models.ForeignKey(Viaje_General, related_name='viaje', on_delete=models.CASCADE, null=True)
+    viaje = models.ForeignKey(Viaje_General, related_name='viaje_dia', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.nombreDia
