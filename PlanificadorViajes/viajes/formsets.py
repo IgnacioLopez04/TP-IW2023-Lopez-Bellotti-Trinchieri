@@ -20,7 +20,7 @@ class FormsetDiaViaje(FormView):
                 f_instance.viaje = viaje_general
                 f_instance.save()
 
-                destino_seleccionado = f.cleaned_data['destinos']
-                f_instance.destinos.set([destino_seleccionado])  # Agregar los destinos a la relación many-to-many
+                destinos_seleccionados = f.cleaned_data.get('destinos')
+                f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
 
         return super().form_valid(formset)
