@@ -37,12 +37,3 @@ class CargarDiaViajeForm(forms.ModelForm):
         model = Viaje_Dia
         fields = ['nombreDia', 'notas', 'destinos']
 
-#form viejo de diaviaje
-"""class DiaViajeForm(forms.ModelForm):
-
-    class Meta:
-        model = Viaje_Dia
-        fields = ['nombreDia', 'destinos', 'notas']
-        widgets = {
-            'fecha': forms.DateInput(attrs={'type':'date'}),
-        }"""

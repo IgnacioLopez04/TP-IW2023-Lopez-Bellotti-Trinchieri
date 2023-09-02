@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-{%block estilo%}<link rel="stylesheet" href={%static 'CSS/login2.css'%}>{%endblock%}
+{%block estilo%}<link rel="stylesheet" href={%static 'CSS/login4.css'%}>{%endblock%}
 {% block title %}Login{% endblock %}
 
 {% block content %}
@@ -20,10 +20,15 @@
           Necesitas una cuenta? <a class="link-signup" href="{% url 'signup'%}"> Registrarse </a>
       </small>
     </div>
-    <div>
+    <div class="cont-google">
+      <div class='divisores'>
+          <div class='divisor-izq'></div>
+          <p>O</p>
+          <div class='divisor-der'></div>
+      </div>
       {% load socialaccount %}
-      <button>
-        <a href="{% provider_login_url 'google' %}?next=/">Inicia sesion con Google</a>
+      <button class='btn-google'>
+        <a href="{% provider_login_url 'google' %}">Iniciar sesion con Google</a>
       </button>
     </div>
   </section>

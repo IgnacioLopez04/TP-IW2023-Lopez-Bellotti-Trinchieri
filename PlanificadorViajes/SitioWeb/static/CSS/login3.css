@@ -52,8 +52,27 @@ main{
 .cont-google{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+}
+
+.divisores{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .divisor-izq{
+    border: 1px solid #FF8000;
+    width: 45%;
+    height: 1px;
+}
 
+.divisores p{
+    padding: 0px 5px;
+}
+
+.divisor-der{
+    border: 1px solid #FF8000;
+    width: 45%;
+    height: 1px;
 }
