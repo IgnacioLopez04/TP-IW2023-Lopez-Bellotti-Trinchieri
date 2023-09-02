@@ -36,21 +36,3 @@ def cargar_dia_viaje(request):
     return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
 
 
-#es el cargarDia viejo... por eso dejo asi
-"""@login_required
-def cargarDiaViaje(request):
-    if request.method == 'POST':
-        form = DiaViajeForm(request.POST)
-        if form.is_valid():
-            dia_actual = request.session.get('dia_actual', 1)
-            form.save()
-            dia_actual += 1
-            request.session['dia_actual'] = dia_actual
-            request.session.save()
-            return redirect('viajes-cargar-dia-viaje')
-    else:
-        form = DiaViajeForm()
-
-    dia_actual = request.session.get('dia_actual', 1)
-    titulo = f'Día {dia_actual}'
-    return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})"""
