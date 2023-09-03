@@ -3,7 +3,7 @@ from viajes.models import Viaje_General, Viaje_Dia, Destino
 # Register your models here.
 
 class AdminViaje(admin.ModelAdmin):
-    list_display = ('nombreViaje', 'cantidadDias','descripcion', 'get_usuario')
+    list_display = ('nombreViaje', 'cantidadDias','descripcion', 'get_usuario', 'calificacion')
     
     def get_usuario(self, obj):
         return obj.usuario.username if obj.usuario else None

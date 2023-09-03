@@ -17,13 +17,13 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     # Definición de la vista para que muestre TODOS los viajes
     @action(detail=False)  # Decorador para una acción que no requiere un objeto específico
     def todos_los_viajes(self, request):
-        # Obtiene todos los viajes desde la base de datos
+        # Obtiene todos los viajes desde la base de datos y los devuelve ordenados por calificacion
         viajes = self.get_queryset()
 
-        serializer = self.get_serializer(viajes, many=True)
+        serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)
     
-     #filtrar por destino y rango de días
+     #filtrar por destino y rango de días, y devuelve ordenado por califación
     @action(detail=False, methods=['GET'])
     def filtrar_viajes(self, request):
         destino = request.GET.get('destino')
@@ -42,7 +42,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
             max_dias = int(dias_hasta) + 2 
             viajes = viajes.filter(cantidadDias__range=(min_dias, max_dias))
 
-        
-        serializer = self.get_serializer(viajes, many=True)
+        #devuelvo los viajes y ordeno de manera descendente los viajes por la calificación que tengan
+        serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)
 

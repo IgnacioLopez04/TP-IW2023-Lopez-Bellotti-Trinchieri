@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}VIAJE{% endblock %}
+
+{% block content %}
+<main>
+    <section id="viaje">
+        <div id="divisor"></div>
+        <div id="cont-detalle-viaje">
+            <h1>Detalles del Viaje</h1>
+            
+            <h2>{{ viaje.nombreViaje }}</h2>
+            
+            <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+            <p><strong>Cantidad de días:</strong> {{ viaje.cantidadDias }}</p>
+            <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
+
+            <h2>Días del Viaje</h2>
+            <ul>
+                {% for dia in viaje.viaje_dia.all %}
+                    <li>
+                        <h3><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</h3>
+                        <p><strong>Notas:</strong> {{ dia.notas }}</p>
+                        <h4>Destinos del Día</h4>
+                        <ul>
+                            {% for destino in dia.destinos.all %}
+                                <li>
+                                    <p><strong>Nombre del Destino:</strong> {{ destino.nombre }}</p>
+                                    <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>
+                                    <!-- Agrega más detalles del destino si es necesario -->
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+
