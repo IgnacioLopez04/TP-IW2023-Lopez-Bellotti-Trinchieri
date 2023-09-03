@@ -1,44 +1,45 @@
-var forms_totales = document.querySelector('#id_form-TOTAL_FORMS');
-
-function createFormField(labelText, fieldName, forms_totales) {
-        var label = document.createElement('label');
-        label.innerHTML = labelText;
-
-        var input = document.querySelector('#id_form-0-' + fieldName).cloneNode(true);
-        input.name = 'form-' + forms_totales.value + '-' + fieldName;
-        input.id = 'id_form-' + forms_totales.value + '-' + fieldName;
-
-        var pTag = document.createElement('p');
-        pTag.appendChild(label);
-        pTag.appendChild(input);
-
-        return pTag;
+const btnAgregarDia = document.getElementById('btn-agregar-dias');
+btnAgregarDia.addEventListener('click',agregar_dia)
+const total_form = document.getElementById('id_form-TOTAL_FORMS');
+function agregar_dia(event){
+    if (event){
+        event.preventDefault();
     }
 
-function agregar_inputs() {
-    var formDia = document.querySelector('#form-dia');
+    const total_form_dia = document.getElementsByClassName('form-dia');
+    let count = total_form_dia.length;
 
-    var dia = document.createElement('h1');
-    dia.innerHTML = 'Dia ' + (parseInt(forms_totales.value) + parseInt(1));
+    const form_lista = document.getElementById('form-lista-dias');
+    const empty_form = document.getElementById('empty-form').cloneNode(true);
+    empty_form.setAttribute('class', 'form-dia')
+    empty_form.setAttribute('id',`id-form-dia-${count}`);
 
-    formDia.appendChild(dia);
-    formDia.appendChild(createFormField('Nombre:', 'nombreDia', forms_totales));
-    formDia.appendChild(createFormField('Notas:', 'notas', forms_totales));
-    formDia.appendChild(createFormField('Destinos:', 'destinos', forms_totales));
-    //formDia.appendChild(createFormField('Otro Destino:', 'destinos'));
+    const regex = new RegExp('__prefix__', 'g');
+    empty_form.innerHTML = empty_form.innerHTML.replace(regex, count);
+    total_form.setAttribute('value', count + 1);
 
-    forms_totales.value = parseInt(forms_totales.value) + 1;
+    const titulo = document.createElement("h1");
+    titulo.innerText = `Dia ${count + 1}`;
+    form_lista.appendChild(titulo)
+
+    form_lista.append(empty_form);
+
 }
 
-function agregar_destinos(){
-    var formDia = document.querySelector('#form-dia');
+const btnAgregarDestino = document.getElementById('btn-agregar-destino');
+btnAgregarDestino.addEventListener('click', agregar_destino)
 
-    num_del_formulario = forms_totales.value - 1;
+function agregar_destino(event){
+    if (event){
+        event.preventDefault();
+    }
 
-    var input = document.querySelector('#id_form-'+ num_del_formulario + '-destinos').cloneNode(true);
-    input.name = 'form-'+ num_del_formulario + '-destinos';
-    input.id = 'id_form-'+ num_del_formulario + '-destinos';
+    total_form_destinos = document.getElementsByClassName('form-lista-destinos');
 
-    formDia.appendChild(createFormField('Destinos:', 'destinos', forms_totales));
+    const form_dia_actual = event.target.closest('.form-dia');
+    const btnAgregarDestino = form_dia_actual.querySelector('#btn-agregar-destino');
+    const form_lista_destinos = form_dia_actual.querySelector('.form-lista-dias');
+    const nuevo_destino = document.getElementById('id')
+
 
 }

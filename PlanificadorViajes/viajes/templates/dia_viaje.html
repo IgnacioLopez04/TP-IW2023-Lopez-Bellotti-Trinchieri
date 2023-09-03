@@ -16,16 +16,27 @@
                 </div>
             {% csrf_token %}
                 {{ form.management_form }}
-                {% for fo in form %}
-                <div id="form-dia">
-                    {{ fo.as_p }}
-                    <br>
+                <div id="form-lista-dias">
+                    {% for fo in form %}
+                        <div id="id-form-dia" class="form-dia">
+                            {{fo.as_p}}
+                            <div id="id-form-lista-destinos" class="form-lista-destinos">
+                                <div id="form-destino">
+                                    <p>
+                                        <label for="form-destino">Destinos: </label>
+                                        {{ fo.destinos }}
+                                    </p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="agregar_destino();" id="btn-agregar-destino">Agregar Destino</button>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            <button type="button" id="btn-agregar-destino" onclick="agregar_destinos();"> Agregar otro destino </button>
-            <button type="button" onclick="agregar_inputs();" id="btn-agregar-dia"> Agregar otro dia</button>
+            <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
+
+            <button id="btn-agregar-dias" type="button" >Agregar dia</button>
             <button type="submit" id="btn-cargar-viaje"> Confirmar </button>
-        </form>
+            </form>
 
         </div>
     </section>

@@ -4,6 +4,7 @@ from viajes.forms import ViajeForm, CargarDiaViajeForm
 from viajes.models import Viaje_General
 from django.http import HttpResponse
 
+
 @login_required
 def cargarViaje(request):
     if request.method == 'POST':
@@ -22,7 +23,7 @@ def cargarViaje(request):
 
 
 @login_required
-def cargar_dia_viaje(request):
+def cargar_dia_viaje(request): #tendria que desaparecer ya
     if request.method == 'POST':
         form = CargarDiaViajeForm(request.POST)
         if form.is_valid():
@@ -34,5 +35,3 @@ def cargar_dia_viaje(request):
     dia_actual = request.session.get('dia_actual', 1)
     titulo = f'Día {dia_actual}'
     return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
-
-

@@ -137,4 +137,8 @@ svg{
     fill: #ff8000;
 }
 
+.hidden{
+    display: none;
+}
+
 
