@@ -44,11 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (destino) {
             apiUrl += `destino=${destino}`;
             console.log('El valor de la url es: ' + apiUrl);
-            if (diasHasta) {
-                apiUrl += `&dias-hasta=${diasHasta}`;
-            }
         }
-
+        if (diasHasta) {
+            apiUrl += `&dias-hasta=${diasHasta}`;
+            console.log(apiUrl);
+        }
+        
+        
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {

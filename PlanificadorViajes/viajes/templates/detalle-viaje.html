@@ -2,20 +2,20 @@
 {% load static %}
 
 {% block title %}VIAJE{% endblock %}
-
+{% block estilo%}<link rel="stylesheet" href={%static 'CSS/detalle-viaje.css'%}> {%endblock%}
 {% block content %}
 <main>
     <section id="viaje">
-        <div id="divisor"></div>
         <div id="cont-detalle-viaje">
-            <h1>Detalles del Viaje</h1>
-            
+            <div>
+                <h1>Detalles del Viaje</h1>
+            </div>
             <h2>{{ viaje.nombreViaje }}</h2>
-            
-            <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
-            <p><strong>Cantidad de días:</strong> {{ viaje.cantidadDias }}</p>
-            <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
-
+            <div class='cont-info'>
+                <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                <p><strong>Cantidad de días:</strong> {{ viaje.cantidadDias }}</p>
+                <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
+            </div>
             <h2>Días del Viaje</h2>
             <ul>
                 {% for dia in viaje.viaje_dia.all %}
@@ -35,7 +35,6 @@
                     </li>
                 {% endfor %}
             </ul>
-
         </div>
     </section>
 </main>

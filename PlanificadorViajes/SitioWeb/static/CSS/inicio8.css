@@ -102,10 +102,17 @@ main{
 
 /* buscador */
 .cont-form-buscar{
-    width: 90%;
-    border: 1px solid black;
+    width: 80%;
+
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 20px 0px 50px 0px;
+    padding: 0px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 }
-/* fin buscador */
 
 .divisor{
     width: 80%;
@@ -114,6 +121,47 @@ main{
     border: 1px solid #ff8000;
     margin: 10px 0px;
 }
+
+#search-form{
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 5px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+#search-form label, #search-form input{
+    margin: 0px 5px;
+}
+
+.div-btn-buscar{
+    display: flex;
+    justify-content: end;
+    flex-grow: 1;
+}
+
+#submit{
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+
+    border-radius: 10px;
+}
+
+#submit:hover{
+    background-color: rgba(255,128,0);
+}
+
+.cont-results{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: row wrap;
+}
+
+/* fin buscador */
+
 
 /* Boton viaje */
 .cont-button{
