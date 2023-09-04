@@ -128,6 +128,10 @@ nav{
     width: 300px;
 }
 
+.black-backgroud{
+    opacity: 0.5;
+}
+
 .show{
     width: 100%;
     transform: translateX(0px);
