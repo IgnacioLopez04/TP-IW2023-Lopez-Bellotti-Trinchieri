@@ -14,23 +14,12 @@
                 <div id="cont-titulo">
                     <h1>Dia 1</h1>
                 </div>
-            {% csrf_token %}
-                {{ form.management_form }}
+                {% csrf_token %}
                 <div id="form-lista-dias">
-                    {% for fo in form %}
-                        <div id="id-form-dia" class="form-dia">
-                            {{fo.as_p}}
-                            <div id="id-form-lista-destinos" class="form-lista-destinos">
-                                <div id="form-destino">
-                                    <p>
-                                        <label for="form-destino">Destinos: </label>
-                                        {{ fo.destinos }}
-                                    </p>
-                                </div>
-                            </div>
-                            <button type="button" onclick="agregar_destino();" id="btn-agregar-destino">Agregar Destino</button>
-                        </div>
-                    {% endfor %}
+                    {{ form.management_form }}
+                    <div id="id-form-dia" class="form-dia">
+                        {{ form.as_p }}
+                    </div>
                 </div>
             <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
 

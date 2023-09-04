@@ -24,22 +24,26 @@ function agregar_dia(event){
 
     form_lista.append(empty_form);
 
+    const numero_de_form = document.createElement('div')
+    numero_de_form.className= 'hidden';
+    numero_de_form.id=`id-${count + 1}`;
+
+    form_lista.appendChild(numero_de_form);
+
 }
 
 const btnAgregarDestino = document.getElementById('btn-agregar-destino');
 btnAgregarDestino.addEventListener('click', agregar_destino)
-
+// no funciona esta al pedo por ahora, lo dejo por las dudas
 function agregar_destino(event){
     if (event){
         event.preventDefault();
     }
-
+    numero_form = total_form.value;
     total_form_destinos = document.getElementsByClassName('form-lista-destinos');
 
     const form_dia_actual = event.target.closest('.form-dia');
     const btnAgregarDestino = form_dia_actual.querySelector('#btn-agregar-destino');
     const form_lista_destinos = form_dia_actual.querySelector('.form-lista-dias');
     const nuevo_destino = document.getElementById('id')
-
-
 }

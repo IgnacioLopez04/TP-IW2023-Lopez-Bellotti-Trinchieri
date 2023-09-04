@@ -8,7 +8,6 @@ class FormsetDiaViaje(FormView):
     template_name = 'dia_viaje.html'
     form_class = formset_factory(CargarDiaViajeForm, extra=1)
     success_url = reverse_lazy('sitio-inicio')
-
     def form_valid(self, formset):
         # Obtener el ID del viaje desde la sesión
         viaje_id = self.kwargs.get('viaje_id')
@@ -22,6 +21,8 @@ class FormsetDiaViaje(FormView):
 
                 destinos_seleccionados = f.cleaned_data.get('destinos')
                 f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
+
+                success_url.kwargs = {'id_dia_viaje':f_instance.id}
 
             # Actualiza el campo cantidadDias en Viaje_General
             viaje_general.cantidadDias = formset.total_form_count()

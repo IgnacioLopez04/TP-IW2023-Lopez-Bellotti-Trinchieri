@@ -1,6 +1,5 @@
 from django import forms
 from viajes.models import Viaje_General, Viaje_Dia, Destino, Viaje_Dia_Destino
-from django.forms import inlineformset_factory
 
 class ViajeForm(forms.ModelForm):
     #le doy un formato y label diferente a los campos
@@ -36,8 +35,3 @@ class CargarDiaViajeForm(forms.ModelForm):
     class Meta:
         model = Viaje_Dia
         fields = ['nombreDia', 'notas', 'destinos']
-
-class ViajeDiaDestinoForm(forms.ModelForm):
-    class Meta:
-        model = Viaje_Dia_Destino
-        fields = '__all__'
