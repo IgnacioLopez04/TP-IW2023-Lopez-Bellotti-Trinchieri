@@ -153,15 +153,45 @@ main{
 #submit:hover{
     background-color: rgba(255,128,0);
 }
-
-.cont-results{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: row wrap;
-}
-
 /* fin buscador */
 
+/* Viajes encontrados */
+
+#results{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin: 10px 0px;
+}
+
+.viajes{
+    padding: 10px;
+    margin: 10px;
+
+    width: 20%;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.viajes a{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.viajes p{
+    color: black;
+}
+
+.viajes span{
+    font-size: 18px;
+    font-weight: 1000;
+}
+/* Fin viajes encontrados */
 
 /* Boton viaje */
 .cont-button{

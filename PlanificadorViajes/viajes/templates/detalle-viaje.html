@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}VIAJE{% endblock %}
-{% block estilo%}<link rel="stylesheet" href={%static 'CSS/detalle-viaje.css'%}> {%endblock%}
+{% block estilo%}<link rel="stylesheet" href={%static 'CSS/detalle-viaje2.css'%}> {%endblock%}
 {% block content %}
 <main>
     <section id="viaje">
@@ -10,22 +10,27 @@
             <div>
                 <h1>Detalles del Viaje</h1>
             </div>
-            <h2>{{ viaje.nombreViaje }}</h2>
-            <div class='cont-info'>
-                <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
-                <p><strong>Cantidad de días:</strong> {{ viaje.cantidadDias }}</p>
-                <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
+            <div class='cont-info-nombre'>
+                <p class="nombre-viaje">{{ viaje.nombreViaje }}</p>
+                <div class='cont-info'>
+                    <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                    <p><strong>Cantidad de días:</strong> {{ viaje.cantidadDias }}</p>
+                    <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
+                </div>
             </div>
-            <h2>Días del Viaje</h2>
+            <div class='cont-dias-viajes'>
+                <h2>Días del Viaje</h2>
+            </div>
             <ul>
                 {% for dia in viaje.viaje_dia.all %}
-                    <li>
-                        <h3><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</h3>
+                    <li class="li-viaje">
+                        <h3>Dia: {{forloop.counter}}</h3>
+                        <p><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</p>
                         <p><strong>Notas:</strong> {{ dia.notas }}</p>
                         <h4>Destinos del Día</h4>
                         <ul>
                             {% for destino in dia.destinos.all %}
-                                <li>
+                                <li class="li-dias">
                                     <p><strong>Nombre del Destino:</strong> {{ destino.nombre }}</p>
                                     <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>
                                     <!-- Agrega más detalles del destino si es necesario -->

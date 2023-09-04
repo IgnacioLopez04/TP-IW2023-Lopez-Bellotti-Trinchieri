@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load  static %}
 {% block title %}<title>Inicio</title>{% endblock %}
-{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio8.css'%}>{%endblock%}
+{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio.css'%}>{%endblock%}
 
 {% block content %}
     {%if messages%}
@@ -51,7 +51,7 @@
     </section>
     <div class="divisor"></div>
     <section class='cont-form-buscar'>
-        <script src="{% static 'JS/buscar_viajes.js' %}"></script>
+        <script src="{% static 'JS/buscar_viajes3.js' %}"></script>
         <form method="get" id="search-form">
             <label for="destino-input">Buscar destino:</label>
             <input type="text" id="destino-input">
@@ -61,9 +61,7 @@
                 <button id="submit" type="submit">Buscar</button>
             </div>
         </form>
-        <div class='cont-results'>
-            <div id="results"></div>
-        </div>
+        <div id="results"></div>
     </section>
     
 
