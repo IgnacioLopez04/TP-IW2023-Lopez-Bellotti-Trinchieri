@@ -1,13 +1,24 @@
 from django import forms
-from viajes.models import Viaje_General, Viaje_Dia, Destino
+from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes
+
+
 
 class ViajeForm(forms.ModelForm):
-    #le doy un formato y label diferente a los campos
     nombreViaje= forms.CharField(label= "Nombre del viaje")
     descripcion= forms.CharField(label= "Descripcion")
+    mesDesde = forms.ModelChoiceField(
+        queryset=Mes.objects.all(),
+        empty_label="Mes inicial", 
+        label="¿A partir del qué mes recomiendas realizarlo?"
+    )
+    mesHasta = forms.ModelChoiceField(
+        queryset=Mes.objects.all(),
+        empty_label="Mes final",  
+        label="¿Y hasta cuándo?"
+    )
     class Meta:
         model = Viaje_General
-        fields = ['nombreViaje', 'descripcion']
+        fields = ['nombreViaje', 'descripcion', 'mesDesde', 'mesHasta']
 
 
 class CargarDiaViajeForm(forms.ModelForm):

@@ -46,20 +46,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function filtrarViajes() {
         const destino = document.getElementById('destino-input').value;
         const diasHasta = document.getElementById('dias-hasta-input').value;
+        const calificacion = document.getElementById('calificacion-input').value;
 
         let apiUrl = '/api/viaje_general/filtrar_viajes/?';
 
         // Construye la URL de la API en función de los valores ingresados
         if (destino) {
             apiUrl += `destino=${destino}`;
-            console.log('El valor de la url es: ' + apiUrl);
         }
         if (diasHasta) {
             apiUrl += `&dias-hasta=${diasHasta}`;
-            console.log(apiUrl);
         }
-        
-        
+        if (calificacion) {
+            apiUrl += `&calificacion=${calificacion}`;
+        }
+
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
