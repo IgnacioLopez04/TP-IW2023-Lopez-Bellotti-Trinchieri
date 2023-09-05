@@ -14,19 +14,18 @@
                 <div id="cont-titulo">
                     <h1>Dia 1</h1>
                 </div>
-            {% csrf_token %}
+                {% csrf_token %}
                 {{ form.management_form }}
-                {% for fo in form %}
-                <div id="form-dia">
-                    {{ fo.as_p }}
-                    <br>
+                <div id="form-lista-dias" class="form-dia">
+                    {% for fo in form %}
+                        {{ fo.as_p }}
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            <button type="button" id="btn-agregar-destino" onclick="agregar_destinos();"> Agregar otro destino </button>
-            <button type="button" onclick="agregar_inputs();" id="btn-agregar-dia"> Agregar otro dia</button>
-            <button type="submit" id="btn-cargar-viaje"> Confirmar </button>
-        </form>
-
+                <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
+                <div class="btn-carga">
+                    <button id="btn-agregar-dias" type="button"> Agregar dia</button><button type="submit" id="btn-cargar-viaje"> Confirmar </button>
+                </div>
+            </form>
         </div>
     </section>
 </main>

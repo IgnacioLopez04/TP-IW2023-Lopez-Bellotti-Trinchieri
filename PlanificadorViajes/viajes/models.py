@@ -26,10 +26,20 @@ class Viaje_General(models.Model):
 
 class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
-    destinos= models.ManyToManyField(Destino, related_name='destinos')
+    destinos = models.ManyToManyField(Destino, related_name='destinos')
     notas = models.CharField(max_length=250)
     viaje = models.ForeignKey(Viaje_General, related_name='viaje_dia', on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.nombreDia
 
+class Viaje_Dia_Destino(models.Model):
+    dia_viaje = models.ForeignKey(
+        Viaje_Dia, on_delete=models.CASCADE
+    )
+    destino = models.ForeignKey(
+        Destino, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.destino.nombre

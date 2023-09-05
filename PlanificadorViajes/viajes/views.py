@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
-from viajes.models import Viaje_General
+from viajes.models import Viaje_General, Viaje_Dia, Viaje_Dia_Destino
 from django.http import HttpResponse
 import random
 from decimal import Decimal
+
 
 
 @login_required
@@ -28,7 +29,7 @@ def cargarViaje(request):
 
 
 @login_required
-def cargar_dia_viaje(request):
+def cargar_dia_viaje(request): #tendria que desaparecer ya
     if request.method == 'POST':
         form = CargarDiaViajeForm(request.POST)
         if form.is_valid():
@@ -39,6 +40,7 @@ def cargar_dia_viaje(request):
     
     dia_actual = request.session.get('dia_actual', 1)
     titulo = f'Día {dia_actual}'
+
     return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
 
 

@@ -8,7 +8,6 @@ class FormsetDiaViaje(FormView):
     template_name = 'dia_viaje.html'
     form_class = formset_factory(CargarDiaViajeForm, extra=1)
     success_url = reverse_lazy('sitio-inicio')
-
     def form_valid(self, formset):
         # Obtener el ID del viaje desde la sesión
         viaje_id = self.kwargs.get('viaje_id')

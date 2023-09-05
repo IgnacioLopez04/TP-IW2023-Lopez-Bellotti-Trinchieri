@@ -13,5 +13,55 @@ main{
     padding: 20px 0px;
 
     position: relative;
-    top: 50px
+    top: 50px;
 }
+
+#cont-dia-viaje{
+    border: 1px solid black;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+#cont-form-dia-viaje form{
+    display: flex;
+    flex-direction: column;
+}
+
+h1{
+    color: #ff8000;
+}
+
+
+.form-dia{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-dia p{
+    margin: 3px 0px;
+}
+
+.btn-carga{
+    display: inline;
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+}
+
+.btn-carga button{
+    width: 46%;
+    margin: 0px 5px;
+    padding: 5px 0px;
+
+    background-color: rgba(0,0,0,0.1);
+
+    border: none;
+    border-radius: 10px;
+}
+
+.btn-carga button:hover{
+    background-color: #ff8000;
+}
+
+input, select{
+    width: 100%;}
+
