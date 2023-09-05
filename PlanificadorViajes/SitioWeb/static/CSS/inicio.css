@@ -102,8 +102,7 @@ main{
 
 /* buscador */
 .cont-form-buscar{
-    width: 80%;
-
+    width: 90%;
 
     display: flex;
     flex-direction: column;
@@ -164,16 +163,22 @@ main{
     justify-content: center;
 
     margin: 10px 0px;
+    width: 100%;
 }
 
 .viajes{
     padding: 10px;
     margin: 10px;
 
-    width: 20%;
-    height: 200px;
-    border: 1px solid black;
+    width: 250px;
+    height: 250px;
+    border: 2px dotted #1B3358;
     border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .viajes a{
@@ -185,6 +190,7 @@ main{
 
 .viajes p{
     color: black;
+    flex-grow: 1;
 }
 
 .viajes span{
