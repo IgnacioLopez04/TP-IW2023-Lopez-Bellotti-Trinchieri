@@ -22,8 +22,6 @@ class FormsetDiaViaje(FormView):
                 destinos_seleccionados = f.cleaned_data.get('destinos')
                 f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
 
-                success_url.kwargs = {'id_dia_viaje':f_instance.id}
-
             # Actualiza el campo cantidadDias en Viaje_General
             viaje_general.cantidadDias = formset.total_form_count()
             viaje_general.save()

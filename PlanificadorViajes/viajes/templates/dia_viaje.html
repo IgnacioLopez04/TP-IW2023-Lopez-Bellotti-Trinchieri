@@ -15,18 +15,17 @@
                     <h1>Dia 1</h1>
                 </div>
                 {% csrf_token %}
-                <div id="form-lista-dias">
-                    {{ form.management_form }}
-                    <div id="id-form-dia" class="form-dia">
-                        {{ form.as_p }}
-                    </div>
+                {{ form.management_form }}
+                <div id="form-lista-dias" class="form-dia">
+                    {% for fo in form %}
+                        {{ fo.as_p }}
+                    {% endfor %}
                 </div>
-            <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
+                 <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
 
-            <button id="btn-agregar-dias" type="button" >Agregar dia</button>
-            <button type="submit" id="btn-cargar-viaje"> Confirmar </button>
+                <button id="btn-agregar-dias" type="button" >Agregar dia</button>
+                <button type="submit" id="btn-cargar-viaje"> Confirmar </button>
             </form>
-
         </div>
     </section>
 </main>
