@@ -21,10 +21,10 @@
                         {{ fo.as_p }}
                     {% endfor %}
                 </div>
-                 <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
-
-                <button id="btn-agregar-dias" type="button" >Agregar dia</button>
-                <button type="submit" id="btn-cargar-viaje"> Confirmar </button>
+                <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
+                <div class="btn-carga">
+                    <button id="btn-agregar-dias" type="button"> Agregar dia</button><button type="submit" id="btn-cargar-viaje"> Confirmar </button>
+                </div>
             </form>
         </div>
     </section>

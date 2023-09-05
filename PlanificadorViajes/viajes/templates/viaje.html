@@ -15,8 +15,10 @@
     <div id="cont-form-viaje">
       <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" id="nav-button">Continuar con el viaje</button>
+        <div class="cont-form">
+          {{ form.as_p }}
+        </div>
+        <button type="submit" id="btn-cargar-viaje">Continuar con el viaje</button>
       </form>
     </div>
   </section>
