@@ -4,8 +4,20 @@ from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes
 
 
 class ViajeForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     meses_dict = kwargs.pop('meses_dict', None)  # Extrae el diccionario si se proporciona
+    #     super(ViajeForm, self).__init__(*args, **kwargs)
+        
+    #     if meses_dict:
+    #             # Personaliza las opciones del campo 'mesDesde' utilizando el diccionario
+    #             self.fields['mesDesde'].choices = [(v, k) for k, v in meses_dict.items()]
+
+    #             # Personaliza las opciones del campo 'mesHasta' utilizando el diccionario
+    #             self.fields['mesHasta'].choices = [(v, k) for k, v in meses_dict.items()]
+    
     nombreViaje= forms.CharField(label= "Nombre del viaje")
     descripcion= forms.CharField(label= "Descripcion")
+    
     mesDesde = forms.ModelChoiceField(
         queryset=Mes.objects.all(),
         empty_label="Mes inicial", 
@@ -16,6 +28,7 @@ class ViajeForm(forms.ModelForm):
         empty_label="Mes final",  
         label="¿Y hasta cuándo?"
     )
+    
     class Meta:
         model = Viaje_General
         fields = ['nombreViaje', 'descripcion', 'mesDesde', 'mesHasta']

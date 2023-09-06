@@ -17,7 +17,7 @@ class Viaje_General(models.Model):
     cantidadDias = models.IntegerField(null=True)
     descripcion = models.CharField(max_length=250)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    calificacion= models.DecimalField(max_digits=3, decimal_places=2, null=True)
+    calificacion= models.IntegerField(null=True)
     mesDesde = models.ForeignKey(Mes, related_name='mes_desde', on_delete=models.SET_NULL, null=True, blank=True)
     mesHasta = models.ForeignKey(Mes, related_name='mes_hasta', on_delete=models.SET_NULL, null=True, blank=True)
 
