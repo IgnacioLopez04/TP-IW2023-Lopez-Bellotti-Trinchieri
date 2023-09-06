@@ -5,3 +5,6 @@ whitenoise[brotli]==6.5.0
 gunicorn==21.2.0
 
 crispy-bootstrap4==2022.1
+
+djangorestframework==3.14.0
+django-allauth==0.55.2
