@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{%load  static %}
+{% block title %}<title>Inicio</title>{% endblock %}
+{%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio.css'%}>{%endblock%}
+
+{% block content %}
+    {%if messages%}
+        {% for message in messages%}
+            <div class="alert alert-{{ message.tags}}">
+                {{message}}
+            </div>
+        {%endfor%}
+    {% endif %}     
+<main>
+    <section class="carrusel-div">
+        <div class="cont-ctrl-fotos">
+            <div class="cont-fotos">
+                {% for context in contexts %}
+                    <div class="cont-fotos-info">
+                        <img src={{context.url}} alt={{context.alt}}>
+                        <div class="info-viaje">
+                            <p class="nombre-viaje">{{context.nombre}}</p>
+                            <p class="dias-viaje">Dias: {{context.dias}}</p>
+                            <p class="calificacion-viaje">Calificacion: {{context.calificacion}}</p>
+                            <p class="descripcion-viaje">{{context.descripcion}}</p>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+            <div class="cont-btn-fotos">
+                <button class="btn-flecha-izq">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                        <style>svg{fill:#ff8000}</style>
+                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                    </svg>
+                </button>
+                <button class="btn-flecha-der">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                        <style>svg{fill:#ff8000}</style>
+                        <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+     <section class="cont-button">
+        <h2>Crea tu propio </h2>
+        <button class="btn-cargar-viaje">
+            <a href="{%url 'viajes-cargar-viaje'%}">viaje</a>
+        </button>
+    </section>
+    <div class="divisor"></div>
+    <section class='cont-form-buscar'>
+        <script src="{% static 'JS/buscar_viajes3.js' %}"></script>
+        <form method="get" id="search-form">
+            <label for="destino-input" >Buscar destino:</label>
+            <input type="text" id="destino-input" placeholder="Ej: 'Jujuy' ">
+            <label for="dias-hasta-input">Cantidad de dias:</label>
+            <input type="number" id="dias-hasta-input" name="dias-hasta" min="1" placeholder="Dia maximo">
+            <label for="calificacion-input">Calificacion:</label>
+            <input type="number" id="calificacion-input" name="Calificacion" min="1" max"5">
+            <div class='div-btn-buscar'>
+                <button id="submit" type="submit">Buscar</button>
+            </div>
+        </form>
+        <div id="results"></div>
+    </section>
+    
+
+</main>
+{% endblock %}
+{%block js%}
+    <script src={% static 'JS/inicio3.js'%}></script>
+{%endblock%}
