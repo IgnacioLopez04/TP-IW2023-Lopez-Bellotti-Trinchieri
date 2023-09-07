@@ -28,7 +28,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     def filtrar_viajes(self, request):
         destino = request.GET.get('destino')
         dias_hasta = request.GET.get('dias-hasta')
-        calificacion = request.GET.get('calificacion')
+        calif = request.GET.get('calificacion')
           
         # Obtener todos los viajes desde la base de datos
         viajes = self.get_queryset()
@@ -43,8 +43,9 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
             max_dias = int(dias_hasta) + 2 
             viajes = viajes.filter(cantidadDias__range=(min_dias, max_dias))
 
-        if calificacion:
-            viajes = viajes.filter(calificacion__lte=calificacion)
+        if calif:
+            viajes = viajes.filter(calificacion__lte = calif)
+            
         #devuelvo los viajes y ordeno de manera descendente los viajes por la calificación que tengan
         serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)

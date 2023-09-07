@@ -6,23 +6,38 @@ from django.http import HttpResponse
 import random
 from decimal import Decimal
 
-
+meses_dict = {
+    'Enero': 1,
+    'Febrero': 2,
+    'Marzo': 3,
+    'Abril': 4,
+    'Mayo': 5,
+    'Junio': 6,
+    'Julio': 7,
+    'Agosto': 8,
+    'Septiembre': 9,
+    'Octubre': 10,
+    'Noviembre': 11,
+    'Diciembre': 12,
+}
 
 @login_required
 def cargarViaje(request):
     if request.method == 'POST':
+        # form = ViajeForm(request.POST, meses_dict = meses_dict)
         form = ViajeForm(request.POST)
         if form.is_valid():
             viaje = form.save(commit=False)  # Crea una instancia del Viaje sin guardarla aún
             viaje.usuario = request.user  # Asigna el usuario actual al campo user
 
-            viaje.calificacion= Decimal(random.uniform(1,5)) #le doy una calificacion aleatoria por ahora para que ande el filtro
+            viaje.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
             
             viaje.save() #ahora si guarda el viaje con el usuario asignado
 
             viaje_id = viaje.id
             return redirect('viajes-cargar-dia-viaje', viaje_id=viaje_id)
     else:
+        # form = ViajeForm(meses_dict = meses_dict)
         form = ViajeForm()
 
     return render(request, 'viaje.html', {'form': form})

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 SITE_ID = 2
+SOCIALACCOUNT_LOGIN_ON_GET=True
 
 INSTALLED_APPS = [
     'crispy_forms',
@@ -137,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-AR'
 
 TIME_ZONE = 'UTC'
 
@@ -171,10 +172,10 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
-#import os
-#import dj_database_url
-#
-#if 'RENDER' in os.environ:
+# import os
+# import dj_database_url
+
+# if 'RENDER' in os.environ:
 #     print("USING RENDER.COM SETTINGS!")
 #     DEBUG = False
 #     ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
