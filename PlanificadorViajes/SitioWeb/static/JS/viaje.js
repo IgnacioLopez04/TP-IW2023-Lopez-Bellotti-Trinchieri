@@ -11,19 +11,63 @@ function agregar_dia(event){
 
     const form_lista = document.getElementById('form-lista-dias');
     const empty_form = document.getElementById('empty-form').cloneNode(true);
+    const div_empty_form = document.getElementById('id-form-dia-empy')
     empty_form.setAttribute('class', 'form-dia')
-    empty_form.setAttribute('id',`id-form-dia-${count}`);
+    empty_form.setAttribute('id',`id-form-dia-${count + 1}`);
 
     const regex = new RegExp('__prefix__', 'g');
     empty_form.innerHTML = empty_form.innerHTML.replace(regex, count);
     total_form.setAttribute('value', count + 1);
 
     const titulo = document.createElement("h1");
+    titulo.id = `id-dia-${count + 1}`;
     titulo.innerText = `Dia ${count + 1}`;
-    form_lista.appendChild(titulo)
 
+    const bottonEliminar = document.getElementById('btn-eliminar-dia-hidden').cloneNode(true);
+    bottonEliminar.id = `btn-eliminar-dia-${count + 1}`;
+    bottonEliminar.removeAttribute('class');
+
+    form_lista.appendChild(titulo);
+    empty_form.appendChild(bottonEliminar);
     form_lista.append(empty_form);
 }
+
+function eliminar_dia(event){
+
+    //sacamos los inputs
+    const inputs = document.querySelectorAll("input");
+    const elementosDeseados = [];
+
+    for (let i = 0; i < inputs.length; i++) {
+        const elemento = inputs[i];
+        const id = elemento.id;
+
+        if (id.match(/^id_form-\d+-\w+$/)) {
+            elementosDeseados.push(elemento);
+        }
+    }
+
+    //actualizar el numero de 'id_form_numero_campo'
+    //actualizar el numero en la etiqueta for del label de ese campo
+
+    console.log(elementosDeseados);
+
+    const form_a_eliminar = event.closest('.form-dia');
+    const form_lista = document.getElementById('form-lista-dias');
+
+    var num_dia = form_a_eliminar.id;
+    num_dia = num_dia.replace('id-form-dia-', '');
+
+    const titulo_a_eliminar = document.getElementById('id-dia-' + num_dia);
+
+    const total_form_dia = document.getElementsByClassName('form-dia');
+    let count = total_form_dia.length;
+    total_form.setAttribute('value', count - 1);
+
+    form_lista.removeChild(form_a_eliminar);
+    form_lista.removeChild(titulo_a_eliminar);
+}
+
 
 /* const btnAgregarDestino = document.getElementById('btn-agregar-destino');
 btnAgregarDestino.addEventListener('click', agregar_destino)

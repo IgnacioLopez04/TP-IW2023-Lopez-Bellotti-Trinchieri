@@ -51,7 +51,16 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'rest_framework',
+    'django_extensions',
 ]
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+    'output': 'file',
+    'file_path': 'C:\\Users\\lucas\\OneDrive - Universidad Católica de Santiago del Estero\\Luki\\4to año\\2do Cuatrimestre\\IW', # Ruta donde se guardarán los diagramas
+    'layout': 'dot',
+}
 
 SOCIALACCOUNT_PROVIDERS = {
     'google':{
