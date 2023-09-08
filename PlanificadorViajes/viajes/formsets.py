@@ -6,7 +6,7 @@ from .forms import CargarDiaViajeForm
 
 class FormsetDiaViaje(FormView):
     template_name = 'dia_viaje.html'
-    form_class = formset_factory(CargarDiaViajeForm, extra=1)
+    form_class = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
     success_url = reverse_lazy('sitio-inicio')
     def form_valid(self, formset):
         # Obtener el ID del viaje desde la sesión
@@ -15,6 +15,8 @@ class FormsetDiaViaje(FormView):
 
         if viaje_general:
             for f in formset:
+                if f in formset.deleted_forms:
+                    continue
                 if f.is_valid():
                     f_instance = f.save(commit=False)
                     f_instance.viaje = viaje_general
