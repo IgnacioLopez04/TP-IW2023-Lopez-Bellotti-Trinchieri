@@ -13,6 +13,8 @@ class FormsetDiaViaje(FormView):
         viaje_id = self.kwargs.get('viaje_id')
         viaje_general = Viaje_General.objects.get(id=viaje_id)
 
+        cant_dias = 0
+
         if viaje_general:
             for f in formset:
                 if f in formset.deleted_forms:
@@ -22,11 +24,13 @@ class FormsetDiaViaje(FormView):
                     f_instance.viaje = viaje_general
                     f_instance.save()
 
+                    cant_dias += 1
+
                     destinos_seleccionados = f.cleaned_data.get('destinos')
                     f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
 
             # Actualiza el campo cantidadDias en Viaje_General
-            viaje_general.cantidadDias = formset.total_form_count()
+            viaje_general.cantidadDias = cant_dias
             viaje_general.save()
 
         return super().form_valid(formset)

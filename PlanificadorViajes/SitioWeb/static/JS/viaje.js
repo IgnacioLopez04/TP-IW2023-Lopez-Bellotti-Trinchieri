@@ -23,12 +23,7 @@ function agregar_dia(){
     const inputs_delete = empty_form.querySelector(selector);
     inputs_delete.addEventListener('click', eliminar_dia);
 
-    /*const bottonEliminar = document.getElementById('btn-eliminar-dia-hidden').cloneNode(true);
-    bottonEliminar.id = `btn-eliminar-dia-${count + 1}`;
-    bottonEliminar.removeAttribute('class'); */
-
     form_lista.appendChild(titulo);
-    //empty_form.appendChild(bottonEliminar);
     form_lista.append(empty_form);
 }
 
