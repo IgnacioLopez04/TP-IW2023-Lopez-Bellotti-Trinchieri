@@ -19,6 +19,10 @@
                 </div>
                 <div id="id-form-dia-empty">
                     <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
+                    <div id="empty-destino" class="hidden">
+                        {{ form.empty_form.destinos.label_tag }}
+                        {{ form.empty_form.destinos }}
+                    </div>
                 </div>
                 <div class="btn-carga">
                     <button id="btn-agregar-dias" type="button">Agregar dia</button><button type="submit" id="btn-cargar-viaje"> Confirmar </button>

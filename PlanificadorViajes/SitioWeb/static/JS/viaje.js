@@ -1,6 +1,7 @@
 const btnAgregarDia = document.getElementById('btn-agregar-dias');
 btnAgregarDia.addEventListener('click',agregar_dia);
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
+
 function agregar_dia(){
     let total_form_dia = document;
     let count = 0;
@@ -27,6 +28,13 @@ function agregar_dia(){
     const inputs_delete = empty_form.querySelector(selector);
     inputs_delete.addEventListener('click', eliminar_dia);
 
+    let btnAgregarDestino = document.createElement('button');
+    btnAgregarDestino.setAttribute('id', 'id-btn-eliminar-destino');
+    btnAgregarDestino.setAttribute('type', 'button');
+    btnAgregarDestino.innerText = 'Agregar Destino';
+    btnAgregarDestino.addEventListener('click', agregar_destino)
+
+    empty_form.append(btnAgregarDestino);
     form_lista.appendChild(titulo);
     form_lista.append(empty_form);
 }
@@ -82,19 +90,12 @@ function eliminar_dia(event) {
     }
 }
 
-/* const btnAgregarDestino = document.getElementById('btn-agregar-destino');
-btnAgregarDestino.addEventListener('click', agregar_destino)
-// no funciona esta al pedo por ahora, lo dejo por las dudas
 function agregar_destino(event){
-    if (event){
-        event.preventDefault();
-    }
-    numero_form = total_form.value;
-    total_form_destinos = document.getElementsByClassName('form-lista-destinos');
 
-    const form_dia_actual = event.target.closest('.form-dia');
-    const btnAgregarDestino = form_dia_actual.querySelector('#btn-agregar-destino');
-    const form_lista_destinos = form_dia_actual.querySelector('.form-lista-dias');
-    const nuevo_destino = document.getElementById('id')
+    const empty_destino = document.getElementById('empty-destino').cloneNode(true);
+    const form_actual = event.target.closest('.form-dia');
+
+    empty_destino.removeAttribute('class');
+
+    form_actual.appendChild(empty_destino);
 }
-*/
