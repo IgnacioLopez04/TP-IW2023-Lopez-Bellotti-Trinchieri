@@ -1,44 +1,77 @@
-var forms_totales = document.querySelector('#id_form-TOTAL_FORMS');
+function actualizar_num_Id(num_dia, elemento){
 
-function createFormField(labelText, fieldName, forms_totales) {
-        var label = document.createElement('label');
-        label.innerHTML = labelText;
+    let num_id = elemento.id.split('-')[1];
 
-        var input = document.querySelector('#id_form-0-' + fieldName).cloneNode(true);
-        input.name = 'form-' + forms_totales.value + '-' + fieldName;
-        input.id = 'id_form-' + forms_totales.value + '-' + fieldName;
-
-        var pTag = document.createElement('p');
-        pTag.appendChild(label);
-        pTag.appendChild(input);
-
-        return pTag;
+    if (num_id >= num_dia){
+        num_id -= 1;
     }
 
-function agregar_inputs() {
-    var formDia = document.querySelector('#form-dia');
+    const nombre = elemento.id.split('-')[2];
 
-    var dia = document.createElement('h1');
-    dia.innerHTML = 'Dia ' + (parseInt(forms_totales.value) + parseInt(1));
-
-    formDia.appendChild(dia);
-    formDia.appendChild(createFormField('Nombre:', 'nombreDia', forms_totales));
-    formDia.appendChild(createFormField('Notas:', 'notas', forms_totales));
-    formDia.appendChild(createFormField('Destinos:', 'destinos', forms_totales));
-    //formDia.appendChild(createFormField('Otro Destino:', 'destinos'));
-
-    forms_totales.value = parseInt(forms_totales.value) + 1;
+    return `id_form-${num_id}-${nombre}`;
 }
 
-function agregar_destinos(){
-    var formDia = document.querySelector('#form-dia');
+function obtener_campos(lista, attr){
 
-    num_del_formulario = forms_totales.value - 1;
+    const campos_deseados = [];
 
-    var input = document.querySelector('#id_form-'+ num_del_formulario + '-destinos').cloneNode(true);
-    input.name = 'form-'+ num_del_formulario + '-destinos';
-    input.id = 'id_form-'+ num_del_formulario + '-destinos';
+    for (let i = 0; i < lista.length; i++) {
+        const elemento = lista[i];
+        const campo = elemento.getAttribute(attr);
+        console.log("attr: " + attr);
+        console.log("campo: " + campo);
 
-    formDia.appendChild(createFormField('Destinos:', 'destinos', forms_totales));
+        if (campo != null && campo.match(/^id_form-\d+-\w+$/)) {
+            campos_deseados.push(elemento);
+        }
+    }
 
+    return campos_deseados;
+}
+
+function eliminar_dia(event){
+    const form_a_eliminar = event.closest('.form-dia');
+    const form_lista = document.getElementById('form-lista-dias');
+
+    var num_dia = form_a_eliminar.id.replace('id-form-dia-', '');
+
+    //sacamos los inputs
+    const inputs = document.querySelectorAll("input");
+    const selects = document.querySelectorAll("select");
+    const labels = document.querySelectorAll("label");
+
+    const inputsDeseados = obtener_campos(inputs, 'id');
+    const selectsDeseados = obtener_campos(selects, 'id');
+    const labelsDeseados = obtener_campos(labels, 'htmlFor');
+
+    console.log(labelsDeseados);
+
+    //actualizar el numero de 'id_form_numero_campo'
+    for (let i = 0; i < inputsDeseados.length; i++){
+        const elemento = inputsDeseados[i];
+
+        elemento.setAttribute('id', actualizar_num_Id(num_dia, elemento));
+    }
+
+    for (let i = 0; i < selectsDeseados.length; i++){
+        const elemento = inputsDeseados[i];
+
+        elemento.setAttribute('id', actualizar_num_Id(num_dia, elemento));
+    }
+
+    //actualizar el numero en la etiqueta for del label de ese camp0
+    for (let i = 0; i < selectsDeseados.length; i++){
+        const elemento = inputsDeseados[i];
+
+        elemento.setAttribute('id', actualizar_num_Id(num_dia, elemento));
+    }
+
+    const titulo_a_eliminar = document.getElementById('id-dia-' + num_dia);
+
+    const total_form_dia = document.getElementsByClassName('form-dia');
+    let count = total_form_dia.length;
+    total_form.setAttribute('value', count - 1);
+
+    form_lista.removeChild(form_a_eliminar);
+    form_lista.removeChild(titulo_a_eliminar);
 }
