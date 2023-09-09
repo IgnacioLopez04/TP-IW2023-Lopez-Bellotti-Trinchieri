@@ -18,21 +18,30 @@ nav{
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
 
     background-color: #1B3358;
     position: fixed;
     z-index: 100;
 }
 
+nav h1{
+    margin: 0px 30px;
+    color: #ff8000;
+}
+
+nav h1 span{
+    color: white;
+}
+
 .sidebar{
     width: 0;
-    height: 100vh;
+    height: 100%;
     background-color: #1B3358;
     color: #FF8000;
 
     position: fixed;
-    z-index: 50;
+    z-index: 101;
 
     display: flex;
     flex-direction: column;
@@ -46,8 +55,19 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
-    height: 30%;
+    height: 40%;
+}
+
+#logo{
+
+    margin: 60px 0px 10px 0px;
+    aspect-ratio: 16/9;
+    width: 90%;
+    height: 90%;
+
+    background-color: transparent;
 }
 
 .titulo h1{
@@ -59,8 +79,10 @@ nav{
 }
 
 .cont-links{
+    margin-top: 50px;
+
     padding-left: 20px;
-    height: 60%;
+    height: 40%;
 }
 
 .cont-links li{
@@ -80,6 +102,7 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .cont-login .nav-button{
@@ -120,12 +143,12 @@ nav{
 }
 
 .rotate-menu{
-    left: 325px;
+    left: 27%;
     transform: rotate(270deg);
 }
 
 .show-sidebar{
-    width: 300px;
+    width: 25%;
 }
 
 .black-backgroud{
@@ -137,12 +160,29 @@ nav{
     transform: translateX(0px);
 }
 
+.background-off{
+    opacity: 0.4;
+    z-index: 2;
+
+    transition: all 0.5s;
+}
+
 svg{
     fill: #ff8000;
 }
 
 .hidden{
     display: none;
+}
+
+@media  screen and (max-width:1200px) {
+    .rotate-menu{
+        left: 325px;
+    }
+    
+    .show-sidebar{
+        width: 300px;
+    }
 }
 
 
