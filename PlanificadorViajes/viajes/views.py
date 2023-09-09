@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
+from django.forms import formset_factory
 from viajes.models import Viaje_General, Viaje_Dia, Viaje_Dia_Destino
 from django.http import HttpResponse
 import random
@@ -23,42 +24,51 @@ meses_dict = {
 
 @login_required
 def cargarViaje(request):
+    DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
+
     if request.method == 'POST':
         # form = ViajeForm(request.POST, meses_dict = meses_dict)
-        form = ViajeForm(request.POST)
-        if form.is_valid():
-            viaje = form.save(commit=False)  # Crea una instancia del Viaje sin guardarla aún
-            viaje.usuario = request.user  # Asigna el usuario actual al campo user
+        viaje_form = ViajeForm(request.POST)
+        dia_formset = DiaFormSet(request.POST)
 
-            viaje.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
-            
-            viaje.save() #ahora si guarda el viaje con el usuario asignado
+        if viaje_form.is_valid():
+            viaje_form = viaje_form.save(commit=False)
+            viaje_form.usuario = request.user
 
-            viaje_id = viaje.id
-            return redirect('viajes-cargar-dia-viaje', viaje_id=viaje_id)
+            viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
+            viaje_form.save()
+
+
+        if dia_formset.is_valid():
+            cant_dias = 0
+
+            for f in dia_formset:
+                if f in dia_formset.deleted_forms:
+                    continue
+                f_instance = f.save(commit=False)
+                f_instance.viaje = viaje_form
+                f_instance.save()
+
+                cant_dias += 1
+
+                destinos_seleccionados = f.cleaned_data['destinos']
+                f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
+
+            viaje_form.cantidadDias = cant_dias
+            viaje_form.save()
+
+            #viaje_id = viaje.id
+            #return redirect('viajes-cargar-dia-viaje')
+            return redirect('sitio-inicio')
     else:
         # form = ViajeForm(meses_dict = meses_dict)
-        form = ViajeForm()
+        viaje_form = ViajeForm()
+        dia_formset = DiaFormSet()
 
-    return render(request, 'viaje.html', {'form': form})
-
-
-@login_required
-def cargar_dia_viaje(request): #tendria que desaparecer ya
-    if request.method == 'POST':
-        form = CargarDiaViajeForm(request.POST)
-        if form.is_valid():
-            dia_viaje = form.save()
-            return redirect('viajes-cargar-dia-viaje')
-    else:
-        form = CargarDiaViajeForm()
-    
-    dia_actual = request.session.get('dia_actual', 1)
-    titulo = f'Día {dia_actual}'
-
-    return render(request, 'dia_viaje.html', {'form': form, 'titulo': titulo})
-
-
+    return render(request, 'viaje.html', {
+        'form': viaje_form,
+        'formset': dia_formset,
+    })
 def detalle_viaje(request, viaje_id):
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
     return render(request, 'detalle-viaje.html', {'viaje': viaje})
