@@ -8,7 +8,7 @@ function agregar_dia(){
         total_form_dia = document.getElementsByClassName('form-dia');
         count = total_form_dia.length;
     }
-    console.log(count);
+
     const form_lista = document.getElementById('form-lista-dias');
     const empty_form = document.getElementById('empty-form').cloneNode(true);
     empty_form.setAttribute('class', 'form-dia')
@@ -31,7 +31,7 @@ function agregar_dia(){
     form_lista.append(empty_form);
 }
 
-function obtener_campos(lista, attr){
+function obtener_campos(lista, attr, texto){
 
     const campos_deseados = [];
 
@@ -39,7 +39,9 @@ function obtener_campos(lista, attr){
         const elemento = lista[i];
         const campo = elemento.getAttribute(attr);
 
-        if (campo != null && campo.match(/^id-dia-\d+$/)) {
+        var rgx = new RegExp('^' + texto + '-\\d+$')
+
+        if (campo != null && rgx.test(campo)) {
             campos_deseados.push(elemento);
         }
     }
@@ -48,6 +50,7 @@ function obtener_campos(lista, attr){
 }
 
 function eliminar_dia(event) {
+
     const form_a_eliminar = event.target.closest('.form-dia');
     form_a_eliminar.setAttribute('class', 'hidden');
 
@@ -67,13 +70,12 @@ function eliminar_dia(event) {
     form_lista.removeChild(titulo_a_eliminar);
 
     const h1 = document.querySelectorAll("h1");
-    const dias = obtener_campos(h1, 'id');
-    var dias_a_modificar = [];
-
+    const dias = obtener_campos(h1, 'id', 'id-dia');
+    console.log(dias);
     for (let i = 0; i < dias.length; i++){
         const dia = dias[i]
         if (dia.id.replace('id-dia-', '') >= num_dia){
-             const numero_dia = dia.id.replace('id-dia-', '')
+            const numero_dia = dia.id.replace('id-dia-', '')
             dia.setAttribute('id', `id-dia-${numero_dia - 1}`)
             dia.innerText = `Dia ${numero_dia - 1}`;
         }
