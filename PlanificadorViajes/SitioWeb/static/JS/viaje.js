@@ -2,9 +2,13 @@ const btnAgregarDia = document.getElementById('btn-agregar-dias');
 btnAgregarDia.addEventListener('click',agregar_dia);
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
 function agregar_dia(){
-    const total_form_dia = document.getElementsByClassName('form-dia');
-    let count = total_form_dia.length;
-
+    let total_form_dia = document;
+    let count = 0;
+    if (document.getElementsByClassName('form-dia') != null){
+        total_form_dia = document.getElementsByClassName('form-dia');
+        count = total_form_dia.length;
+    }
+    console.log(count);
     const form_lista = document.getElementById('form-lista-dias');
     const empty_form = document.getElementById('empty-form').cloneNode(true);
     empty_form.setAttribute('class', 'form-dia')
@@ -49,7 +53,17 @@ function eliminar_dia(event) {
 
     const form_lista = document.getElementById('form-lista-dias');
     var num_dia = form_a_eliminar.id.replace('id-form-dia-', '');
+    const form_dias = form_lista.querySelectorAll('.form-dia');
+
+    for (let i = 0; i < form_dias.length; i++){
+        const form_dia = form_dias[i];
+        form_dia.setAttribute('id', `id-form-dia-${i+1}`)
+    }
+
     const titulo_a_eliminar = document.getElementById('id-dia-' + num_dia);
+
+    form_a_eliminar.removeAttribute('id');
+
     form_lista.removeChild(titulo_a_eliminar);
 
     const h1 = document.querySelectorAll("h1");
@@ -59,16 +73,10 @@ function eliminar_dia(event) {
     for (let i = 0; i < dias.length; i++){
         const dia = dias[i]
         if (dia.id.replace('id-dia-', '') >= num_dia){
-            dias_a_modificar.push(dia);
+             const numero_dia = dia.id.replace('id-dia-', '')
+            dia.setAttribute('id', `id-dia-${numero_dia - 1}`)
+            dia.innerText = `Dia ${numero_dia - 1}`;
         }
-    }
-
-    console.log(dias_a_modificar);
-    //actualizar el numero del Dia
-    for (let i = 0; i < dias_a_modificar.length; i++){
-        const elemento = dias_a_modificar[i];
-        const numero_dia = elemento.id.replace('id-dia-', '')
-        elemento.innerText = `Dia ${numero_dia - 1}`;
     }
 }
 

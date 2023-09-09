@@ -11,22 +11,13 @@
         <div id="divisor"></div>
         <div id="cont-form-dia-viaje">
             <form method="post">
-                <div id="cont-titulo">
-                    <h1 id="id-dia-1">Dia 1</h1>
-                </div>
                 {% csrf_token %}
                 {{ form.management_form }}
                 <div id="form-lista-dias">
                     {% for fo in form %}
-                        <div id="id-form-dia-1" class="form-dia">
-                            {{ fo.as_p }}
-                            <button id="btn-eliminar-dia-1" onclick="eliminar_dia(this);" type="button"> Eliminar dia</button>
-                        </div>
-
                     {% endfor %}
                 </div>
                 <div id="id-form-dia-empty">
-                    <button id="btn-eliminar-dia-hidden" onclick="eliminar_dia(this);" type="button" class="hidden"> Eliminar dia</button>
                     <div id="empty-form" class="hidden">{{ form.empty_form.as_p }}</div>
                 </div>
                 <div class="btn-carga">
