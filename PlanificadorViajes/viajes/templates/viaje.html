@@ -6,39 +6,40 @@
 {%endblock%}
 
 {% block content%}
-<main>
-    <section id="cont-bienvenida">
+
+<main onclick='closeSidebar()'>
+  <section id="cont-bienvenida">
         <div id="cont-titulo">
           <h1>Empieza a organizar tu viaje!</h1>
         </div>
         <div id="divisor"></div>
-            <form method="post">
-                <div id="cont-form-viaje">
-                    {% csrf_token %}
-                    <div class="cont-form">
-                        {{ form.as_p }}
+        <form method="post">
+            <div id="cont-form-viaje">
+                {% csrf_token %}
+                <div class="cont-form">
+                    {{ form.as_p }}
+                </div>
+            </div>
+            <div id="cont-form-dia">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                <div id="form-lista-dias">
+                    {% for fo in formset %}
+                    {% endfor %}
+                </div>
+                <div id="id-form-dia-empty">
+                    <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
+                    <div id="empty-destino" class="hidden">
+                        {{ formset.empty_form.destinos.label_tag }}
+                        {{ formset.empty_form.destinos }}
                     </div>
                 </div>
-                <div id="cont-form-dia">
-                    {% csrf_token %}
-                    {{ formset.management_form }}
-                    <div id="form-lista-dias">
-                        {% for fo in formset %}
-                        {% endfor %}
-                    </div>
-                    <div id="id-form-dia-empty">
-                        <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
-                        <div id="empty-destino" class="hidden">
-                            {{ formset.empty_form.destinos.label_tag }}
-                            {{ formset.empty_form.destinos }}
-                        </div>
-                    </div>
-                    <div class="btn-carga">
-                        <button id="btn-agregar-dias" type="button">Agregar dia</button>
-                    </div>
+                <div class="btn-carga">
+                    <button id="btn-agregar-dias" type="button">Agregar dia</button>
                 </div>
-                <button type="submit" id="btn-cargar-viaje">Continuar con el viaje</button>
-            </form>
+            </div>
+            <button type="submit" id="btn-cargar-viaje">Continuar con el viaje</button>
+        </form>
     </section>
 </main>
 
