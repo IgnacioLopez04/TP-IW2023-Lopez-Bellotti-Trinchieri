@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block title %}VIAJE{% endblock %}
-{% block estilo%}<link rel="stylesheet" href={%static 'CSS/detalle-viaje2.css'%}> {%endblock%}
+{% block estilo%}
+    <link rel="stylesheet" href={%static 'CSS/detalle-viaje2.css'%}> 
+    <!-- jQuery, vinculado directo a cdn de google -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- ArgenMap v2, vinculado directo desde el Instituto Geográfico Nacional -->
+    <script type="text/javascript" src="https://www.ign.gob.ar/argenmap2/argenmap.jquery/argenmap.jquery.min.js"></script>
+{%endblock%}
 {% block content %}
 <main onclick='closeSidebar()'>
     <section id="viaje">
@@ -21,6 +27,17 @@
                     <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>
                 </div>
             </div>
+            <body>
+                <div id="mapa" style="height:450px;"></div>
+                <script>
+                    //con esta llamada, el código se ejecuta
+                    //cuando la página terminó de cargarse
+                    $(document).ready(function(){
+                    $('#mapa').argenmap().centro(-31,-62).zoom(4);
+
+                    });
+                </script>
+            </body>
             <div class='cont-dias-viajes'>
                 <h2>Días del Viaje</h2>
             </div>
@@ -38,11 +55,20 @@
                                     <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>
                                     <!-- Agrega más detalles del destino si es necesario -->
                                 </li>
+                                <script>
+                                       // Agregar marcador para el destino actual
+                                    $('#mapa').agregarMarcador({
+                                        lat: {{ destino.latitud }},  // Reemplaza con la latitud real del destino
+                                        lon: {{ destino.longitud }}, // Reemplaza con la longitud real del destino
+                                        nombre: 'marcador-{{ destino.nombre }}' // Puedes usar un identificador único para el nombre del marcador
+                                    });
+                                </script>
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
             </ul>
+
         </div>
     </section>
 </main>
