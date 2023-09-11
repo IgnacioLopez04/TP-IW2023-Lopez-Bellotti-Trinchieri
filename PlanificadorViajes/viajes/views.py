@@ -2,25 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
 from django.forms import formset_factory
-from viajes.models import Viaje_General, Viaje_Dia, Viaje_Dia_Destino
+from viajes.models import Viaje_General, Destino, Viaje_Dia
 from django.http import HttpResponse
 import random
 from decimal import Decimal
-
-meses_dict = {
-    'Enero': 1,
-    'Febrero': 2,
-    'Marzo': 3,
-    'Abril': 4,
-    'Mayo': 5,
-    'Junio': 6,
-    'Julio': 7,
-    'Agosto': 8,
-    'Septiembre': 9,
-    'Octubre': 10,
-    'Noviembre': 11,
-    'Diciembre': 12,
-}
 
 @login_required
 def cargarViaje(request):
@@ -69,6 +54,8 @@ def cargarViaje(request):
         'form': viaje_form,
         'formset': dia_formset,
     })
+
+
 def detalle_viaje(request, viaje_id):
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
     return render(request, 'detalle-viaje.html', {'viaje': viaje})

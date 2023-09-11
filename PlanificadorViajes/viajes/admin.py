@@ -30,7 +30,7 @@ admin.site.register(Viaje_Dia, AdminDiaViaje)
 
 
 class AdminDestino(admin.ModelAdmin):
-    list_display=('nombre', 'descripcion')
+    list_display=('nombre', 'latitud', 'longitud', 'provincia')
     
 admin.site.register(Destino, AdminDestino)
 

@@ -8,7 +8,9 @@ class Mes(models.Model):
         return self.nombreMes
 class Destino(models.Model):
     nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=200, default="")
+    latitud = models.FloatField(null=True)
+    longitud = models.FloatField(null=True)
+    provincia = models.CharField(max_length=100, null=True)
     def __str__(self):
         return self.nombre
 
@@ -32,14 +34,3 @@ class Viaje_Dia(models.Model):
     
     def __str__(self):
         return self.nombreDia
-
-class Viaje_Dia_Destino(models.Model):
-    dia_viaje = models.ForeignKey(
-        Viaje_Dia, on_delete=models.CASCADE
-    )
-    destino = models.ForeignKey(
-        Destino, on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return self.destino.nombre
