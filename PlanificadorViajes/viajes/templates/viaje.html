@@ -8,9 +8,9 @@
 {% block content%}
 
 <main onclick='closeSidebar()'>
-  <section id="cont-bienvenida">
+  <section class="cont-form-viaje">
         <div id="cont-titulo">
-          <h1>Empieza a organizar tu viaje!</h1>
+          <h1>Empieza a organizar tu <span>itinerario</span>!</h1>
         </div>
         <div id="divisor"></div>
         <form method="post">
@@ -35,10 +35,10 @@
                     </div>
                 </div>
                 <div class="btn-carga">
-                    <button id="btn-agregar-dias" type="button">Agregar dia</button>
+                    <button id="btn-agregar-dias" type="button" class='btn-cargas'>Agregar dia</button>
                 </div>
             </div>
-            <button type="submit" id="btn-cargar-viaje">Continuar con el viaje</button>
+            <button type="submit" id="btn-cargar-viaje" class='btn-cargas'>Confirmar itinerario</button>
         </form>
     </section>
 </main>
