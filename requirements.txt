@@ -8,5 +8,6 @@ crispy-bootstrap4==2022.1
 
 djangorestframework==3.14.0
 django-allauth==0.55.2
+django-extensions==3.2.3
 
 six==1.16.0
