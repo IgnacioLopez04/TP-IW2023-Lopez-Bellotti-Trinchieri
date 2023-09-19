@@ -1,0 +1,6 @@
+{% autoescape off %}
+Hola {{user.username}}!
+
+Por favor, haz click en el enlace de abajo para confirmar tu registracion.
+{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

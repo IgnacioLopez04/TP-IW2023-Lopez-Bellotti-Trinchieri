@@ -34,6 +34,32 @@ nav h1 span{
     color: white;
 }
 
+/* Mensaje de alerta */
+#mensaje-alerta{
+    position: relative;
+    top: 60px;
+    right: 0;
+    left: 0;
+    padding: 10px;
+    margin: 0px 30px;
+
+    border-radius: 10px;
+    
+
+    text-align: center;
+}
+
+.alert-success{
+    border: 2px solid rgba(88, 218, 35, 0.3);
+    background-color: rgba(88, 218, 35, 0.3);
+}
+
+.alert-error{
+    border: 2px solid rgba(218, 35, 35, 0.3);
+    background-color: rgba(218, 35, 35, 0.3);
+}
+/* fin mensaje de alerta */
+
 .sidebar{
     width: 0;
     height: 100%;

@@ -4,13 +4,7 @@
 {%block estilo%} <link rel="stylesheet" href={%static 'CSS/inicio.css'%}>{%endblock%}
 
 {% block content %}
-    {%if messages%}
-        {% for message in messages%}
-            <div class="alert alert-{{ message.tags}}" role="alert" id='mensaje-alerta'>
-                {{message}}
-            </div>
-        {%endfor%}
-    {% endif %}     
+     
 <main onclick='closeSidebar()'>
     <section class='cont-info-carrusel'>
         <div class='info-pag'>
