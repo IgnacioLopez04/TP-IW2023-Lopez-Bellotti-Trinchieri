@@ -28,13 +28,13 @@ function agregar_dia(){
     const inputs_delete = empty_form.querySelector(selector);
     inputs_delete.addEventListener('click', eliminar_dia);
 
-    let btnAgregarDestino = document.createElement('button');
+    /*let btnAgregarDestino = document.createElement('button');
     btnAgregarDestino.setAttribute('id', 'id-btn-eliminar-destino');
     btnAgregarDestino.setAttribute('type', 'button');
     btnAgregarDestino.innerText = 'Agregar Destino';
     btnAgregarDestino.addEventListener('click', agregar_destino)
 
-    empty_form.append(btnAgregarDestino);
+    empty_form.append(btnAgregarDestino); */
     form_lista.appendChild(titulo);
     form_lista.append(empty_form);
 }
