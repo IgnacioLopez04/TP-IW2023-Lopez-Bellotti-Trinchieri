@@ -26,6 +26,10 @@ main p{
     margin: 0;
 }
 
+nav a{
+    text-decoration: none;
+}
+
 .section-user{
     text-align: center;
     border-radius: 10px;
