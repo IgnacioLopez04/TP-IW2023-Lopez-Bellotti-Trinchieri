@@ -11,7 +11,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import get_user_model
 from .token import account_activation_token
+
 from .forms import User
+from viajes.models import Viaje_General
 
 def activate(request, uidb64, token):
     User = get_user_model()
@@ -32,7 +34,7 @@ def activate(request, uidb64, token):
     return redirect('sitio-inicio')
 
 def activateEmail(request, user, to_email):
-    mail_subject = 'Activa tu cuenta de usuario en Los Tres Viajeros'
+    mail_subject = 'Activa tu cuenta de usuario en Los Tres Viajeros.'
     messages_content = render_to_string('template_mail.html',{
         'user': user.username,
         'domain': get_current_site(request).domain,
@@ -68,4 +70,16 @@ def registration(request):
 
 @login_required
 def user(request):
-    return render(request, 'user.html', {})
+    email = request.user.email
+    user_name = request.user.username
+    user = User.objects.get(username=user_name)
+    
+    viajes = Viaje_General.objects.filter(usuario=user.pk).count()
+    
+    info = {
+        'email': email,
+        'user': user,
+        'viajes': viajes,
+    }
+    
+    return render(request, 'user.html', {'info': info})

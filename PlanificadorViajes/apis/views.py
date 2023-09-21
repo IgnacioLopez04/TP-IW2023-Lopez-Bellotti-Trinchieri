@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from django.http import HttpResponse
 from viajes.models import Viaje_General, Destino
 from .serializers import ViajeGeneralSerializer
+from django.contrib.auth.models import User
 
 """def api_viajes(request): #Api para mostrar los viajes que hay cargados
     viajes = Viaje_General.objects.order_by('nombreViaje')
@@ -50,3 +51,12 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)
 
+    @action(detail=False)
+    def viajes_usuario(self, request):
+        viajes = self.get_queryset()
+        user = request.user.username
+        user_obj = User.objects.get(username = user)
+        serializer = self.get_serializer(viajes.filter(usuario=user_obj.pk).order_by('-calificacion'), many=True)
+        return Response(serializer.data)
+        
+        
