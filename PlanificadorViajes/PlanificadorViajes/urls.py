@@ -23,5 +23,6 @@ urlpatterns = [
     path('viajes/', include('viajes.urls')),
     path('registration/', include('registration.urls')),
     path('api/', include('apis.urls')),
+    path('googleMaps/', include('googleMaps.urls')),
     path('', include('allauth.urls')),
 ]

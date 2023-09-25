@@ -24,12 +24,9 @@ class ViajeForm(forms.ModelForm):
 
 
 class CargarDiaViajeForm(forms.ModelForm):
-   #carga la lista con los destinos que existen
-    destinos = forms.ModelChoiceField(   
-        queryset=Destino.objects.all(),
-        widget=forms.Select,
+    cargarDestino = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'button', 'value': 'cargar destino', 'onclick': 'abrirMapa()'}),
         required=False,
-        empty_label="Seleccione un destino o ingrese uno nuevo"
     )
 
     def save(self, commit=True):
@@ -39,8 +36,5 @@ class CargarDiaViajeForm(forms.ModelForm):
 
     class Meta:
         model = Viaje_Dia
-        fields = ['nombreDia', 'notas', 'destinos']
-        widgets = {
-            'destinos': forms.CheckboxSelectMultiple(),
-        }
+        fields = ['nombreDia', 'notas']
 

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'registration',
     'viajes',
     'apis',
+    'googleMaps',
     'django.contrib.sites',
     'allauth',
     'allauth.account',

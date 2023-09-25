@@ -24,27 +24,35 @@
                     <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
                     <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>
                 </div>
-            </div>
-            <body>
-                <div id="map" style="height:450px;"></div>
-                <script>
-                    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-                        ({key: "NO PUEDE ESTAR", v: "weekly"});
+            </div>             
+            <script>
+                function initMap() {
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 10,
+                        center: { lat: -34.1122099, lng: -66.3874296 },
+                    });   
+                    setMarkers(map);
+                } 
 
-                        let map;
-
-                        async function initMap() {
-                        const { Map } = await google.maps.importLibrary("maps");
-
-                        map = new Map(document.getElementById("map"), {
-                            center: { lat: -34.397, lng: 150.644 },
-                            zoom: 8,
+                function setMarkers(map) {
+                    // Adds markers to the map.
+                    for (let i = 0; i < beaches.length; i++) {
+                        const beach = beaches[i];
+        
+                        new google.maps.Marker({
+                            position: { lat: beach[1], lng: beach[2] },
+                            map,
+                            //icon: image,
+                            //shape: shape,
+                            title: beach[0],
+                            zIndex: beach[3],
                         });
-                        }
+                    }
 
-                        initMap();
-                </script>
-            </body>
+                window.initMap = initMap;
+                    
+                
+            </script>
             <div class='cont-dias-viajes'>
                 <h2>Días del Viaje</h2>
             </div>
@@ -62,20 +70,22 @@
                                     <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>
                                     <!-- Agrega más detalles del destino si es necesario -->
                                 </li>
-                                <script>
-                                       // Agregar marcador para el destino actual
-                                    $('#mapa').agregarMarcador({
-                                        lat: {{ destino.latitud }},  // Reemplaza con la latitud real del destino
-                                        lon: {{ destino.longitud }}, // Reemplaza con la longitud real del destino
-                                        nombre: 'marcador-{{ destino.nombre }}' // Puedes usar un identificador único para el nombre del marcador
-                                    });
-                                </script>
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
             </ul>
-
+            <style>
+                #map {
+                    height: 100%;
+                }
+            </style>
+            <body>
+                <div id="map"></div>
+                <script
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHgRZg1XtSxAqgCH0zOmxS8cn_BZdKqWM&callback=initMap&v=weekly"
+                defer></script>
+            </body>
         </div>
     </section>
 </main>

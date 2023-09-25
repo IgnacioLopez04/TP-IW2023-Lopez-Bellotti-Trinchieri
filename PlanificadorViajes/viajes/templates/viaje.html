@@ -29,10 +29,6 @@
                 </div>
                 <div id="id-form-dia-empty">
                     <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
-                    <div id="empty-destino" class="hidden">
-                        {{ formset.empty_form.destinos.label_tag }}
-                        {{ formset.empty_form.destinos }}
-                    </div>
                 </div>
                 <div class="btn-carga">
                     <button id="btn-agregar-dias" type="button" class='btn-cargas'>Agregar dia</button>
@@ -46,4 +42,10 @@
 {% endblock content%}
 {% block js %}
     <script src="{% static 'JS/viaje.js' %}"></script>
+
+    <script>
+        function abrirMapa() {
+            window.open('/googleMaps/cargarDestino/', 'Mapa', 'width=800,height=600');
+        }
+    </script>
 {% endblock js %}
