@@ -16,25 +16,17 @@
 </head>
 <body>
     <nav>
-        <bottom class="menu">
+        <!-- <bottom class="menu">
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                 <style>svg{fill:#ff8000}</style>
                 <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
             </svg>
-        </bottom>
+        </bottom> -->
         <a href="{% url 'sitio-inicio'%}">
             <h1><span>LosTres</span>Viajeros</h1>
         </a>
-    </nav>
-    <section class="sidebar">
-        <div class="titulo">
-            <img src="{% static 'logo.png'%}" alt="logo" id="logo"/>
-            <a href="{% url 'sitio-inicio'%}">
-                <h1><span>LosTres</span>Viajeros</h1>
-            </a>
-        </div>
         <div class="cont-links">
-            <ul>
+            <ul id="nav-list">
                 <li><a href="{%url 'sitio-inicio'%}">Inicio</a></li>
                 <li><a href="#search-form">Buscar</a></li>
                 <li><a href="{%url 'usuario'%}">Perfil</a></li>
@@ -43,12 +35,20 @@
         </div>
         <div class="cont-login">
             {%if user.is_authenticated%}
-                <button class="nav-button"><a href="{% url 'logout'%}">Cerrar Sesion</a></button>
+                <button class="nav-button"><a href="{% url 'logout'%}" class="clr">Cerrar Sesión</a></button>
             {% else %}
-                <button class="nav-button"><a href="{% url 'login' %}">Iniciar Sesión</a></button>
+                <button class="nav-button"><a href="{% url 'login' %}" class="clr">Iniciar Sesión</a></button>
             {%endif%}
         </div>
-    </section>
+    </nav>
+    <!-- <section class="sidebar">
+        <div class="titulo">
+            <img src="{% static 'logo.png'%}" alt="logo" id="logo"/>
+            <a href="{% url 'sitio-inicio'%}">
+                <h1><span>LosTres</span>Viajeros</h1>
+            </a>
+        </div>
+    </section> -->
     {%if messages%}
         {% for message in messages%}
             <div class="alert alert-{{ message.tags}}" role="alert" id='mensaje-alerta'>
