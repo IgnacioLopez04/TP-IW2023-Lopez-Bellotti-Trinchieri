@@ -4,7 +4,7 @@ function initMap() {
     const CONFIGURATION = {
         "ctaTitle": "Confirmar",
         "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true, "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true, "maxZoom": 22, "mapId": "" },
-        "mapsApiKey": "AIzaSyDHgRZg1XtSxAqgCH0zOmxS8cn_BZdKqWM",
+        "mapsApiKey": "",
         "capabilities": { "addressAutocompleteControl": true, "mapDisplayControl": true, "ctaControl": true }
     };
     const componentForm = [
