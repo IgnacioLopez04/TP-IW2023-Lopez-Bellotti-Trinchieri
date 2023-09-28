@@ -108,9 +108,9 @@ WSGI_APPLICATION = 'PlanificadorViajes.wsgi.application'
 #Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_FROM = 'maildepruebaprog2022@gmail.com'
-EMAIL_HOST_USER = 'maildepruebaprog2022@gmail.com'
-EMAIL_HOST_PASSWORD = 'kaypxkyomqhpovin'
+EMAIL_FROM = 'lostresviajeros.web@gmail.com'
+EMAIL_HOST_USER = 'lostresviajeros.web@gmail.com'
+EMAIL_HOST_PASSWORD = 'rtna xdqn xgfo tcnw'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -183,17 +183,17 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
-import os
-import dj_database_url
+#import os
+#import dj_database_url
 
-if 'RENDER' in os.environ:
-    print("USING RENDER.COM SETTINGS!")
-    DEBUG = False
-    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
-    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-    MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
-                       'whitenoise.middleware.WhiteNoiseMiddleware')
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#if 'RENDER' in os.environ:
+#    print("USING RENDER.COM SETTINGS!")
+#    DEBUG = False
+#    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+#    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+#    MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
+#                       'whitenoise.middleware.WhiteNoiseMiddleware')
+#    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 

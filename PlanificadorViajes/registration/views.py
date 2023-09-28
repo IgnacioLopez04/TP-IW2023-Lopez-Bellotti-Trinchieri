@@ -12,6 +12,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import get_user_model
 from .token import account_activation_token
 
+from .forms import User
+from viajes.models import Viaje_General
+
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -31,7 +34,7 @@ def activate(request, uidb64, token):
     return redirect('sitio-inicio')
 
 def activateEmail(request, user, to_email):
-    mail_subject = 'Activa tu cuenta de usuario en Los Tres Viajeros'
+    mail_subject = 'Activa tu cuenta de usuario en Los Tres Viajeros.'
     messages_content = render_to_string('template_mail.html',{
         'user': user.username,
         'domain': get_current_site(request).domain,
@@ -51,18 +54,32 @@ def registration(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+            email = form.cleaned_data.get('email')
+            if User.objects.filter(email = email).exists():
+                messages.error(request, f'Este email ya existe. Por favor ingresa uno nuevo.')
+                return render(request, 'signup.html', {'registration_form': form})
+            
             user = form.save(commit=False) #no se guarda en la bd
             user.is_active=False
             user.save()
             activateEmail(request, user, form.cleaned_data.get('email'))
             return redirect('sitio-inicio')
-            # username = form.cleaned_data.get('username')
-            # messages.success(request, f'La cuenta "{username}" ya fue creada. Por favor, inicia sesion.')
-            
     else:
         form = UserRegisterForm()
     return render(request, 'signup.html', {'registration_form': form})
 
 @login_required
 def user(request):
-    return render(request, 'user.html', {})
+    email = request.user.email
+    user_name = request.user.username
+    user = User.objects.get(username=user_name)
+    
+    viajes = Viaje_General.objects.filter(usuario=user.pk).count()
+    
+    info = {
+        'email': email,
+        'user': user,
+        'viajes': viajes,
+    }
+    
+    return render(request, 'user.html', {'info': info})
