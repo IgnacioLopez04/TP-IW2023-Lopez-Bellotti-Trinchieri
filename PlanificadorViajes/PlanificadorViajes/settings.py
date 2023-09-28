@@ -107,11 +107,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'PlanificadorViajes.wsgi.application'
 
 #Email
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_FROM = 'lostresviajeros.web@gmail.com'
-EMAIL_HOST_USER = 'lostresviajeros.web@gmail.com'
-EMAIL_HOST_PASSWORD = 'rtna xdqn xgfo tcnw'
+EMAIL_FROM = os.getenv('VERIFICATION_EMAIL')
+EMAIL_HOST_USER = os.getenv('VERIFICATION_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('VERIFICATION_EMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -196,5 +200,8 @@ LOGOUT_REDIRECT_URL = 'sitio-inicio'
 #                       'whitenoise.middleware.WhiteNoiseMiddleware')
 #    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+#    EMAIL_FROM = os.environ.get('VERIFICATION_EMAIL')
+#    EMAIL_HOST_USER = os.environ.get('VERIFICATION_EMAIL')
+#    EMAIL_HOST_PASSWORD = os.environ.get('VERIFICATION_EMAIL_PASSWORD')
+#
 
