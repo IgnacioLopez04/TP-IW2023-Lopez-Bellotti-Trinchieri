@@ -7,10 +7,6 @@ from viajes.models import Viaje_General, Destino
 from .serializers import ViajeGeneralSerializer
 from django.contrib.auth.models import User
 
-"""def api_viajes(request): #Api para mostrar los viajes que hay cargados
-    viajes = Viaje_General.objects.order_by('nombreViaje')
-    return render(request, 'api_viajes.html', {'lista_viajes':viajes})"""
-
 class ViajeGeneralViewSet(viewsets.ModelViewSet):
     serializer_class = ViajeGeneralSerializer
     queryset = Viaje_General.objects.all()
@@ -19,7 +15,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     @action(detail=False)  # Decorador para una acción que no requiere un objeto específico
     def todos_los_viajes(self, request):
         # Obtiene todos los viajes desde la base de datos y los devuelve ordenados por calificacion
-        viajes = self.get_queryset()
+        viajes = self.get_queryset().filter(esPrivado=False)
 
         serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)
@@ -32,7 +28,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         calif = request.GET.get('calificacion')
           
         # Obtener todos los viajes desde la base de datos
-        viajes = self.get_queryset()
+        viajes = Viaje_General.objects.all().filter(esPrivado=False)
 
         # Aplicar filtro por destino si se proporciona
         if destino:
@@ -56,6 +52,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         viajes = self.get_queryset()
         user = request.user.username
         user_obj = User.objects.get(username = user)
+        print(user)
         serializer = self.get_serializer(viajes.filter(usuario=user_obj.pk).order_by('-calificacion'), many=True)
         return Response(serializer.data)
         

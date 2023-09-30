@@ -2,6 +2,81 @@ const btnAgregarDia = document.getElementById('btn-agregar-dias');
 btnAgregarDia.addEventListener('click', agregar_dia);
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
 
+//agregar correos
+src = "https://code.jquery.com/jquery-3.6.0.min.js"
+$(document).ready(function () {
+    // Detecta cambios en el campo "Es privado"
+    $("select[name='esPrivado']").change(function () {
+        if ($(this).val() === 'True') {
+            // Mostrar el div si es privado
+            $("#usuarios-a-invitar").show();
+        } else {
+            // Ocultar el div si no es privado
+            $("#usuarios-a-invitar").hide();
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var btnAgregarCorreo = document.getElementById("btn-agregar-correo");
+    var inputCorreos = document.getElementById("correos");
+    var correosAgregados = document.getElementById("correos-agregados");
+
+    btnAgregarCorreo.addEventListener("click", function () {
+        var correo = inputCorreos.value.trim();
+
+        // Validar el formato del correo usando una expresión regular
+        var correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(correo);
+
+        if (correoValido) {
+            // Crear un elemento de texto para mostrar el correo
+            var elementoCorreo = document.createElement("span");
+            elementoCorreo.textContent = correo;
+            // Crear un botón de eliminar
+            var botonEliminar = document.createElement("button");
+            botonEliminar.textContent = "Eliminar";
+            botonEliminar.className = "btn-eliminar";
+
+            // Manejar el clic en el botón de eliminar
+            botonEliminar.addEventListener("click", function () {
+                correosAgregados.removeChild(elementoCorreo);
+                correosAgregados.removeChild(botonEliminar);
+
+                // Verificar si es el último elemento y eliminar la coma si es necesario
+                if (correosAgregados.childNodes.length === 0) {
+                    correosAgregados.textContent = "";
+                } else {
+                    correosAgregados.removeChild(correosAgregados.lastChild);
+                }
+            });
+
+            // Agregar el correo y el boton al div de correos agregados
+            correosAgregados.appendChild(elementoCorreo);
+            correosAgregados.appendChild(botonEliminar);
+
+
+            // Agregar una coma y un espacio para separar múltiples correos
+            correosAgregados.appendChild(document.createTextNode(", "));
+
+            // Limpiar el campo de entrada de correo
+            inputCorreos.value = "";
+        }
+        else {
+            // Mostrar un mensaje de error o tomar otra acción si el correo no es válido
+            alert("El correo ingresado no es válido. Debe tener el formato correcto ***@***.com.");
+        }
+    });
+
+    // Manejar el clic en el botón de eliminar junto a los correos existentes
+    correosAgregados.addEventListener("click", function (event) {
+        if (event.target.classList.contains("btn-eliminar")) {
+            var correoAEliminar = event.target.previousSibling; // El span del correo
+            correosAgregados.removeChild(correoAEliminar);
+            correosAgregados.removeChild(event.target); // El botón de eliminar
+        }
+    });
+});
+
 function agregar_dia() {
     let total_form_dia = document;
     let count = 0;
