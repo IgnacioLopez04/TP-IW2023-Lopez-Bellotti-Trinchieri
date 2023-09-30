@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'SitioWeb',
     'registration',
     'viajes',
@@ -131,6 +132,12 @@ DATABASES = {
     }
 }
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': BASE_DIR / 'whoosh_index',
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -203,5 +210,4 @@ LOGOUT_REDIRECT_URL = 'sitio-inicio'
 #    EMAIL_FROM = os.environ.get('VERIFICATION_EMAIL')
 #    EMAIL_HOST_USER = os.environ.get('VERIFICATION_EMAIL')
 #    EMAIL_HOST_PASSWORD = os.environ.get('VERIFICATION_EMAIL_PASSWORD')
-#
 
