@@ -19,6 +19,16 @@
                 <div class="cont-form">
                     {{ form.as_p }}
                 </div>
+                <div id="usuarios-a-invitar" style="display: none;">
+                    <p>Correos de los usuarios que deseas invitar:</p>
+                    <input type="text" id="correos" name="Correos">
+                    <div class="btn-carga">
+                        <button id="btn-agregar-correo" type="button" class='btn-correo'>Agregar correo</button>
+                    </div>
+                    <div id="correos-agregados">
+                        <!-- Aquí se mostrarán los correos agregados -->
+                    </div>
+                </div>
             </div>
             <div id="cont-form-dia">
                 {% csrf_token %}

@@ -121,6 +121,8 @@ EMAIL_USE_TLS = True
 
 PASSWORD_RESET_TIMEOUT = 14400 
 
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 

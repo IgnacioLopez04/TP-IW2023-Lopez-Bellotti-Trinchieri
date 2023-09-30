@@ -22,6 +22,7 @@ class Viaje_General(models.Model):
     calificacion= models.IntegerField(null=True)
     mesDesde = models.ForeignKey(Mes, related_name='mes_desde', on_delete=models.SET_NULL, null=True, blank=True)
     mesHasta = models.ForeignKey(Mes, related_name='mes_hasta', on_delete=models.SET_NULL, null=True, blank=True)
+    esPrivado= models.BooleanField(null = True)
 
     def __str__(self):
         return  self.nombreViaje
