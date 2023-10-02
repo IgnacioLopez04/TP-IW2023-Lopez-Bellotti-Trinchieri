@@ -1,0 +1,3 @@
+{{ object.nombreDia }}
+{{ object.notas }}
+{{ object.destinos }}
