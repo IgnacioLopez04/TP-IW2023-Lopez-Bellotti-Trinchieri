@@ -18,7 +18,7 @@ class ViajeForm(forms.ModelForm):
         label="¿Y hasta cuándo?"
     )
     
-    esPrivado = forms.ChoiceField(choices=[(False, 'no'),(True, 'si'),], required=False, label="¿Desea que sea privado?")
+    esPrivado = forms.ChoiceField(choices=[(False, 'No'),(True, 'Si'),], required=False, label="¿Desea que sea privado?")
 
     class Meta:
         model = Viaje_General

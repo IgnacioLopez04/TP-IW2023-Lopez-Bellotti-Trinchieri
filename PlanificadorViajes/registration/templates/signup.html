@@ -3,7 +3,7 @@
 {% load static %}
 {%block estilo%}<link rel="stylesheet" href={%static 'CSS/signup.css'%}>{%endblock%}
 {%block content%}
-<main onclick='closeSidebar()'>
+<main>
     <section class="content-section">
         <form method="POST">
             {%csrf_token%}
