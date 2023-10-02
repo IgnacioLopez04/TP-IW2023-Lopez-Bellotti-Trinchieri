@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from SitioWeb import views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('api/', include('apis.urls')),
     path('googleMaps/', include('googleMaps.urls')),
     path('', include('allauth.urls')),
+    path('rebuild_index/', views.rebuild_index),
 ]
