@@ -1,0 +1,4 @@
+{{ object.nombreViaje }}
+{{ object.descripcion }}
+{{ object.mesDesde }}
+{{ object.mesHasta }}

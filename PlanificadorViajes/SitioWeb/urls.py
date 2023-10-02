@@ -4,4 +4,5 @@ from SitioWeb import views
 urlpatterns = [
     path('', views.inicio, name='sitio-inicio'),
     path('cargar-viaje/', include('viajes.urls')),
+    path('search/', include('haystack.urls')),
 ]
