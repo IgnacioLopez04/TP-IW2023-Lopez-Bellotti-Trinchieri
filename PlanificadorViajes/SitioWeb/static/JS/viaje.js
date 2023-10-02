@@ -2,6 +2,29 @@ const btnAgregarDia = document.getElementById('btn-agregar-dias');
 btnAgregarDia.addEventListener('click', agregar_dia);
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
 
+var numDiaViaje;
+
+function listarDestinosPorDia(listaDestinosPorDia) {
+
+    var formularioDia = document.getElementById('id-form-dia-' + numDiaViaje);
+
+    listaDestinosPorDia.forEach(element => {
+        var elementoDestino = document.createElement("div");
+        elementoDestino.textContent = element;
+        formularioDia.appendChild(elementoDestino);
+    });
+}
+
+
+function abrirMapa(event) {
+
+    let formularioAgregarDia = event.target.closest('.form-dia');
+    numDiaViaje = formularioAgregarDia.id.replace('id-form-dia-', '');
+
+    window.open('/googleMaps/cargarDestino/', 'Mapa', 'width=800,height=600');
+}
+
+
 //agregar correos
 src = "https://code.jquery.com/jquery-3.6.0.min.js"
 $(document).ready(function () {

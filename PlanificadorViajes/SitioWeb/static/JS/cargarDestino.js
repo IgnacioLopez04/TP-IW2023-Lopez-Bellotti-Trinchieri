@@ -1,5 +1,8 @@
 "use strict";
 
+//import { listarDestinosPorDia } from "./viaje";
+
+let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
 
 function initMap() {
@@ -7,7 +10,7 @@ function initMap() {
     const CONFIGURATION = {
         "ctaTitle": "Confirmar",
         "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true, "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true, "maxZoom": 22, "mapId": "" },
-        "mapsApiKey": "LLAVE",
+        "mapsApiKey": "AIzaSyD0JupwhoFwz8ZsNkVoF82sfMKS1Cr50Yk",
         "capabilities": { "addressAutocompleteControl": true, "mapDisplayControl": true, "ctaControl": true }
 
     };
@@ -100,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Crear un elemento de texto para mostrar el correo
         var elementoLocalidad = document.createElement("span");
         elementoLocalidad.textContent = localidad.value + ', ' + provincia.value;
+        listaDestinos.push(elementoLocalidad.textContent);
 
         // Crear un botón de eliminar
         var botonEliminar = document.createElement("button");
@@ -110,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
         botonEliminar.addEventListener("click", function () {
             destinosAgregados.removeChild(elementoLocalidad);
             destinosAgregados.removeChild(botonEliminar);
+            listaDestinos.removeChild(elementoLocalidad);
+
 
             // Verificar si es el último elemento y eliminar la coma si es necesario
             if (destinosAgregados.childNodes.length === 0) {
@@ -133,8 +139,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Agrega el evento click al botón "Confirmar destinos"
     const confirmarDestinosBtn = document.getElementById('confirmar-destinos');
     confirmarDestinosBtn.addEventListener('click', function () {
-        // Aca quiero que lea todas las provincias y localidades y las almacene de alguna manera en una lista para el html
 
+
+        listarDestinosPorDia(listaDestinos);
+        listaDestinos = [];
+        window.close();
     });
 });
 
