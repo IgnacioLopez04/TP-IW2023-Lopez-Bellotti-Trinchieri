@@ -135,6 +135,7 @@ function obtener_campos(lista, attr, texto) {
 
 function eliminar_dia(event) {
 
+
     const form_a_eliminar = event.target.closest('.form-dia');
     form_a_eliminar.setAttribute('class', 'hidden');
 

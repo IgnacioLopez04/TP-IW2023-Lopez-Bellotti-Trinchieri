@@ -86,7 +86,7 @@
             cursor: pointer;
         }
     </style>
-    <script src="{% static 'JS/cargarDestino.js' %}"> </script>
+
 
 </head>
 
@@ -96,25 +96,26 @@
             <div>
                 <img class="sb-title-icon"
                     src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
-                <span class="sb-title">¡Escriba su destino!</span>
+                <span class="sb-title">¡Encuentre sus destinos para el dia indicado!</span>
             </div>
-            <input type="text" placeholder="Direccion" id="location-input" />
+            <input type="text" placeholder="Ingrese la localidad" id="location-input" />
             <input type="text" placeholder="Ciudad" id="locality-input" />
             <div class="half-input-container">
                 <input type="text" class="half-input" placeholder="Provincia"
                     id="administrative_area_level_1-input" />
             </div>
-            <input type="text" placeholder="Pais" id="country-input" />
-            <input type="text" placeholder="Latitud" id="lat-input" />
-            <input type="text" placeholder="Longitud" id="long-input" />
-            <button class="button-cta">Confirmar</button>
+            <div id="destinos-agregados">
+                <!--aca van a ir los destinos agregados-->
+            </div>
+            <button id="agregar-destino" class="button-cta">Agregar destino</button>
+            <button id="confirmar-destinos" class="button-cta">Confirmar destinos</button>
         </div>
         <div class="map" id="gmp-map"></div>
     </div>
+    
+    <script  src="{% static 'JS/cargarDestino.js' %}" > </script>
     <script
-        
-        src="https://maps.googleapis.com/maps/api/js?key=""&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC"
-        async defer></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0JupwhoFwz8ZsNkVoF82sfMKS1Cr50Yk&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC"></script>
 </body>
 
 </html>

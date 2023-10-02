@@ -69,10 +69,10 @@ def detalle_viaje(request, viaje_id):
 
 def enviar_correos_privados(correos):
     # Configurar los datos del servidor SMTP y el correo remitente
-    smtp_server = 'tu_servidor_smtp.com'
-    smtp_port = 587
-    remitente = 'tu_correo@gmail.com'
-    password = 'tu_contraseña'
+    smtp_server = "{{ EMAIL_HOST }}"
+    smtp_port = "{{EMAIL_PORT}}"
+    remitente = "{{EMAIL_FROM}}"
+    password = "{{EMAIL_HOST_PASSWORD}}"
 
     # Crear el mensaje de correo
     mensaje = MIMEMultipart()
