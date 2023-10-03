@@ -5,23 +5,10 @@
 {% block estilo%}
     <link rel="stylesheet" href={%static 'CSS/detalle-viaje.css'%}>
     <style>
-        .card-container {
-            display: flex;
-            height: 500px;
-            width: 800px;
-        }
-
-        .panel {
-            background: white;
-            width: 500px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
         .map {
+            visibility: display;
             width: 800px;
+            height: 300px;
         }
 
     </style>
@@ -44,19 +31,33 @@
                     <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>
                 </div>
             </div>             
-            <script>
-                function initMap() {
-                    console.log("Inicializando el mapa...");
-                    const map = new google.maps.Map(document.getElementById("map"), {
-                        zoom: 10,
-                        center: { lat: -34.1122099, lng: -66.3874296 },
-                    });   
-                } 
-                window.initMap = initMap;
-            </script>
-            <div class='cont-dias-viajes'>
+             <div class='cont-dias-viajes'>
                 <h2>Días del Viaje</h2>
             </div>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+            <script>
+                var map;
+                // The following example creates complex markers to indicate beaches near
+                // Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+                // to the base of the flagpole.
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 5,
+                    center: { lat: -31.3990547, lng:  -64.3590263},
+                    });
+    
+                    setMarkers(map, -31.3990547, -64.3590263);
+                }
+                
+                function setMarkers(map, latitud, longitud) {
+                    // Adds markers to the map.
+                        new google.maps.Marker({
+                        position: { lat: latitud, lng: longitud},
+                        map,
+                    });
+                }    
+                window.initMap = initMap();
+            </script>
             <ul>
                 {% for dia in viaje.viaje_dia.all %}
                     <li class="li-viaje">
@@ -69,21 +70,35 @@
                                 <li class="li-dias">
                                     <p><strong>Nombre del Destino:</strong> {{ destino.nombre }}</p>
                                     <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>
-                                    {% comment %} Agrega más detalles del destino si es necesario{% endcomment %}
+                                    <script>
+                                        var latitud = parseFloat("{{ destino.latitud }}".replace(',', '.'));
+                                        var longitud = parseFloat("{{ destino.longitud }}".replace(',', '.'));
+                                        
+                                        console.log("longitud", longitud);
+                                        console.log("latitud", latitud);
+
+                                        setMarkers(map, longitud, latitud);
+
+                                        console.log("cargue el marcador");
+                                    </script>
                                 </li>
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
             </ul>
-            <section>
-                <div id="map"></div>
-                <script
-                src="https://maps.googleapis.com/maps/api/js?key=LLAVE&callback=initMap"></script>
-            </section>
         </div>
+       
+    </div>
+    </section>
+    <section id="mapita" >
+        <div class="map" id="map" ></div>
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=LLAVE&callback=initMap&v=weekly"></script>
     </section>
 </main>
 {% endblock %}
+
+
 
 
