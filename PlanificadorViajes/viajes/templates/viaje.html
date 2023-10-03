@@ -52,12 +52,6 @@
 {% endblock content%}
 {% block js %}
     <script src="{% static 'JS/viaje.js' %}"></script>
-
-    <script>
-        function abrirMapa() {
-            window.open('/googleMaps/cargarDestino/', 'Mapa', 'width=800,height=600');
-        }
-    </script>
     {% comment %} <script>
         var correos = document.getElementsByClassName('correo-span').textContent;
         console.log(correos); // Obtener el valor del span

@@ -36,11 +36,9 @@ def cargarViaje(request):
 
             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
             viaje_form.token = account_activation_token.make_token(viaje_form.usuario)
-            # data = json.loads(request.body)
-            # correos = data.get('correos', None)
-            # if es_privado and correos:
-
-            enviar_correos_privados(request,correos,viaje_form.token)
+            correos = request.POST.get("Correo", "").strip()
+            if correos:
+                enviar_correos_privados(request,correos,viaje_form.token)
             viaje_form.save()
 
 
@@ -105,50 +103,46 @@ def aceptar_solicitud(request, tk):
 
 def enviar_correos_privados(request, to_email, token):
     
-    # mail_subject = 'Invitacion a un viaje privado en Los Tres Viajeros'
-    # messages_content = render_to_string('invitacion_mail.html',{
-    #     'domain': get_current_site(request).domain,
-    #     'token': token,
-    #     'protocol': 'https' if request.is_secure() else 'http'
-    # }) 
+    mail_subject = 'Invitacion a un viaje privado en Los Tres Viajeros'
+    messages_content = render_to_string('invitacion_mail.html',{
+        'domain': get_current_site(request).domain,
+        'token': token,
+        'protocol': 'https' if request.is_secure() else 'http'
+    })
     
+    email = EmailMessage(mail_subject, messages_content, to=[to_email])
+    if email.send():
+        messages.success(request, f'La invitacion fue enviada.')
+    else:
+        messages.error(request, f'No envie el mail') 
+        
+    # Configurar los datos del servidor SMTP y el correo remitente
+    # smtp_server = "{{ EMAIL_HOST }}"
+    # smtp_port = "{{EMAIL_PORT}}"
+    # remitente = "{{EMAIL_FROM}}"
+    # password = "{{EMAIL_HOST_PASSWORD}}"
+
+    # # Crear el mensaje de correo
+    # mensaje = MIMEMultipart()
+    # mensaje['From'] = remitente
+    # mensaje['Subject'] = 'Invitación a un viaje privado en Los Tres Viajeros'
+
+    # # Cuerpo del mensaje
+    # mensaje.attach(MIMEText('¡Te invitamos a nuestro viaje privado!', 'plain'))
+
     # # Convertir la lista de correos en una lista separada por comas
     # destinatarios = to_email.split(',')
 
     # # Enviar el correo a cada destinatario
     # for destinatario in destinatarios:
-    #     email = EmailMessage(mail_subject, messages_content, to=[destinatario])
-    #     if email.send():
-    #         messages.success(request, f'La invitacion fue enviada.')
-    #     else:
-    #         messages.error(request, f'No envie el mail')
-    # Configurar los datos del servidor SMTP y el correo remitente
-    smtp_server = "{{ EMAIL_HOST }}"
-    smtp_port = "{{EMAIL_PORT}}"
-    remitente = "{{EMAIL_FROM}}"
-    password = "{{EMAIL_HOST_PASSWORD}}"
-
-    # Crear el mensaje de correo
-    mensaje = MIMEMultipart()
-    mensaje['From'] = remitente
-    mensaje['Subject'] = 'Invitación a un viaje privado en Los Tres Viajeros'
-
-    # Cuerpo del mensaje
-    mensaje.attach(MIMEText('¡Te invitamos a nuestro viaje privado!', 'plain'))
-
-    # Convertir la lista de correos en una lista separada por comas
-    destinatarios = to_email.split(',')
-
-    # Enviar el correo a cada destinatario
-    for destinatario in destinatarios:
-        mensaje['To'] = destinatario
-        try:
-            # Iniciar una conexión SMTP y enviar el correo
-            server = smtplib.SMTP(smtp_server, smtp_port)
-            server.starttls()
-            server.login(remitente, password)
-            server.sendmail(remitente, destinatario, mensaje.as_string())
-            server.quit()
-        except Exception as e:
-            # Manejar errores de envío de correo
-            print(f"Error al enviar correo a {destinatario}: {str(e)}")
+    #     mensaje['To'] = destinatario
+    #     try:
+    #         # Iniciar una conexión SMTP y enviar el correo
+    #         server = smtplib.SMTP(smtp_server, smtp_port)
+    #         server.starttls()
+    #         server.login(remitente, password)
+    #         server.sendmail(remitente, destinatario, mensaje.as_string())
+    #         server.quit()
+    #     except Exception as e:
+    #         # Manejar errores de envío de correo
+    #         print(f"Error al enviar correo a {destinatario}: {str(e)}")

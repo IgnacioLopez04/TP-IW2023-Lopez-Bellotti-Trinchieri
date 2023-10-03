@@ -1,6 +1,6 @@
 "use strict";
 
-import { listarDestinosPorDia } from "./viaje";
+// import { listarDestinosPorDia } from "./viaje";
 
 let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
@@ -10,7 +10,7 @@ function initMap() {
     const CONFIGURATION = {
         "ctaTitle": "Confirmar",
         "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true, "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true, "maxZoom": 22, "mapId": "" },
-        "mapsApiKey": "LLAVE",
+        "mapsApiKey": "AIzaSyCIr_ygi96SeCiat2TllseED26gZu3fVHw",
         "capabilities": { "addressAutocompleteControl": true, "mapDisplayControl": true, "ctaControl": true }
 
     };
@@ -78,7 +78,6 @@ function initMap() {
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -22,7 +22,7 @@ function abrirMapa() {
 
     numDiaViaje = formularioAgregarDia.id.replace('id-form-dia-', '');
 
-    window.open('/googleMaps/cargarDestino/?numDia=${numDiaViaje}', 'Mapa', 'width=800,height=600');
+    window.open(`/googleMaps/cargarDestino/${numDiaViaje}`, 'Mapa', 'width=800,height=600');
 }
 
 //agregar correos
