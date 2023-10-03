@@ -4,8 +4,27 @@
 {% block title %}VIAJE{% endblock %}
 {% block estilo%}
     <link rel="stylesheet" href={%static 'CSS/detalle-viaje.css'%}>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script type="module" src="./index.js"></script>
+    <style>
+        .card-container {
+            display: flex;
+            height: 500px;
+            width: 800px;
+        }
+
+        .panel {
+            background: white;
+            width: 500px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .map {
+            width: 800px;
+        }
+
+    </style>
 {%endblock%}
 {% block content %}
 <main onclick='closeSidebar()'>
@@ -27,28 +46,12 @@
             </div>             
             <script>
                 function initMap() {
+                    console.log("Inicializando el mapa...");
                     const map = new google.maps.Map(document.getElementById("map"), {
                         zoom: 10,
                         center: { lat: -34.1122099, lng: -66.3874296 },
                     });   
-                    setMarkers(map);
                 } 
-
-                function setMarkers(map) {
-                    // Adds markers to the map.
-                    for (let i = 0; i < beaches.length; i++) {
-                        const beach = beaches[i];
-        
-                        new google.maps.Marker({
-                            position: { lat: beach[1], lng: beach[2] },
-                            map,
-                            //icon: image,
-                            //shape: shape,
-                            title: beach[0],
-                            zIndex: beach[3],
-                        });
-                    }
-
                 window.initMap = initMap;
             </script>
             <div class='cont-dias-viajes'>
@@ -73,16 +76,10 @@
                     </li>
                 {% endfor %}
             </ul>
-            <style>
-                #map {
-                    height: 100%;
-                }
-            </style>
             <section>
                 <div id="map"></div>
                 <script
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHgRZg1XtSxAqgCH0zOmxS8cn_BZdKqWM&callback=initMap&v=weekly"
-                defer></script>
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0JupwhoFwz8ZsNkVoF82sfMKS1Cr50Yk&callback=initMap"></script>
             </section>
         </div>
     </section>

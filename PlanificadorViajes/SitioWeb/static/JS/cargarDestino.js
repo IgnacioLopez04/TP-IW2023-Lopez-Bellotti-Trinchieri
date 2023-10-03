@@ -1,6 +1,6 @@
 "use strict";
 
-//import { listarDestinosPorDia } from "./viaje";
+import { listarDestinosPorDia } from "./viaje";
 
 let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var elementoLocalidad = document.createElement("span");
         elementoLocalidad.textContent = localidad.value + ', ' + provincia.value;
         listaDestinos.push(elementoLocalidad.textContent);
-
+        console.log(listaDestinos);
         // Crear un botón de eliminar
         var botonEliminar = document.createElement("button");
         botonEliminar.textContent = "Eliminar";
@@ -140,10 +140,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmarDestinosBtn = document.getElementById('confirmar-destinos');
     confirmarDestinosBtn.addEventListener('click', function () {
 
-
-        listarDestinosPorDia(listaDestinos);
+        listarDestinosPorDia(listaDestinos, numDia());
         listaDestinos = [];
         window.close();
     });
+
+    function numDia() {
+        // capturamos la url
+        var loc = document.location.href;
+        // si existe el interrogante
+        if (loc.indexOf('?') > 0) {
+            // cogemos la parte de la url que hay despues del interrogante
+            var getString = loc.split('?')[1];
+            // obtenemos un array con cada clave=valor
+            var GET = getString.split('&');
+            var get = {};
+            // recorremos todo el array de valores
+            for (var i = 0, l = GET.length; i < l; i++) {
+                var tmp = GET[i].split('=');
+                get[tmp[0]] = unescape(decodeURI(tmp[1]));
+            }
+            return get;
+        }
+    }
 });
 
