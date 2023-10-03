@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (correoValido) {
             // Crear un elemento de texto para mostrar el correo
             var elementoCorreo = document.createElement("span");
+            elementoCorreo.className = 'correo-span';
             elementoCorreo.textContent = correo;
             // Crear un botón de eliminar
             var botonEliminar = document.createElement("button");

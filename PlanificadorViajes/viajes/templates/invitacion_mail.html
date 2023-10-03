@@ -1,0 +1,6 @@
+{% autoescape off %}
+Hola!
+
+Por favor, haz click en el enlace de abajo para aceptar la invitacion al viaje.
+{{ domain }}{% url 'aceptar-solicitud' token=token %}
+{% endautoescape %}

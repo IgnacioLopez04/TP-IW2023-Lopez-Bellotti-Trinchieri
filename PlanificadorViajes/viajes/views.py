@@ -10,6 +10,17 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth import get_user_model
+from registration.token import account_activation_token
+from django.contrib import messages
+import json
+from django.http import JsonResponse
+
 @login_required
 def cargarViaje(request):
     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
@@ -24,15 +35,18 @@ def cargarViaje(request):
             viaje_form.usuario = request.user
 
             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
+            viaje_form.token = account_activation_token.make_token(viaje_form.usuario)
+            # data = json.loads(request.body)
+            # correos = data.get('correos', None)
+            # if es_privado and correos:
+
+            enviar_correos_privados(request,correos,viaje_form.token)
             viaje_form.save()
 
 
         #ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
         es_privado = viaje_form.esPrivado
-        correos = request.POST.get("Correos", "").strip()
-        if es_privado and correos:
-                enviar_correos_privados(correos)
-
+        
         if dia_formset.is_valid():
             cant_dias = 0
 
@@ -62,12 +76,52 @@ def cargarViaje(request):
     })
 
 
-def detalle_viaje(request, viaje_id):
+def detalle_viaje(request, viaje_id): 
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
-    return render(request, 'detalle-viaje.html', {'viaje': viaje})
+    
+    if request.user == viaje.usuario:
+        return render(request, 'detalle-viaje.html', {'viaje': viaje})
+    else:
+        messages.error(request, f'El viaje es privado. No tenes acceso.')
+        return redirect('sitio-inicio')
 
+def detalle_viaje_token(request, tk):
+    viaje = get_object_or_404(Viaje_General, token=tk)
+    
+    if viaje is not None:
+        return render(request, 'detalle-viaje.html', {'viaje': viaje})
+    else:
+        messages.error(request, f'No se encontro el viaje.')
+        return redirect('sitio-inicio')
 
-def enviar_correos_privados(correos):
+def aceptar_solicitud(request, tk):
+    try:
+        viaje = get_object_or_404(Viaje_General, token = tk)
+    except:
+        viaje = None
+    if viaje is not None and account_activation_token(viaje, tk):
+        return redirect('detalle-viaje-token')
+    return redirect('usuario')
+
+def enviar_correos_privados(request, to_email, token):
+    
+    # mail_subject = 'Invitacion a un viaje privado en Los Tres Viajeros'
+    # messages_content = render_to_string('invitacion_mail.html',{
+    #     'domain': get_current_site(request).domain,
+    #     'token': token,
+    #     'protocol': 'https' if request.is_secure() else 'http'
+    # }) 
+    
+    # # Convertir la lista de correos en una lista separada por comas
+    # destinatarios = to_email.split(',')
+
+    # # Enviar el correo a cada destinatario
+    # for destinatario in destinatarios:
+    #     email = EmailMessage(mail_subject, messages_content, to=[destinatario])
+    #     if email.send():
+    #         messages.success(request, f'La invitacion fue enviada.')
+    #     else:
+    #         messages.error(request, f'No envie el mail')
     # Configurar los datos del servidor SMTP y el correo remitente
     smtp_server = "{{ EMAIL_HOST }}"
     smtp_port = "{{EMAIL_PORT}}"
@@ -83,7 +137,7 @@ def enviar_correos_privados(correos):
     mensaje.attach(MIMEText('¡Te invitamos a nuestro viaje privado!', 'plain'))
 
     # Convertir la lista de correos en una lista separada por comas
-    destinatarios = correos.split(',')
+    destinatarios = to_email.split(',')
 
     # Enviar el correo a cada destinatario
     for destinatario in destinatarios:

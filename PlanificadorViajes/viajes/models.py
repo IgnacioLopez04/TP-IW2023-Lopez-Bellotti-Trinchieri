@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 class Mes(models.Model):
     nombreMes = models.CharField(max_length=20)
@@ -23,6 +24,8 @@ class Viaje_General(models.Model):
     mesDesde = models.ForeignKey(Mes, related_name='mes_desde', on_delete=models.SET_NULL, null=True, blank=True)
     mesHasta = models.ForeignKey(Mes, related_name='mes_hasta', on_delete=models.SET_NULL, null=True, blank=True)
     esPrivado= models.BooleanField(null = True)
+    token = models.CharField(max_length=250, null=True, blank=True)
+    # usuariosPermitidos = ArrayField(models.CharField(max_length=250), null=True, default=list)
 
     def __str__(self):
         return  self.nombreViaje
