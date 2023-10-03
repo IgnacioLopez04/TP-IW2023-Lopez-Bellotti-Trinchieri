@@ -1,5 +1,8 @@
 "use strict";
 
+import { listarDestinosPorDia } from "./viaje";
+
+let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
 
 function initMap() {
@@ -100,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // Crear un elemento de texto para mostrar el correo
         var elementoLocalidad = document.createElement("span");
         elementoLocalidad.textContent = localidad.value + ', ' + provincia.value;
-
+        listaDestinos.push(elementoLocalidad.textContent);
+        console.log(listaDestinos);
         // Crear un botón de eliminar
         var botonEliminar = document.createElement("button");
         botonEliminar.textContent = "Eliminar";
@@ -110,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
         botonEliminar.addEventListener("click", function () {
             destinosAgregados.removeChild(elementoLocalidad);
             destinosAgregados.removeChild(botonEliminar);
+            listaDestinos.removeChild(elementoLocalidad);
+
 
             // Verificar si es el último elemento y eliminar la coma si es necesario
             if (destinosAgregados.childNodes.length === 0) {
@@ -133,8 +139,29 @@ document.addEventListener('DOMContentLoaded', function () {
     // Agrega el evento click al botón "Confirmar destinos"
     const confirmarDestinosBtn = document.getElementById('confirmar-destinos');
     confirmarDestinosBtn.addEventListener('click', function () {
-        // Aca quiero que lea todas las provincias y localidades y las almacene de alguna manera en una lista para el html
 
+        listarDestinosPorDia(listaDestinos, numDia());
+        listaDestinos = [];
+        window.close();
     });
+
+    function numDia() {
+        // capturamos la url
+        var loc = document.location.href;
+        // si existe el interrogante
+        if (loc.indexOf('?') > 0) {
+            // cogemos la parte de la url que hay despues del interrogante
+            var getString = loc.split('?')[1];
+            // obtenemos un array con cada clave=valor
+            var GET = getString.split('&');
+            var get = {};
+            // recorremos todo el array de valores
+            for (var i = 0, l = GET.length; i < l; i++) {
+                var tmp = GET[i].split('=');
+                get[tmp[0]] = unescape(decodeURI(tmp[1]));
+            }
+            return get;
+        }
+    }
 });
 

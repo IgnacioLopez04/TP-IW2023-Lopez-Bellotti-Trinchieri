@@ -49,3 +49,13 @@ def inicio(request):
     }
     return render(request, 'inicio.html', contexto)
 
+def rebuild_index(request):
+    from django.core.management import call_command
+    from django.http import JsonResponse
+    try:
+        call_command("rebuild_index", noinput=False)
+        result = "Index rebuilt"
+    except Exception as err:
+        result = f"Error: {err}"
+
+    return JsonResponse({"result": result})

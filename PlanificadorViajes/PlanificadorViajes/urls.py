@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from SitioWeb import views
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -25,4 +27,6 @@ urlpatterns = [
     path('api/', include('apis.urls')),
     path('googleMaps/', include('googleMaps.urls')),
     path('', include('allauth.urls')),
+    path('rebuild_index/', views.rebuild_index),
+    path('robots.txt/', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ]
