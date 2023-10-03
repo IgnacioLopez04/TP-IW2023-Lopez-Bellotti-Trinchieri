@@ -1,6 +1,6 @@
 "use strict";
 
-import { listarDestinosPorDia } from "./viaje";
+//import { listarDestinosPorDia } from "./viaje"; LOS ODIO
 
 let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
@@ -9,8 +9,10 @@ function initMap() {
 
     const CONFIGURATION = {
         "ctaTitle": "Confirmar",
-        "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true, "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true, "maxZoom": 22, "mapId": "" },
-        "mapsApiKey": "LLAVE",
+        "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true,
+                        "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true,
+                        "maxZoom": 22, "mapId": "" },
+        "mapsApiKey": "AIzaSyD0JupwhoFwz8ZsNkVoF82sfMKS1Cr50Yk",
         "capabilities": { "addressAutocompleteControl": true, "mapDisplayControl": true, "ctaControl": true }
 
     };
@@ -140,28 +142,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmarDestinosBtn = document.getElementById('confirmar-destinos');
     confirmarDestinosBtn.addEventListener('click', function () {
 
-        listarDestinosPorDia(listaDestinos, numDia());
-        listaDestinos = [];
+        const urlActual = window.location.href;
+        const matches = urlActual.match(/\/(\d+)$/);
+        var ultimoNumero = parseInt(matches[1]);
+
+        const objetoJSON = {
+            destinos: listaDestinos,
+            num_dia: ultimoNumero
+        };
+
+        let nuevoJson = JSON.stringify(objetoJSON)
+
+        window.opener.recibirDestinos(nuevoJson);
+
+        //listarDestinosPorDia(listaDestinos, ultimoNumero);
         window.close();
     });
-
-    function numDia() {
-        // capturamos la url
-        var loc = document.location.href;
-        // si existe el interrogante
-        if (loc.indexOf('?') > 0) {
-            // cogemos la parte de la url que hay despues del interrogante
-            var getString = loc.split('?')[1];
-            // obtenemos un array con cada clave=valor
-            var GET = getString.split('&');
-            var get = {};
-            // recorremos todo el array de valores
-            for (var i = 0, l = GET.length; i < l; i++) {
-                var tmp = GET[i].split('=');
-                get[tmp[0]] = unescape(decodeURI(tmp[1]));
-            }
-            return get;
-        }
-    }
 });
 

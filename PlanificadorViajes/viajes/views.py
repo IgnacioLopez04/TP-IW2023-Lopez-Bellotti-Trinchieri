@@ -38,9 +38,8 @@ def cargarViaje(request):
             viaje_form.token = account_activation_token.make_token(viaje_form.usuario)
             # data = json.loads(request.body)
             # correos = data.get('correos', None)
-            # if es_privado and correos:
-
-            enviar_correos_privados(request,correos,viaje_form.token)
+            #if correos:
+            #    enviar_correos_privados(request,correos,viaje_form.token)
             viaje_form.save()
 
 
