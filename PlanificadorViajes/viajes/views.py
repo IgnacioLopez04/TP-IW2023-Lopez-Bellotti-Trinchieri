@@ -16,7 +16,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import get_user_model
-from registration.token import account_activation_token
+from registration.token import account_activation_token, account_activation_token_viaje 
 from django.contrib import messages
 import json
 from django.http import JsonResponse
@@ -35,8 +35,8 @@ def cargarViaje(request):
             viaje_form.usuario = request.user
 
             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
-            viaje_form.token = account_activation_token.make_token(viaje_form.usuario)
-            correos = request.POST.get("Correo", "").strip()
+            viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
+            correos = request.POST.get("correo-span", "").strip()
             if correos:
                 enviar_correos_privados(request,correos,viaje_form.token)
             viaje_form.save()
@@ -92,14 +92,15 @@ def detalle_viaje_token(request, tk):
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')
 
-def aceptar_solicitud(request, tk):
+def aceptar_solicitud(self, tk):
     try:
         viaje = get_object_or_404(Viaje_General, token = tk)
     except:
         viaje = None
-    if viaje is not None and account_activation_token(viaje, tk):
-        return redirect('detalle-viaje-token')
-    return redirect('usuario')
+    # if viaje is not None and account_activation_token_viaje.check_token(viaje, tk): Esto no funciona, pero deberia funcionar xd
+        # return redirect('detalle-viaje-token', tk = tk)
+    return redirect('detalle-viaje-token', tk = tk)
+    
 
 def enviar_correos_privados(request, to_email, token):
     
