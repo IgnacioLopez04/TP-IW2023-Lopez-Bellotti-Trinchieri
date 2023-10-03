@@ -59,7 +59,7 @@ def cargarViaje(request):
                 cant_dias += 1
 
                 destinos_seleccionados = f.cleaned_data.get('destinos')
-                f_instance.destinos.set([destinos_seleccionados])  # Agregar los destinos a la relación many-to-many
+                f_instance.destinos.set([destinos_seleccionados])
 
             viaje_form.cantidadDias = cant_dias
             viaje_form.save()
