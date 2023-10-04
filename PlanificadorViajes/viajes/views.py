@@ -25,6 +25,8 @@ from django.http import JsonResponse
 def cargarViaje(request):
     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
 
+    correos = []
+    
     if request.method == 'POST':
         # form = ViajeForm(request.POST, meses_dict = meses_dict)
         viaje_form = ViajeForm(request.POST)
@@ -37,9 +39,14 @@ def cargarViaje(request):
             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
 
             viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
-            correos = request.POST.get("correo-span", "").strip()
-            if correos:
-                enviar_correos_privados(request,correos,viaje_form.token)
+            for key in request.POST.keys():
+                if key.startswith('correo-span'):
+                    print(key)
+                    correo = request.POST.get(key, '')
+                    correos.append(correo)
+            
+            for correo in correos:
+                enviar_correos_privados(request,correo,viaje_form.token)
             viaje_form.save()
 
 
@@ -79,6 +86,12 @@ def detalle_viaje(request, viaje_id):
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
     
     if request.user == viaje.usuario:
+        
+        if request.method == 'POST':
+            correo = request.POST.get('correo', '')
+            if correo:
+                enviar_correos_privados(request,correo,viaje.token)
+        
         return render(request, 'detalle-viaje.html', {'viaje': viaje})
     else:
         messages.error(request, f'El viaje es privado. No tenes acceso.')
@@ -118,33 +131,3 @@ def enviar_correos_privados(request, to_email, token):
     else:
         messages.error(request, f'No envie el mail') 
         
-    # Configurar los datos del servidor SMTP y el correo remitente
-    # smtp_server = "{{ EMAIL_HOST }}"
-    # smtp_port = "{{EMAIL_PORT}}"
-    # remitente = "{{EMAIL_FROM}}"
-    # password = "{{EMAIL_HOST_PASSWORD}}"
-
-    # # Crear el mensaje de correo
-    # mensaje = MIMEMultipart()
-    # mensaje['From'] = remitente
-    # mensaje['Subject'] = 'Invitación a un viaje privado en Los Tres Viajeros'
-
-    # # Cuerpo del mensaje
-    # mensaje.attach(MIMEText('¡Te invitamos a nuestro viaje privado!', 'plain'))
-
-    # # Convertir la lista de correos en una lista separada por comas
-    # destinatarios = to_email.split(',')
-
-    # # Enviar el correo a cada destinatario
-    # for destinatario in destinatarios:
-    #     mensaje['To'] = destinatario
-    #     try:
-    #         # Iniciar una conexión SMTP y enviar el correo
-    #         server = smtplib.SMTP(smtp_server, smtp_port)
-    #         server.starttls()
-    #         server.login(remitente, password)
-    #         server.sendmail(remitente, destinatario, mensaje.as_string())
-    #         server.quit()
-    #     except Exception as e:
-    #         # Manejar errores de envío de correo
-    #         print(f"Error al enviar correo a {destinatario}: {str(e)}")
