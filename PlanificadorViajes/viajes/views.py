@@ -25,6 +25,8 @@ from django.http import JsonResponse
 def cargarViaje(request):
     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
 
+    correos = []
+    
     if request.method == 'POST':
         # form = ViajeForm(request.POST, meses_dict = meses_dict)
         viaje_form = ViajeForm(request.POST)
@@ -36,9 +38,14 @@ def cargarViaje(request):
 
             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
             viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
-            correos = request.POST.get("correo-span", "").strip()
-            if correos:
-                enviar_correos_privados(request,correos,viaje_form.token)
+            for key in request.POST.keys():
+                if key.startswith('correo-span'):
+                    print(key)
+                    correo = request.POST.get(key, '')
+                    correos.append(correo)
+            
+            for correo in correos:
+                enviar_correos_privados(request,correo,viaje_form.token)
             viaje_form.save()
 
 

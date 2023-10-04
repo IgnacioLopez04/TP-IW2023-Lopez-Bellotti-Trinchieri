@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (correoValido) {
             // Crear un elemento de texto para mostrar el correo
             var elementoCorreo = document.createElement("span");
-            elementoCorreo.className = 'correo-span';
             elementoCorreo.textContent = correo;
             var elementoCorreoOculto = document.createElement('input');
             elementoCorreoOculto.setAttribute('type', 'hidden')
