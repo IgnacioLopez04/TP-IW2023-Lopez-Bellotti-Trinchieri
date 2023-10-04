@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Crear un elemento de texto para mostrar el correo
             var elementoCorreo = document.createElement("span");
             elementoCorreo.textContent = correo;
-            var elementoCorreoOculto = document.createElement('input');
+            var elementoCorreoOculto = document.createElement('input'); //se crea un input oculto para obtener los valores de los mails
             elementoCorreoOculto.setAttribute('type', 'hidden')
             elementoCorreoOculto.setAttribute('name', 'correo-span')
             elementoCorreoOculto.setAttribute('value', correo)
