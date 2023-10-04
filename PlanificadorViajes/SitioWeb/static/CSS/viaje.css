@@ -54,6 +54,7 @@ form{
 }
 /* descripcion viaje */
 #cont-form-viaje{
+    width: 100%;
     padding: 10px 0px;
     margin-bottom: 10px;
     border-bottom: 2px dotted #ff8000;
@@ -125,3 +126,45 @@ button:hover{
     background-color: #ff8000;
 }
 /* fin form */
+/* Eliminar correo */
+.btn-eliminar{
+    margin-left: 10px;
+
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.btn-eliminar svg{
+    fill: black;
+}
+
+.btn-eliminar:hover{
+    background-color: red;
+}
+
+#correos-agregados{
+    display: flex;
+    flex-direction: column;
+}
+
+.div-correo{
+    max-width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+
+    display: flex;
+    align-items: center;
+}
+
+.div-correo span{
+    flex-grow: 1;
+    flex: 1; /* Hacer que el span se expanda automáticamente */
+    white-space: nowrap; /* Evitar que el contenido se rompa en varias líneas */
+    overflow: hidden; /* Ocultar el contenido que no cabe en el espacio disponible */
+    text-overflow: ellipsis;
+    max-width: none;
+}
+/* fin eliminar correo */

@@ -52,13 +52,4 @@
 {% endblock content%}
 {% block js %}
     <script src="{% static 'JS/viaje.js' %}"></script>
-    {% comment %} <script>
-        var correos = document.getElementsByClassName('correo-span').textContent;
-        console.log(correos); // Obtener el valor del span
-        // Enviar el valor al servidor utilizando una solicitud AJAX
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/sitio/cargar-viaje/', true);  // Reemplaza '/tu-vista/' con la URL de tu vista
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify({ correos: correos}));
-    </script> {% endcomment %}
 {% endblock js %}
