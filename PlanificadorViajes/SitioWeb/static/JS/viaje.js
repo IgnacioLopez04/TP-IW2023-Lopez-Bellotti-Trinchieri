@@ -39,6 +39,11 @@ document.addEventListener("DOMContentLoaded", function () {
             var elementoCorreo = document.createElement("span");
             elementoCorreo.className = 'correo-span';
             elementoCorreo.textContent = correo;
+            var elementoCorreoOculto = document.createElement('input');
+            elementoCorreoOculto.setAttribute('type', 'hidden')
+            elementoCorreoOculto.setAttribute('name', 'correo-span')
+            elementoCorreoOculto.setAttribute('value', correo)
+            elementoCorreo.appendChild(elementoCorreoOculto)
             // Crear un botón de eliminar
             var botonEliminar = document.createElement("button");
             botonEliminar.textContent = "Eliminar";

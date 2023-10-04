@@ -1,6 +1,6 @@
 "use strict";
 
-//import { listarDestinosPorDia } from "./viaje"; LOS ODIO
+// import { listarDestinosPorDia } from "./viaje";
 
 let listaDestinos = []
 const getFormInputElement = (component) => document.getElementById(component + '-input');
@@ -80,7 +80,6 @@ function initMap() {
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
