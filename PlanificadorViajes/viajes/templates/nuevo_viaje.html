@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Viaje{% endblock title%}
+{%block estilo%}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
+{%endblock%}
+
+{% block content%}
+
+<main>
+  <section class="cont-form-viaje">
+        <div id="cont-titulo">
+          <h1>Empieza a organizar tu <span>itinerario</span>!</h1>
+        </div>
+        <div id="divisor"></div>
+        <form method="post">
+            <div id="cont-form-viaje">
+                {% csrf_token %}
+                <div class="cont-form">
+                    {{ viaje_form.as_p }}
+                </div>
+                <div id="usuarios-a-invitar" style="display: none;">
+                    <p>Correos de los usuarios que deseas invitar:</p>
+                    <input type="text" id="correos" name="Correos">
+                    <div class="btn-carga">
+                        <button id="btn-agregar-correo" type="button" class='btn-correo'>Agregar correo</button>
+                    </div>
+                    <div id="correos-agregados">
+                        <!-- Aquí se mostrarán los correos agregados -->
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!--- Modals --->
+        <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+        </div>
+
+      <!--- Boton para crear un dia --->
+      <button id="create-dia-viaje" class="btn btn-primary" type="button" name="button">Cargar Dia</button>
+
+      {% for dia in dias_viaje %}
+        <div class="text-center">
+          <!-- Boton para leer la info del dia -->
+          <button type="button" class="read-dia-viaje bs-modal btn btn-sm btn-primary" data-form-url="{% url 'read-dia-viaje' dia.pk %}">
+            <span class="fa fa-eye">Detalles</span>
+          </button>
+          <!-- Boton para actualizar el dia -->
+          <button type="button" class="update-dia-viaje bs-modal btn btn-sm btn-primary" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
+            <span class="fa fa-pencil">Actualizar</span>
+          </button>
+          <!-- Boton para eliminar el dia -->
+          <button type="button" class="delete-dia-viaje bs-modal btn btn-sm btn-danger" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
+            <span class="fa fa-trash">Eliminar</span>
+          </button>
+        </div>
+    {% endfor %}
+    </section>
+
+</main>
+
+{% endblock content%}
+{% block js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script>
+
+    <script type="text/javascript">
+      $(function () {
+
+        // Boton leer dias
+        $(".read-dia-viaje").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url")});
+        });
+
+        // Boton eliminar dias - formURL is retrieved from the data of the element
+        $(".delete-dia-viaje").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+        });
+
+        // Boton crear dias, opens form in modal with id="create-modal"
+        $("#create-dia-viaje").modalForm({
+            formURL: "{% url 'create-dia-viaje' %}",
+            modalID: "#create-modal"
+        });
+
+      });
+    </script>
+
+    <!---<script src="{% static 'JS/viaje.js' %}"></script>--->
+    {% comment %} <script>
+        var correos = document.getElementsByClassName('correo-span').textContent;
+        console.log(correos); // Obtener el valor del span
+        // Enviar el valor al servidor utilizando una solicitud AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sitio/cargar-viaje/', true);  // Reemplaza '/tu-vista/' con la URL de tu vista
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify({ correos: correos}));
+    </script> {% endcomment %}
+{% endblock js %}
