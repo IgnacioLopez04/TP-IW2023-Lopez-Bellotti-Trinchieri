@@ -21,6 +21,8 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse
 
+### PRUEBA ###
+from viajes.forms import DiaViajeForm
 @login_required
 def cargarViaje(request):
     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
@@ -130,4 +132,104 @@ def enviar_correos_privados(request, to_email, token):
         messages.success(request, f'La invitacion fue enviada.')
     else:
         messages.error(request, f'No envie el mail') 
-        
+
+### PRUEBA DEL NUEVO CARGAR VIAJE ###
+
+@login_required
+def cargarViaje_prueba_(request):
+    correos = []
+
+    if request.method == 'POST':
+        viaje_form = ViajeForm(request.POST)
+        dia_form = DiaViajeForm(request.POST)
+
+        if viaje_form.is_valid():
+            viaje_form = viaje_form.save(commit=False)
+            viaje_form.usuario = request.user
+
+            viaje_form.calificacion = random.randint(1, 5)  # le doy una calificacion aleatoria por ahora para que ande el filtro
+
+            viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
+            for key in request.POST.keys():
+                if key.startswith('correo-span'):
+                    print(key)
+                    correo = request.POST.get(key, '')
+                    correos.append(correo)
+
+            for correo in correos:
+                enviar_correos_privados(request, correo, viaje_form.token)
+            viaje_form.save()
+
+        # ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
+        es_privado = viaje_form.esPrivado
+
+        if dia_form.is_valid():
+            cant_dias = 0
+
+            for f in dia_form:
+                if f in dia_form.deleted_forms:
+                    continue
+                f_instance = f.save(commit=False)
+                f_instance.viaje = viaje_form
+                f_instance.save()
+
+                cant_dias += 1
+
+            viaje_form.cantidadDias = cant_dias
+            viaje_form.save()
+
+            return redirect('cargar-dia-viaje')
+    else:
+        viaje_form = ViajeForm()
+        dia_form = DiaViajeForm()
+
+    dias_viaje = Viaje_Dia.objects.all() # filtrar y devolver solo los de ese dia
+    # por ahora devuelvo todos para testear
+
+    return render(request, 'nuevo_viaje.html', {
+        'dias_viaje' : dias_viaje,
+        'viaje_form': viaje_form,
+        'dia_form': dia_form,
+    })
+
+from django.urls import reverse_lazy
+from django.views import generic
+from .forms import DiaViajeForm
+from .models import Viaje_Dia
+from bootstrap_modal_forms.generic import (
+  BSModalCreateView,
+  BSModalUpdateView,
+  BSModalReadView,
+  BSModalDeleteView
+)
+class Index(generic.ListView):
+    model = Viaje_Dia
+    context_object_name = 'dias_viaje'
+    template_name = 'nuevo_viaje.html'
+
+#CREAR
+class DiaViajeCreateView(BSModalCreateView):
+    template_name= 'CRUD-dia-viaje/crear-dia-viaje.html'
+    form_class = DiaViajeForm
+    success_message = 'El dia fue cargado con exito!'
+    success_url = reverse_lazy('cargar-viaje-prueba')
+
+#ACTUALIZAR
+class DiaViajeUpdateView(BSModalUpdateView):
+    model = Viaje_Dia
+    template_name = 'CRUD-dia-viaje/actualizar-dia-viaje.html'
+    form_class = DiaViajeForm
+    success_message = 'Success: Book was updated.'
+    success_url = reverse_lazy('cargar-viaje-prueba')
+
+# LEER
+class DiaViajeReadView(BSModalReadView):
+    model = Viaje_Dia
+    template_name = 'CRUD-dia-viaje/leer-dia-viaje.html'
+
+# ELIMINAR
+class DiaViajeDeleteView(BSModalDeleteView):
+    model = Viaje_Dia
+    template_name = 'CRUD-dia-viaje/eliminar-dia-viaje.html'
+    success_message = 'El dia fue eliminado con exito!'
+    success_url = reverse_lazy('cargar-viaje-prueba')

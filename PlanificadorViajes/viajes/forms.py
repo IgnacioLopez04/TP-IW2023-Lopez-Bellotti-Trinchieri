@@ -34,10 +34,17 @@ class CargarDiaViajeForm(forms.ModelForm):
 
     def save(self, commit=True):
         dia_viaje = super().save(commit=False)
-        dia_viaje.save() 
+        dia_viaje.save()
         return dia_viaje
 
     class Meta:
         model = Viaje_Dia
         fields = ['nombreDia', 'notas']
 
+### PRUEBAS ###
+
+from bootstrap_modal_forms.forms import BSModalModelForm
+class DiaViajeForm(BSModalModelForm):
+    class Meta:
+        model = Viaje_Dia
+        fields = ['nombreDia', 'notas']
