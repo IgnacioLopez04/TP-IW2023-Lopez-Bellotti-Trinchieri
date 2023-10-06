@@ -41,7 +41,8 @@
             verTodosLosDestinos(map);
         }
         
-        function setMarkers(map, latitud, longitud, color) {
+        function setMarkers(map, latitud, longitud, color, nombreDestino) {
+           
             // Adds markers to the map.
             var marker = new google.maps.Marker({
                 position: { lat: latitud, lng: longitud},
@@ -53,7 +54,8 @@
                     strokeColor: '#FFFFFF',
                     strokeWeight: 2,
                     scale: 2, 
-                }
+                },
+                title: nombreDestino
             });
            
            return marker;
@@ -80,7 +82,7 @@
                         colorMarcador=generarColorAleatorioUnico();
                     }  
 
-                    var marker= setMarkers(map, latitud, longitud, colorMarcador);
+                    var marker= setMarkers(map, latitud, longitud, colorMarcador, "{{destino.nombre}}");
                     if (!marcadores[contadorDia]) {
                         marcadores[contadorDia] = [];
                     }
@@ -90,7 +92,7 @@
                 {% endfor %}
             {% endfor %}
         }
-        
+
         //Si hay viajes con mas de 20 días, se empiezan a generar colores aleatorios para los marcadores
         function generarColorAleatorioUnico() {
             var letras = "0123456789ABCDEF";
@@ -201,7 +203,7 @@
                                     {% endfor %}
                                 </ul>
                                 <div class="btn-destino">
-                                    <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Solo destinos de este dia</button>
+                                    <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver solo  destinos de este dia</button>
                                 </div>
                             </li>
                         {% endfor %}
