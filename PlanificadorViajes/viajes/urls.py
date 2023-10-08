@@ -11,7 +11,7 @@ urlpatterns = [
     path('prueba/', views.cargarViaje_prueba_, name='cargar-viaje-prueba'),
     #path('cargar-dia/', views.DiaViajeView.as_view(), name='cargar-dia'),
 
-    #path('prueba/', views.Index.as_view(), name='cargar-viaje-prueba'),
+    #path('prueba/', views.DiaViajeListView.as_view(), name='cargar-viaje-prueba'),
     path('prueba/create/', views.DiaViajeCreateView.as_view(), name='create-dia-viaje'),
     path('prueba/update/<int:pk>', views.DiaViajeUpdateView.as_view(), name='update-dia-viaje'),
     path('prueba/read/<int:pk>', views.DiaViajeReadView.as_view(), name='read-dia-viaje'),

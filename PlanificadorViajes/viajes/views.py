@@ -141,7 +141,6 @@ def cargarViaje_prueba_(request):
 
     if request.method == 'POST':
         viaje_form = ViajeForm(request.POST)
-        dia_form = DiaViajeForm(request.POST)
 
         if viaje_form.is_valid():
             viaje_form = viaje_form.save(commit=False)
@@ -158,30 +157,11 @@ def cargarViaje_prueba_(request):
 
             for correo in correos:
                 enviar_correos_privados(request, correo, viaje_form.token)
+
+            viaje_form.estado = 'BORRADOR'
             viaje_form.save()
-
-        # ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
-        es_privado = viaje_form.esPrivado
-
-        if dia_form.is_valid():
-            cant_dias = 0
-
-            for f in dia_form:
-                if f in dia_form.deleted_forms:
-                    continue
-                f_instance = f.save(commit=False)
-                f_instance.viaje = viaje_form
-                f_instance.save()
-
-                cant_dias += 1
-
-            viaje_form.cantidadDias = cant_dias
-            viaje_form.save()
-
-            return redirect('cargar-dia-viaje')
     else:
         viaje_form = ViajeForm()
-        dia_form = DiaViajeForm()
 
     dias_viaje = Viaje_Dia.objects.all() # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
@@ -189,11 +169,9 @@ def cargarViaje_prueba_(request):
     return render(request, 'nuevo_viaje.html', {
         'dias_viaje' : dias_viaje,
         'viaje_form': viaje_form,
-        'dia_form': dia_form,
     })
 
 from django.urls import reverse_lazy
-from django.views import generic
 from .forms import DiaViajeForm
 from .models import Viaje_Dia
 from bootstrap_modal_forms.generic import (
@@ -202,17 +180,14 @@ from bootstrap_modal_forms.generic import (
   BSModalReadView,
   BSModalDeleteView
 )
-class Index(generic.ListView):
-    model = Viaje_Dia
-    context_object_name = 'dias_viaje'
-    template_name = 'nuevo_viaje.html'
 
 #CREAR
 class DiaViajeCreateView(BSModalCreateView):
     template_name= 'CRUD-dia-viaje/crear-dia-viaje.html'
     form_class = DiaViajeForm
-    success_message = 'El dia fue cargado con exito!'
-    success_url = reverse_lazy('cargar-viaje-prueba')
+
+    def form_valid(self, form):
+        form.save()
 
 #ACTUALIZAR
 class DiaViajeUpdateView(BSModalUpdateView):

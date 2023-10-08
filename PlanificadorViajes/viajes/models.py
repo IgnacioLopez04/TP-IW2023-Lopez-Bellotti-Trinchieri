@@ -26,6 +26,7 @@ class Viaje_General(models.Model):
     esPrivado= models.BooleanField(null = True)
     token = models.CharField(max_length=250, null=True, blank=True)
     # usuariosPermitidos = ArrayField(models.CharField(max_length=250), null=True, default=list)
+    estado = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):
         return  self.nombreViaje

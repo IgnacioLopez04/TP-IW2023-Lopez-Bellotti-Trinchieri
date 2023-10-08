@@ -14,7 +14,7 @@
           <h1>Empieza a organizar tu <span>itinerario</span>!</h1>
         </div>
         <div id="divisor"></div>
-        <form method="post">
+        <form id="viaje-form" method="post">
             <div id="cont-form-viaje">
                 {% csrf_token %}
                 <div class="cont-form">
@@ -31,6 +31,7 @@
                     </div>
                 </div>
             </div>
+            <button type="submit" id="btn-cargar-info-viaje-general">Guardar</button>
         </form>
 
         <!--- Modals --->
@@ -97,6 +98,29 @@
         });
 
       });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+          $('#viaje-form').on('submit', function(event) {
+            event.preventDefault();
+
+            // Serializa el formulario para enviarlo como datos POST
+            var formData = $(this).serialize();
+
+            $.ajax({
+              url: '{% url 'cargar-viaje-prueba' %}',
+              type: 'POST',
+              data: formData,
+              success: function(response) {
+                alert('Los datos del viaje han sido guardados con exito!!');
+              },
+              error: function(error) {
+                alert('Error al guarda los datos del viaje');
+              }
+            });
+          });
+        });
     </script>
 
     <!---<script src="{% static 'JS/viaje.js' %}"></script>--->
