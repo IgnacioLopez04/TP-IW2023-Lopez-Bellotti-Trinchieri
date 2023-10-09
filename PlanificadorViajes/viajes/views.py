@@ -163,7 +163,8 @@ def cargarViaje_prueba_(request):
     else:
         viaje_form = ViajeForm()
 
-    dias_viaje = Viaje_Dia.objects.all() # filtrar y devolver solo los de ese dia
+    dias_viaje = Viaje_Dia.objects.all()
+    # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
 
     return render(request, 'nuevo_viaje.html', {
@@ -172,6 +173,7 @@ def cargarViaje_prueba_(request):
     })
 
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from .forms import DiaViajeForm
 from .models import Viaje_Dia
 from bootstrap_modal_forms.generic import (
@@ -185,22 +187,33 @@ from bootstrap_modal_forms.generic import (
 class DiaViajeCreateView(BSModalCreateView):
     template_name= 'CRUD-dia-viaje/crear-dia-viaje.html'
     form_class = DiaViajeForm
+    success_url = reverse_lazy('cargar-viaje-prueba')
 
     def form_valid(self, form):
         form.save()
+
+        return HttpResponseRedirect(self.success_url)
 
 #ACTUALIZAR
 class DiaViajeUpdateView(BSModalUpdateView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/actualizar-dia-viaje.html'
     form_class = DiaViajeForm
-    success_message = 'Success: Book was updated.'
+    success_message = 'El dia fue actualizado con exito!.'
     success_url = reverse_lazy('cargar-viaje-prueba')
+
+    def get_object(self):
+        dia_pk = self.kwargs['dia_pk']
+        return get_object_or_404(self.model, pk=dia_pk)
 
 # LEER
 class DiaViajeReadView(BSModalReadView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/leer-dia-viaje.html'
+
+    def get(self, request, dia_pk, *args, **kwargs):
+        dia_viaje = get_object_or_404(Viaje_Dia, pk=dia_pk)
+        return render(request, self.template_name, {'dia': dia_viaje})
 
 # ELIMINAR
 class DiaViajeDeleteView(BSModalDeleteView):
@@ -208,3 +221,11 @@ class DiaViajeDeleteView(BSModalDeleteView):
     template_name = 'CRUD-dia-viaje/eliminar-dia-viaje.html'
     success_message = 'El dia fue eliminado con exito!'
     success_url = reverse_lazy('cargar-viaje-prueba')
+
+    def get(self, request, dia_pk, *args, **kwargs):
+        dia_viaje = get_object_or_404(Viaje_Dia, pk=dia_pk)
+        return render(request, self.template_name, {'dia': dia_viaje})
+
+    def get_object(self):
+        dia_pk = self.kwargs['dia_pk']
+        return get_object_or_404(self.model, pk=dia_pk)
