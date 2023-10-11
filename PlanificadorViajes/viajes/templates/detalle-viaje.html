@@ -193,7 +193,10 @@
                                 <h3>Dia: {{forloop.counter}}</h3>
                                 <p><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</p>
                                 <p><strong>Notas:</strong> {{ dia.notas }}</p>
-                                <h4>Destinos del Día</h4>
+                                <div class="btn-destino">
+                                    <h4>Destinos del Día</h4>
+                                    <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver en mapa</button>
+                                </div>
                                 <ul>
                                     {% for destino in dia.destinos.all %}
                                         <li class="li-dias">
@@ -202,17 +205,14 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <div class="btn-destino">
-                                    <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver solo  destinos de este dia</button>
-                                </div>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
             </article>
             <section id="mapita" >
-                <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
                 <div class="map" id="map" ></div>
+                <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
             </section>
         </section>
     </div>
