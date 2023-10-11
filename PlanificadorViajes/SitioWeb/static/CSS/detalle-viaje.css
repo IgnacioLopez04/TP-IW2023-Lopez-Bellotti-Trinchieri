@@ -61,14 +61,15 @@ main{
 
 .form-invitacion button{
     border: none;
-    background-color: rgba(0,0,0,0.2);
+    color: #ff8000;
+    background-color: transparent;
 
     padding: 7px 10px;
     border-radius: 10px;
 }
 .form-invitacion button:hover{
 
-    background-color: #ff8000;
+    background-color: rgba(255,128,0,0.2);
 }
 
 #viaje{
@@ -179,12 +180,13 @@ li{
     padding: 7px 10px;
 
     border: none;
-    background-color: rgba(0,0,0,0.2);
+    background-color: transparent;
+    color: #ff8000;
     border-radius: 10px;
 }
 
 .btn-correo:hover{
-    background-color: #ff8000;
+    background-color: rgba(255,128,0,0.2);
 }
 
 .map {
