@@ -61,18 +61,19 @@ main{
 
 .form-invitacion button{
     border: none;
-    background-color: rgba(0,0,0,0.2);
+    color: #ff8000;
+    background-color: transparent;
 
     padding: 7px 10px;
     border-radius: 10px;
 }
 .form-invitacion button:hover{
 
-    background-color: #ff8000;
+    background-color: rgba(255,128,0,0.2);
 }
 
 #viaje{
-    margin: 30px;
+    margin: 20px 30px;
 
     width: 40%;
     color: #1B3358;
@@ -157,9 +158,35 @@ li{
 .li-dias p:last-child{
     margin-bottom: 15px ;
 }
+
 #mapita{
     padding: 20px;
     flex-grow: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-destino{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.btn-correo{
+    margin: 10px 0px;
+    padding: 7px 10px;
+
+    border: none;
+    background-color: transparent;
+    color: #ff8000;
+    border-radius: 10px;
+}
+
+.btn-correo:hover{
+    background-color: rgba(255,128,0,0.2);
 }
 
 .map {

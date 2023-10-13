@@ -160,6 +160,26 @@ nav h1 span{
     background-color: rgba(0,0,0,0.2);
 }
 
+.div-btn-limpiar{
+    width: 10%;
+}
+
+#limpiar-filtros{
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #ff8000;
+    padding: 10px;
+    margin-left: 10px;
+
+    width: 70%;
+    font-size: 13.33px;
+}
+
+#limpiar-filtros:hover{
+    background-color: rgba(255,128,0,0.2);
+}
+
 /* .menu{
     position: absolute;
     left: 25px;

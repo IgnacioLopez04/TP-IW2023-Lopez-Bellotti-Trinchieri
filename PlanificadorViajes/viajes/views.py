@@ -9,6 +9,7 @@ from decimal import Decimal
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -101,7 +102,7 @@ def detalle_viaje(request, viaje_id):
             if correo:
                 enviar_correos_privados(request,correo,viaje.token)
         
-        return render(request, 'detalle-viaje.html', {'viaje': viaje})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'El viaje es privado. No tenes acceso.')
         return redirect('sitio-inicio')

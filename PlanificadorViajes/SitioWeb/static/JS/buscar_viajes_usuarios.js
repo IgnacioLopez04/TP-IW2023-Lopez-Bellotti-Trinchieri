@@ -79,5 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         filtrarViajes(); // Llama a la función de filtrarViajes en lugar de mostrarTodosLosViajes
     });
+
+    document.getElementById('limpiar-filtros').addEventListener('click', function () {
+        // Restablecer los valores de marcador de posición
+        document.getElementById('destino-input').value = '';
+        document.getElementById('dias-hasta-input').value = '';
+        document.getElementById('calificacion-input').value = '';
+        mostrarTodosLosViajes();
+    });
 });
 
