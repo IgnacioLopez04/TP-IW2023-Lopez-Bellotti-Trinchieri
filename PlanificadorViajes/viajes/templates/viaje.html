@@ -2,7 +2,8 @@
 {%load static%}
 {% block title %}Viaje{% endblock title%}
 {%block estilo%}
-  <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
 {%endblock%}
 
 {% block content%}
@@ -13,11 +14,11 @@
           <h1>Empieza a organizar tu <span>itinerario</span>!</h1>
         </div>
         <div id="divisor"></div>
-        <form method="post">
+        <form id="viaje-form" method="post">
             <div id="cont-form-viaje">
                 {% csrf_token %}
                 <div class="cont-form">
-                    {{ form.as_p }}
+                    {{ viaje_form.as_p }}
                 </div>
                 <div id="usuarios-a-invitar" style="display: none;">
                     <p>Correos de los usuarios que deseas invitar:</p>
@@ -30,28 +31,245 @@
                     </div>
                 </div>
             </div>
-            <div id="cont-form-dia">
-                {% csrf_token %}
-                {{ formset.management_form }}
-                <div id="form-lista-dias">
-                    {% for fo in formset %}
-                    {% endfor %}
-                </div>
-                <div id="id-form-dia-empty">
-                    <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
-                </div>
-                <div class="btn-carga">
-                    <button id="btn-agregar-dias" type="button" class='btn-cargas'>Agregar dia</button>
-                </div>
-            </div>
-            <button type="submit" id="btn-cargar-viaje" class='btn-cargas'>Confirmar itinerario</button>
+           <button type="submit" id="btn-cargar-info-viaje-general">Guardar</button>
         </form>
-    </section>
+
+      <!--- Modal crear un dia --->
+      <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <form method="post" action="" id="crear-dia-form">
+                  {% csrf_token %}
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar un Dia</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" id="id-viaje-input" name="id-viaje"> <!----------->
+                        {% for field in dia_form %}
+                            <div class="form-group{% if field.errors %} invalid{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="help-block">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+
+                </form>
+            </div>
+          </div>
+        </div>
+
+        <!--- Modal para read --->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
+
+      <!--- Boton para crear un dia --->
+      <button id="create-dia-viaje" class="btn btn-primary agregar-dia" type="button" name="button"
+              data-toggle="modal" data-target="#create-modal" data-idviaje="{{ viaje_form.id }}">
+          Cargar Dia
+      </button>
+
+      {% for dia in dias_viaje %}
+        <div class="dia-viaje">
+            <div>
+                <p>{{ dia.nombreDia }}</p>
+            </div>
+            <div class="text-center">
+              <!-- Boton para leer la info del dia -->
+              <button type="button" class="read-dia-viaje bs-modal btn btn-sm btn-primary" data-form-url="{% url 'read-dia-viaje' dia.pk %}">
+                <span class="fa fa-eye">Detalles</span>
+              </button>
+              <!-- Boton para actualizar el dia -->
+              <button type="button" class="update-dia-viaje bs-modal btn btn-sm btn-primary" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
+                <span class="fa fa-pencil">Actualizar</span>
+              </button>
+              <!-- Boton para eliminar el dia -->
+              <button type="button" class="delete-dia-viaje bs-modal btn btn-sm btn-danger" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
+                <span class="fa fa-trash">Eliminar</span>
+              </button>
+            </div>
+        </div>
+      {% endfor %}
+  </section>
+
 </main>
 
 {% endblock content%}
 {% block js %}
-    <script src="{% static 'JS/viaje.js' %}"></script>
-    <script src="{% static 'JS/recibir_destinos.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script>
 
+    <script>
+        $(function (){
+            //Boton crear dia
+            $("#create-dia-viaje").on('click', function (){
+                $("#create-modal").modal('show');
+            });
+
+            $("#crear-dia-form").submit(function (e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '{% url 'create-dia-viaje' %}',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (response) {
+                        alert(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error al guardar los datos del dia');
+                    }
+                })
+
+                $("#create-modal").modal('hide');
+            })
+
+            //Boton leer dia
+            $(".read-dia-viaje").on('click', function (){
+
+                var formUrl = $(this).data("form-url");
+
+                $.get(formUrl, function (data) {
+                    $(".modal-content").html(data);
+                    $("#modal").modal('show');
+                });
+            })
+
+            //Boton actualizar dia
+            $(".update-dia-viaje").on('click', function (){
+
+                var formUrl = $(this).data("form-url");
+
+                $.get(formUrl, function (data) {
+                    $(".modal-content").html(data);
+                    $("#modal").modal('show');
+                });
+
+                $("#modal").on('submit', "#update-dia-form", function (e) {
+                    e.preventDefault();
+
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: formUrl,
+                        type: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        /*success: function () {
+                            alert('El dia fue actualizado');
+                        },
+                        error: function() {
+                            alert('Error al actualizar los datos');
+                        }*/
+                    })
+
+                    $("#modal").modal('hide');
+                })
+            })
+
+            //Boton eliminar dia
+            $(".delete-dia-viaje").on('click', function (){
+                var formUrl = $(this).data("form-url");
+
+                $.get(formUrl, function (data) {
+                    $(".modal-content").html(data);
+                    $("#modal").modal('show');
+                });
+
+                $("#modal").on('submit', "#delete-dia-form", function (e) {
+                    e.preventDefault();
+
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: formUrl,
+                        type: 'POST',
+                        data: formData,
+                        success: function () {
+                            alert('El dia se elimino con exito');
+                        },
+                        error: function() {
+                            alert('Error al eliminar el dia');
+                        }
+                    });
+                    $("#modal").modal('hide');
+                })
+            })
+        });
+    </script>
+    <!-- Guardar el formulario sin redireccionar/recargar la pagina -->
+    <script>
+        $(document).ready(function() {
+           $('#viaje-form').on('submit', function(event) {
+               event.preventDefault();
+
+            // Serializa el formulario para enviarlo como datos POST
+            var formData = $(this).serialize();
+
+            $.ajax({
+              url: '{% url 'viajes-cargar-viaje' %}',
+              type: 'POST',
+              data: formData,
+              success: function(response) {
+                alert(response.message);
+                if (response.success) {
+                  // Actualiza el contexto pasado a la vista
+                  if (response.id_viaje) {
+                    // Actualiza el atributo data-idviaje del botón.
+                    $('#create-dia-viaje').attr('data-idviaje', response.id_viaje);
+                  }
+                }
+              },
+              error: function(xhr, status, error) {
+                  alert('Error al guardar los datos del viaje');
+              }
+            });
+          });
+        });
+    </script>
+
+    <!-- Script para trabajar con el ID del viaje y trabajar con los dias relacionados al viaje -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var btnAgregarDia = document.querySelector('.agregar-dia');
+
+            btnAgregarDia.addEventListener('click', function () {
+                var id_viaje_input_hidden = document.getElementById('id-viaje-input');
+                var id_viaje = btnAgregarDia.getAttribute('data-idviaje');
+
+                id_viaje_input_hidden.value = id_viaje;
+            });
+        });
+    </script>
+
+    <!---<script src="{% static 'JS/viaje.js' %}"></script>--->
+    {% comment %} <script>
+        var correos = document.getElementsByClassName('correo-span').textContent;
+        console.log(correos); // Obtener el valor del span
+        // Enviar el valor al servidor utilizando una solicitud AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sitio/cargar-viaje/', true);  // Reemplaza '/tu-vista/' con la URL de tu vista
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify({ correos: correos}));
+    </script> {% endcomment %}
 {% endblock js %}

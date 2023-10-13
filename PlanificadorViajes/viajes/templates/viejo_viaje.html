@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Viaje{% endblock title%}
+{%block estilo%}
+  <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
+{%endblock%}
+
+{% block content%}
+
+<main>
+  <section class="cont-form-viaje">
+        <div id="cont-titulo">
+          <h1>Empieza a organizar tu <span>itinerario</span>!</h1>
+        </div>
+        <div id="divisor"></div>
+        <form method="post">
+            <div id="cont-form-viaje">
+                {% csrf_token %}
+                <div class="cont-form">
+                    {{ form.as_p }}
+                </div>
+                <div id="usuarios-a-invitar" style="display: none;">
+                    <p>Correos de los usuarios que deseas invitar:</p>
+                    <input type="text" id="correos" name="Correos">
+                    <div class="btn-carga">
+                        <button id="btn-agregar-correo" type="button" class='btn-correo'>Agregar correo</button>
+                    </div>
+                    <div id="correos-agregados">
+                        <!-- Aquí se mostrarán los correos agregados -->
+                    </div>
+                </div>
+            </div>
+            <div id="cont-form-dia">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                <div id="form-lista-dias">
+                    {% for fo in formset %}
+                    {% endfor %}
+                </div>
+                <div id="id-form-dia-empty">
+                    <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
+                </div>
+                <div class="btn-carga">
+                    <button id="btn-agregar-dias" type="button" class='btn-cargas'>Agregar dia</button>
+                </div>
+            </div>
+            <button type="submit" id="btn-cargar-viaje" class='btn-cargas'>Confirmar itinerario</button>
+        </form>
+    </section>
+</main>
+
+{% endblock content%}
+{% block js %}
+    <script src="{% static 'JS/viaje.js' %}"></script>
+    <script src="{% static 'JS/recibir_destinos.js' %}"></script>
+
+{% endblock js %}

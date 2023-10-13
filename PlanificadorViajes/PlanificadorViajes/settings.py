@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'haystack',
-    'bootstrap_modal_forms', ### AGREGADO
     'SitioWeb',
     'registration',
     'viajes',

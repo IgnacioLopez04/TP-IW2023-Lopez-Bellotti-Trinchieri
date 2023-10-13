@@ -9,7 +9,6 @@ from decimal import Decimal
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -20,11 +19,19 @@ from registration.token import account_activation_token, account_activation_toke
 from django.contrib import messages
 import json
 from django.http import JsonResponse
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from .forms import CargarDiaViajeForm
+from .models import Viaje_Dia
+from django.views.generic.edit import (
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.views.generic.detail import DetailView
 
-### PRUEBA ###
-from viajes.forms import DiaViajeForm
 @login_required
-def cargarViaje(request):
+def cargarViaje_viejo(request):
     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
 
     correos = []
@@ -133,10 +140,10 @@ def enviar_correos_privados(request, to_email, token):
     else:
         messages.error(request, f'No envie el mail') 
 
-### PRUEBA DEL NUEVO CARGAR VIAJE ###
+###########
 
 @login_required
-def cargarViaje_prueba_(request):
+def cargarViaje(request):
     correos = []
 
     if request.method == 'POST':
@@ -160,54 +167,62 @@ def cargarViaje_prueba_(request):
 
             viaje_form.estado = 'BORRADOR'
             viaje_form.save()
+
+            #Con todos los datos guardados, armamos una respuesta JSON
+            #para actualizar los valores que queremos
+            response_data = {
+                'success': True,
+                'message': 'Los datos del viaje han sido guardados con éxito.',
+                'id_viaje': viaje_form.id,
+            }
+
+            return JsonResponse(response_data)
     else:
         viaje_form = ViajeForm()
 
     dias_viaje = Viaje_Dia.objects.all()
     # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
+    dia_form = CargarDiaViajeForm()
 
-    return render(request, 'nuevo_viaje.html', {
+    return render(request, 'viaje.html', {
         'dias_viaje' : dias_viaje,
         'viaje_form': viaje_form,
+        'dia_form' : dia_form,
     })
 
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from .forms import DiaViajeForm
-from .models import Viaje_Dia
-from bootstrap_modal_forms.generic import (
-  BSModalCreateView,
-  BSModalUpdateView,
-  BSModalReadView,
-  BSModalDeleteView
-)
-
 #CREAR
-class DiaViajeCreateView(BSModalCreateView):
-    template_name= 'CRUD-dia-viaje/crear-dia-viaje.html'
-    form_class = DiaViajeForm
-    success_url = reverse_lazy('cargar-viaje-prueba')
+def DiaViajeCreateView(request):
+    id_viaje = request.POST.get('id-viaje')
+    viaje_general = get_object_or_404(Viaje_General, id=id_viaje)
 
-    def form_valid(self, form):
-        form.save()
+    if request.method == 'POST':
+        dia_form = CargarDiaViajeForm(request.POST)
+        if dia_form.is_valid():
+            dia = dia_form.save(commit=False)
+            dia.viaje = viaje_general
+            dia.save()
 
-        return HttpResponseRedirect(self.success_url)
+            response_data = {
+                'success': True,
+                'message': 'Los datos del dia han sido guardados con éxito.',
+            }
 
+            return JsonResponse(response_data)
 #ACTUALIZAR
-class DiaViajeUpdateView(BSModalUpdateView):
+class DiaViajeUpdateView(UpdateView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/actualizar-dia-viaje.html'
-    form_class = DiaViajeForm
+    form_class = CargarDiaViajeForm
     success_message = 'El dia fue actualizado con exito!.'
-    success_url = reverse_lazy('cargar-viaje-prueba')
+    success_url = reverse_lazy('viajes-cargar-viaje')
 
     def get_object(self):
         dia_pk = self.kwargs['dia_pk']
         return get_object_or_404(self.model, pk=dia_pk)
 
 # LEER
-class DiaViajeReadView(BSModalReadView):
+class DiaViajeReadView(DetailView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/leer-dia-viaje.html'
 
@@ -216,11 +231,11 @@ class DiaViajeReadView(BSModalReadView):
         return render(request, self.template_name, {'dia': dia_viaje})
 
 # ELIMINAR
-class DiaViajeDeleteView(BSModalDeleteView):
+class DiaViajeDeleteView(DeleteView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/eliminar-dia-viaje.html'
-    success_message = 'El dia fue eliminado con exito!'
-    success_url = reverse_lazy('cargar-viaje-prueba')
+    success_message = 'El dia fue actualizado con exito!.'
+    success_url = reverse_lazy('viajes-cargar-viaje')
 
     def get(self, request, dia_pk, *args, **kwargs):
         dia_viaje = get_object_or_404(Viaje_Dia, pk=dia_pk)
@@ -229,3 +244,15 @@ class DiaViajeDeleteView(BSModalDeleteView):
     def get_object(self):
         dia_pk = self.kwargs['dia_pk']
         return get_object_or_404(self.model, pk=dia_pk)
+
+    def delete(self, request, *args, **kwargs):
+        dia_pk = self.kwargs['dia_pk']
+        dia = get_object_or_404(Viaje_Dia, pk=dia_pk)
+        dia.delete()
+
+        response = {
+            'success': True,
+            'message': 'El día fue eliminado con éxito.',
+        }
+
+        return JsonResponse(response)
