@@ -170,4 +170,3 @@ function eliminar_dia(event) {
         }
     }
 }
-

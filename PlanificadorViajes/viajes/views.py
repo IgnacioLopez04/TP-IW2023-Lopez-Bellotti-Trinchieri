@@ -141,7 +141,7 @@ def enviar_correos_privados(request, to_email, token):
     if email.send():
         messages.success(request, f'La invitacion fue enviada.')
     else:
-        messages.error(request, f'No envie el mail') 
+        messages.error(request, f'No envie el mail.') 
 
 ###########
 
@@ -196,6 +196,30 @@ def cargarViaje(request):
         'viaje_form': viaje_form,
         'dia_form' : dia_form,
     })
+    
+def confirmarViaje(request):
+    response_data = {}
+    
+    if request.method == "POST":
+        id_viaje = request.POST.get('id-viaje')
+        
+        if id_viaje == '':
+            messages.error(request, f'Se necesita tener al menos cargado un dia del viaje.')
+            response_data['success'] = False
+            
+        else:
+            viaje_actual = get_object_or_404(Viaje_General, pk = id_viaje)
+            
+            viaje_actual.estado = "ACTIVO"
+            viaje_actual.save()
+            messages.success(request, f'Se confirmo el viaje.')
+            response_data['success'] = True
+           
+        messages_list = [str(message) for message in messages.get_messages(request)]
+        response_data['messages'] = messages_list
+        
+        
+        return JsonResponse(response_data)
 
 #CREAR
 def DiaViajeCreateView(request):

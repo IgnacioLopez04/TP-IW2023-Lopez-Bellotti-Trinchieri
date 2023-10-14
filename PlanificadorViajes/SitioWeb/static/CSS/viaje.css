@@ -164,6 +164,10 @@ button:hover{
     display: none;
 }
 
+#btn-confirmar-viaje{
+    display: none;
+}
+
 .agregar-dia{
     background-color: #1B3358;
     border: none;
