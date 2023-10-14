@@ -168,6 +168,8 @@ def cargarViaje(request):
 
             viaje_form.estado = 'BORRADOR'
             viaje_form.save()
+            
+            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)
 
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
@@ -181,9 +183,10 @@ def cargarViaje(request):
     else:
         viaje_form = ViajeForm()
 
+    
     # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
-    dias_viaje = Viaje_Dia.objects.all()
+    dias_viaje = ''
     dia_form = CargarDiaViajeForm()
 
     return render(request, 'viaje.html', {

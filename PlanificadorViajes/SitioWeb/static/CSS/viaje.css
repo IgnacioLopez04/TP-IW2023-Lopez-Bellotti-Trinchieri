@@ -140,7 +140,7 @@ button:hover{
 /* fin eliminar correo */
 
 /* btn guardar viaje */
-.btn-guardar-viaje{
+.btn-guardar-viaje, .btn-confirmar-viaje{
     background-color: #1B3358;
     border: none;
     color: #FF8000;
@@ -149,6 +149,12 @@ button:hover{
 .btn-guardar-viaje:hover{
     background-color: #FF8000;
     color: #1B3358;
+    font-weight: 700;
+}
+
+.btn-confirmar-viaje:hover{
+    background-color: #349405;
+    color: black;
     font-weight: 700;
 }
 /* fin guardar viaje */

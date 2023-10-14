@@ -130,7 +130,8 @@
 }
 
 .viajes h2{
-    color: #124da5;
+    color: #ff8000;
+    font-weight: 700;
     border-bottom: 2px dotted #ff8000;
 }
 
