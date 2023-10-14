@@ -19,6 +19,8 @@ from django.contrib.auth import get_user_model
 from registration.token import account_activation_token, account_activation_token_viaje 
 from django.contrib import messages
 import json
+
+from django.core import serializers
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -260,3 +262,21 @@ class DiaViajeDeleteView(DeleteView):
         }
 
         return JsonResponse(response)
+    
+# Mostrar dias viaje
+def mostrarDiasViaje(request):
+    id_viaje = request.POST.get('id-viaje')
+    viaje_actual = get_object_or_404(Viaje_General, id = id_viaje)
+    dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
+    
+    dias_serializados = json.loads(serializers.serialize("json", dias_viaje))
+    # Convertir la serialización en una lista de diccionarios
+    dias_serializados = [item['fields'] for item in dias_serializados]
+
+    response = {
+        'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje}),
+    }
+    
+    
+    return JsonResponse(response)
+     

@@ -29,7 +29,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     @action(detail=False)  # Decorador para una acción que no requiere un objeto específico
     def todos_los_viajes(self, request):
         # Obtiene todos los viajes desde la base de datos y los devuelve ordenados por calificacion
-        viajes = self.get_queryset().filter(esPrivado=False)
+        viajes = self.get_queryset().filter(esPrivado=False) #Filtrar que sean solo los estados 'ACTIVOS'
 
         serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
         return Response(serializer.data)
