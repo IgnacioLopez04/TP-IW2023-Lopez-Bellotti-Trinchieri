@@ -4,63 +4,33 @@
     box-sizing: border-box;
 }
 
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-
-    position: relative;
+a{
+    text-decoration: none;
 }
 
-.cont-form-viaje{
-    width: 90%;
+.section-form-viaje{
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-
-    margin: 20px;
     border-radius: 10px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 /* titulo */
-
-#cont-titulo{
-    margin: 20px 0px;
-    font-size: 24px;
-}
 
 #cont-titulo span{
     color: #ff8000;
 }
 /* fin titulo */
 
-#divisor{
-    width: 85%;
+.divisor{
     border-top: 2px dotted #ff8000;
-
-    margin-bottom: 20px;
 }
 
 /* form */
-form{
-    margin-bottom: 20px;
-
-    padding: 10px;
-}
 /* descripcion viaje */
-#cont-form-viaje{
-    width: 100%;
-    padding: 10px 0px;
-    margin-bottom: 10px;
+.cont-form-viaje{
     border-bottom: 2px dotted #ff8000;
 }
 
-#cont-form-viaje input{
+.cont-form-viaje input{
     width: 100%;
 }
 
@@ -168,3 +138,64 @@ button:hover{
     max-width: none;
 }
 /* fin eliminar correo */
+
+/* btn guardar viaje */
+.btn-guardar-viaje{
+    background-color: #1B3358;
+    border: none;
+    color: #FF8000;
+}
+
+.btn-guardar-viaje:hover{
+    background-color: #FF8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+/* fin guardar viaje */
+
+/* agregar dias */
+#create-dia-viaje{
+    display: none;
+}
+
+.agregar-dia{
+    background-color: #1B3358;
+    border: none;
+    color: #FF8000;
+    transition: all ease-in-out 0.3s;
+}
+
+.agregar-dia:hover{
+    background-color: #FF8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+
+.dia-viaje{
+    border: 2px dotted #1B3358;
+    border-radius: 10px;
+
+    width: 250px;
+    height: 220px;
+
+    text-overflow: ellipsis;
+}
+
+.dia-viaje div p:first-child{
+    font-weight: 700;
+}
+
+.btn-accion-dia{
+    background-color: #1B3358;
+    color: #FF8000;
+    border: none;
+
+    width: 49%;
+}
+
+.btn-accion-dia:hover:not(:last-child){
+    background-color: #FF8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+/* fin agregar dias */

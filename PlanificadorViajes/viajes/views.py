@@ -31,65 +31,65 @@ from django.views.generic.edit import (
 )
 from django.views.generic.detail import DetailView
 
-@login_required
-def cargarViaje_viejo(request):
-    DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
+# @login_required
+# def cargarViaje_viejo(request):
+#     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
 
-    correos = []
+#     correos = []
     
-    if request.method == 'POST':
-        # form = ViajeForm(request.POST, meses_dict = meses_dict)
-        viaje_form = ViajeForm(request.POST)
-        dia_formset = DiaFormSet(request.POST)
+#     if request.method == 'POST':
+#         # form = ViajeForm(request.POST, meses_dict = meses_dict)
+#         viaje_form = ViajeForm(request.POST)
+#         dia_formset = DiaFormSet(request.POST)
 
-        if viaje_form.is_valid():
-            viaje_form = viaje_form.save(commit=False)
-            viaje_form.usuario = request.user
+#         if viaje_form.is_valid():
+#             viaje_form = viaje_form.save(commit=False)
+#             viaje_form.usuario = request.user
 
-            viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
+#             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
 
-            viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
-            for key in request.POST.keys():
-                if key.startswith('correo-span'):
-                    print(key)
-                    correo = request.POST.get(key, '')
-                    correos.append(correo)
+#             viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
+#             for key in request.POST.keys():
+#                 if key.startswith('correo-span'):
+#                     print(key)
+#                     correo = request.POST.get(key, '')
+#                     correos.append(correo)
             
-            for correo in correos:
-                enviar_correos_privados(request,correo,viaje_form.token)
-            viaje_form.save()
+#             for correo in correos:
+#                 enviar_correos_privados(request,correo,viaje_form.token)
+#             viaje_form.save()
 
 
-        #ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
-        es_privado = viaje_form.esPrivado
+#         #ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
+#         es_privado = viaje_form.esPrivado
         
-        if dia_formset.is_valid():
-            cant_dias = 0
+#         if dia_formset.is_valid():
+#             cant_dias = 0
 
-            for f in dia_formset:
-                if f in dia_formset.deleted_forms:
-                    continue
-                f_instance = f.save(commit=False)
-                f_instance.viaje = viaje_form
-                f_instance.save()
+#             for f in dia_formset:
+#                 if f in dia_formset.deleted_forms:
+#                     continue
+#                 f_instance = f.save(commit=False)
+#                 f_instance.viaje = viaje_form
+#                 f_instance.save()
 
-                cant_dias += 1
+#                 cant_dias += 1
 
-                destinos_seleccionados = f.cleaned_data.get('destinos')
-                f_instance.destinos.set([destinos_seleccionados])
+#                 destinos_seleccionados = f.cleaned_data.get('destinos')
+#                 f_instance.destinos.set([destinos_seleccionados])
 
-            viaje_form.cantidadDias = cant_dias
-            viaje_form.save()
+#             viaje_form.cantidadDias = cant_dias
+#             viaje_form.save()
 
-            return redirect('sitio-inicio')
-    else:
-        viaje_form = ViajeForm()
-        dia_formset = DiaFormSet()
+#             return redirect('sitio-inicio')
+#     else:
+#         viaje_form = ViajeForm()
+#         dia_formset = DiaFormSet()
 
-    return render(request, 'viaje.html', {
-        'form': viaje_form,
-        'formset': dia_formset,
-    })
+#     return render(request, 'viaje.html', {
+#         'form': viaje_form,
+#         'formset': dia_formset,
+#     })
 
 
 def detalle_viaje(request, viaje_id): 
@@ -181,9 +181,9 @@ def cargarViaje(request):
     else:
         viaje_form = ViajeForm()
 
-    dias_viaje = Viaje_Dia.objects.all()
     # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
+    dias_viaje = Viaje_Dia.objects.all()
     dia_form = CargarDiaViajeForm()
 
     return render(request, 'viaje.html', {

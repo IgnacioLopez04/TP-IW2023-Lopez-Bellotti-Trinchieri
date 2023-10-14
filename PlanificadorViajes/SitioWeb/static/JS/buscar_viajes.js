@@ -14,25 +14,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     data.forEach(viaje => {
                         resultsDiv.innerHTML += `
-                        <div class="viajes">
-                            <a href='/viajes/detalle-viaje/${viaje.id}'>
+                        <div class="p-2 m-2 d-flex justify-content-center align-items-center flex-column viajes">
+                            <a href='/viajes/detalle-viaje/${viaje.id}' class='text-decoration-none h-100 d-flex justify-content-between align-items-center flex-column''>
                             <h2>${viaje.nombreViaje}</h2>
-                            <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                            <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                            <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
+                                <p><span>Descripción:</span> ${viaje.descripcion}</p>
+                                <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            </div>
                         </div>`;
-
-                        //hago que muestre el nombre del viaje con el link para ir al detalle
-                        // const viajeDetailLink = document.createElement('a');
-                        // viajeDetailLink.href = `/viajes/detalle-viaje/${viaje.id}/`;
-                        // viajeDetailLink.textContent = `Nombre del Viaje: ${viaje.nombreViaje}`;
-                        // resultsDiv.appendChild(viajeDetailLink);
-
-                        // resultsDiv.innerHTML += `<div>
-                        // <p>Descripción: ${viaje.descripcion}</p>
-                        // <p>Cantidad de dias: ${viaje.cantidadDias}</p>
-                        // <p>Calificacion: ${viaje.calificacion}</p>
-                        // </div>`;
                     });
                 }
             })
@@ -76,25 +66,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Maneja los datos recibidos y genera el HTML de los resultados
                     data.forEach(viaje => {
                         resultsDiv.innerHTML += `
-                        <div class="viajes">
-                            <a href='/viajes/detalle-viaje/${viaje.id}'>
+                        <div class="p-2 m-2 d-flex justify-content-center align-items-center flex-column viajes">
+                            <a href='/viajes/detalle-viaje/${viaje.id}' class='text-decoration-none h-100 d-flex justify-content-between align-items-center flex-column''>
                             <h2>${viaje.nombreViaje}</h2>
-                            <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                            <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                            <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
+                                <p><span>Descripción:</span> ${viaje.descripcion}</p>
+                                <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            </div>
                         </div>`;
-                        //hago que muestre el nombre del viaje con el link para ir al detalle
-                        // const viajeDetailLink = document.createElement('a');
-                        // viajeDetailLink.href = `/viajes/detalle-viaje/${viaje.id}/`;
-                        // viajeDetailLink.textContent = `Nombre del Viaje: ${viaje.nombreViaje}`;
-                        // resultsDiv.appendChild(viajeDetailLink);
-
-                        // resultsDiv.innerHTML += `
-                        // <div>
-                        //     <p>Descripción: ${viaje.descripcion}</p>
-                        //     <p>Cantidad de dias: ${viaje.cantidadDias}</p>
-                        //     <p>Calificacion: ${viaje.calificacion}</p>
-                        // </div>`;
                     });
                 }
             })

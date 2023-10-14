@@ -12,5 +12,5 @@ urlpatterns = [
     path('create/', views.DiaViajeCreateView, name='create-dia-viaje'),
     path('update/<int:dia_pk>', views.DiaViajeUpdateView.as_view(), name='update-dia-viaje'),
     path('read/<int:dia_pk>', views.DiaViajeReadView.as_view(), name='read-dia-viaje'),
-    path('delete/<int:dia_pk>', views.DiaViajeDeleteView.as_view(), name='delete-dia-viaje')
+    path('delete/<int:dia_pk>', views.DiaViajeDeleteView.as_view(), name='delete-dia-viaje'),
 ]

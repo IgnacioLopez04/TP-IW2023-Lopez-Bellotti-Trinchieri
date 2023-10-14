@@ -2,39 +2,41 @@
 {%load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<link>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></html>
+    <link href="{% static 'CSS/base.css'%}"></link>
     {%block estilo%}{%endblock%}
 
     <title>Inicio</title>
 </head>
 <body>
-    <nav>
+    <nav class="w-100 d-flex align-items-center justify-content-center">
         <!-- <bottom class="menu">
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                 <style>svg{fill:#ff8000}</style>
                 <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
             </svg>
         </bottom> -->
-        <a href="{% url 'sitio-inicio'%}">
-            <h1><span>LosTres</span>Viajeros</h1>
+        <a href="{% url 'sitio-inicio'%}" class="text-decoration-none">
+            <h1 class="m-0 ms-2"><span>LosTres</span>Viajeros</h1>
         </a>
-        <div class="cont-links">
-            <ul id="nav-list">
-                <li><a href="{%url 'sitio-inicio'%}">Inicio</a></li>
-                <li><a href="#search-form">Buscar</a></li>
-                <li><a href="{%url 'usuario'%}">Perfil</a></li>
-                <li><a href="{%url 'viajes-cargar-viaje'%}">Cargar Viajes</a></li> <!--Colocar url de la pagina de los viajes que tiene hecho un usuario.-->
+        <div class="d-flex align-items-center justify-content-center cont-links">
+            <ul class="d-flex align-items-center justify-content-center p-0 m-0 mr-4 list-unstyled">
+                <li><a href="{%url 'sitio-inicio'%}" class="text-decoration-none mx-2 fs-5">Inicio</a></li>
+                <li><a href="#search-form" class="text-decoration-none mx-2 fs-5">Buscar</a></li>
+                <li><a href="{%url 'usuario'%}" class="text-decoration-none mx-2 fs-5">Perfil</a></li>
+                <li><a href="{%url 'viajes-cargar-viaje'%}" class="text-decoration-none mx-2 fs-5">Cargar Viajes</a></li> <!--Colocar url de la pagina de los viajes que tiene hecho un usuario.-->
             </ul>
         </div>
-        <div class="cont-login">
+        <div class="d-flex align-items-center justify-content-center cont-login">
             {%if user.is_authenticated%}
-                <button class="nav-button"><a href="{% url 'logout'%}" class="clr">Cerrar Sesión</a></button>
+                <button class="px-3 py-2 mx-3 fs-6 nav-button"><a href="{% url 'logout'%}" class=" text-decoration-none clr">Cerrar Sesión</a></button>
             {% else %}
-                <button class="nav-button"><a href="{% url 'login' %}" class="clr">Iniciar Sesión</a></button>
+                <button class="px-3 py-2 mx-3 fs-6 nav-button"><a href="{% url 'login' %}" class=" text-decoration-none clr">Iniciar Sesión</a></button>
             {%endif%}
         </div>
     </nav>
@@ -48,7 +50,7 @@
     </section> -->
     {%if messages%}
         {% for message in messages%}
-            <div class="alert alert-{{ message.tags}}" role="alert" id='mensaje-alerta'>
+            <div class="m-3 alert alert-{{ message.tags}}" role="alert" id='mensaje-alerta'>
                 {{message}}
             </div>
         {%endfor%}

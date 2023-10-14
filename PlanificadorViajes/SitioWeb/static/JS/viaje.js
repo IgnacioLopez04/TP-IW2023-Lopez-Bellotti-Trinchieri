@@ -1,5 +1,3 @@
-const btnAgregarDia = document.getElementById('btn-agregar-dias');
-btnAgregarDia.addEventListener('click', agregar_dia);
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
 
 function abrirMapa() {
