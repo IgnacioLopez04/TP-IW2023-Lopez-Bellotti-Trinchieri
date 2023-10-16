@@ -97,22 +97,28 @@
                     src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
                 <span class="sb-title">¡Encuentre sus destinos para el dia indicado!</span>
             </div>
+            <input type="hidden" id="id-viaje" />
             <input type="text" placeholder="Ingrese la localidad" id="location-input" />
             <input type="text" placeholder="Ciudad" id="locality-input" />
             <div class="half-input-container">
                 <input type="text" class="half-input" placeholder="Provincia"
                     id="administrative_area_level_1-input" />
             </div>
+            <input type="text" placeholder="Latitud" id="latitud-input" />
+            <input type="text" placeholder="Longitud" id="longitud-input" />
             <div id="destinos-agregados">
                 <!--aca van a ir los destinos agregados-->
             </div>
             <button id="agregar-destino" class="button-cta">Agregar destino</button>
-            <button id="confirmar-destinos" class="button-cta">Confirmar destinos</button>
+            <form method="post">
+                {% csrf_token %}
+                <button id="confirmar-destinos" class="button-cta">Confirmar destinos</button>
+            </form>
         </div>
         <div class="map" id="gmp-map"></div>
     </div>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC"></script>
+        src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC"></script>
     <script src="{% static 'JS/viaje.js' %}" ></script>
     <script src="{% static 'JS/cargarDestino.js' %}" ></script>
 </body>

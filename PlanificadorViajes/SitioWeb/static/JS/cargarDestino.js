@@ -10,10 +10,12 @@ function initMap() {
 
     const CONFIGURATION = {
         "ctaTitle": "Confirmar",
-        "mapOptions": { "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true,
-                        "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true,
-                        "maxZoom": 22, "mapId": "" },
-        "mapsApiKey": "",
+        "mapOptions": {
+            "center": { "lat": -31.3990547, "lng": -64.3590263 }, "fullscreenControl": true,
+            "mapTypeControl": false, "streetViewControl": true, "zoom": 6, "zoomControl": true,
+            "maxZoom": 22, "mapId": ""
+        },
+        "mapsApiKey": "{{GOOGLE_API_KEY}}",
         "capabilities": { "addressAutocompleteControl": true, "mapDisplayControl": true, "ctaControl": true }
 
     };
@@ -39,6 +41,38 @@ function initMap() {
         types: ["locality"],
     });
 
+    //Listen for any clicks on the map.
+    google.maps.event.addListener(map, 'click', function (event) {
+        //Get the location that the user clicked.
+        var clickedLocation = event.latLng;
+        //If the marker hasn't been added.
+        if (marker === false) {
+            //Create the marker.
+            marker = new google.maps.Marker({
+                position: clickedLocation,
+                map: map,
+                draggable: true //make it draggable
+            });
+            //Listen for drag events!
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                markerLocation();
+            });
+        } else {
+            //Marker has already been added, so just change its location.
+            marker.setPosition(clickedLocation);
+        }
+        //Get the marker's location.
+        markerLocation();
+    });
+
+    function markerLocation() {
+        //Get location.
+        var currentLocation = marker.getPosition();
+        //Add lat and lng values to a field that we can save.
+        document.getElementById('latitud-input').value = currentLocation.lat(); //latitude
+        document.getElementById('longitud-input').value = currentLocation.lng(); //longitude
+    }
+
     autocomplete.addListener('place_changed', function () {
         marker.setVisible(false);
         const place = autocomplete.getPlace();
@@ -58,6 +92,7 @@ function initMap() {
             'locality': 'short_name',
             'administrative_area_level_1': 'short_name',
         };
+        markerLocation();
         const getAddressComp = function (type) {
             for (const component of place.address_components) {
                 if (component.types[0] === type) {
@@ -97,7 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Verifica que los campos localidad y provincia estén completos
         var localidad = document.getElementById('locality-input');
         var provincia = document.getElementById('administrative_area_level_1-input');
-        if (!localidad.value || !provincia.value) {
+        var latitud = document.getElementById('latitud-input');
+        var longitud = document.getElementById('longitud-input');
+        if (!localidad.value || !provincia.value || !longitud.value || !latitud.value) {
             alert('Por favor, ingresa el dato de la localidad correctamente.');
             return;
         }
@@ -111,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         elemetoInput.setAttribute('type', 'hidden');
 
         var elementoLocalidad = document.createElement("span");
-        elementoLocalidad.textContent = localidad.value + ', ' + provincia.value;
+        elementoLocalidad.textContent = localidad.value + ', ' + provincia.value + ', ' + latitud.value + ', ' + longitud.value;
         //Le coloco el valor del span al input
         elemetoInput.setAttribute('name', elementoLocalidad.textContent)
         listaDestinos.push(elementoLocalidad.textContent);
@@ -143,16 +180,19 @@ document.addEventListener('DOMContentLoaded', function () {
         // destinosAgregados.appendChild(document.createTextNode(", "));
 
         // Limpia los campos después de agregar el destino
+        document.getElementById('latitud-input').value = '';
+        document.getElementById('longitud-input').value = '';
         document.getElementById('locality-input').value = '';
         document.getElementById('administrative_area_level_1-input').value = '';
     });
 
     // Agrega el evento click al botón "Confirmar destinos"
-    $('#confirmar-destinos').on('click', function(){
+    $('#confirmar-destinos').on('click', function () {
         //Almacena los valores del input 'input-destino'
-        
+        console.log({ idViaje });
+
         var formData = {
-            'destinos' :[]
+            'destinos': []
         }
         $('.input-destino').each(function () {
             formData['destinos'].push($(this).attr('name'));
@@ -165,23 +205,34 @@ document.addEventListener('DOMContentLoaded', function () {
         // console.log(urlParams);
         // // Obtener el valor del parámetro "id"
         // var idViaje = urlParams.get("id");
-        var urlActual = window.location.href;
-        var url = new URL(urlActual);
-        console.log(url);
-        var idViaje = url.searchParams.get("id_viaje");
 
+        //ESTO TENIA NACHO
+        //var urlActual = window.location.href;
+        //var url = new URL(urlActual);
+        //console.log(url);
+        //var idViaje = url.searchParams.get("id_viaje");
+
+        var urlActual = window.location.href;
+        var partesDeLaURL = urlActual.split('/');
+        var idViaje = partesDeLaURL[partesDeLaURL.length - 1];
         console.log(idViaje);
+
 
         var url = `/googleMaps/confirmarDestino/${idViaje}`;
         console.log(url);
+
+        var csrfToken = $('[name=csrfmiddlewaretoken]').val();
 
         $.ajax({
             url: url,
             type: 'POST',
             data: JSON.stringify(formData),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             dataType: 'json',
-            success: function(data){
+            success: function (data) {
                 alert('nashe');
                 window.close();
             }

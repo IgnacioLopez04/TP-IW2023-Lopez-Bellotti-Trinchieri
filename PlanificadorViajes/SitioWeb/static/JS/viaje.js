@@ -3,7 +3,7 @@ src = "https://code.jquery.com/jquery-3.6.0.min.js";
 
 function abrirMapa() {
     var id_viaje = $('#id-viaje-input').val();
-    window.open(`/googleMaps/cargarDestino/${id_viaje}`, 'Mapa', 'width=800,height=600');
+    window.open(`/googleMaps/cargarDestino/${id_viaje}`, 'Mapa', 'width=800,height=600', { 'idViaje': id_viaje });
 }
 
 //agregar correos

@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <p><span>Descripción:</span> ${viaje.descripcion}</p>
                             <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
                             <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            <p><span>Estado:</span> ${viaje.estado}</p>
                         </div>`;
                     });
                 }

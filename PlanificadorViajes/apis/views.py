@@ -44,6 +44,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         calif = request.GET.get('calificacion')
           
         viajes = Viaje_General.objects.all().filter(esPrivado=False)
+        viajes = self.get_queryset().filter(estado='ACTIVO')
         viajes= filtrar_viajes_queryset(viajes,destino,dias_hasta,calif)
 
         #devuelvo los viajes y ordeno de manera descendente los viajes por la calificación que tengan
