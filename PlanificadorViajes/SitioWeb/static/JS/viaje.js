@@ -1,13 +1,12 @@
 const total_form = document.getElementById('id_form-TOTAL_FORMS');
+src = "https://code.jquery.com/jquery-3.6.0.min.js";
 
 function abrirMapa() {
-    let formularioAgregarDia = event.target.closest('.form-dia');
-    numDiaViaje = formularioAgregarDia.id.replace('id-form-dia-', '');
-    window.open(`/googleMaps/cargarDestino/${numDiaViaje}`, 'Mapa', 'width=800,height=600');
+    var id_viaje = $('#id-viaje-input').val();
+    window.open(`/googleMaps/cargarDestino/${id_viaje}`, 'Mapa', 'width=800,height=600');
 }
 
 //agregar correos
-src = "https://code.jquery.com/jquery-3.6.0.min.js"
 $(document).ready(function () {
     // Detecta cambios en el campo "Es privado"
     $("select[name='esPrivado']").change(function () {
@@ -65,10 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
             elementoDiv.appendChild(elementoCorreo)
             elementoDiv.appendChild(botonEliminar)
             correosAgregados.appendChild(elementoDiv);
-
-
-            // Agregar una coma y un espacio para separar múltiples correos
-
 
             // Limpiar el campo de entrada de correo
             inputCorreos.value = "";

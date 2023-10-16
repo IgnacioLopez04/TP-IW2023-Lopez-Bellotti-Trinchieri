@@ -4,6 +4,7 @@
 {%block estilo%}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href={% static 'CSS/viaje.css' %}>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {%endblock%}
 
 {% block content%}
@@ -61,8 +62,8 @@
                           {% endfor %}
                       </div>
                       <div class="modal-footer">
-                          <button type="submit" class='btn btn-primary' id='anterior'>Anterior</button>
-                          <button type="submit" class='btn btn-primary' id='siguiente'>Siguiente</button>
+                          {% comment %} <button type="submit" class='btn btn-primary' id='anterior'>Anterior</button>
+                          <button type="submit" class='btn btn-primary' id='siguiente'>Siguiente</button> {% endcomment %}
                           <button type="submit" class="btn btn-primary">Confirmar</button>
                       </div>
                   </form>
@@ -73,6 +74,13 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    {% comment %} Modal cargar destinos {% endcomment %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content-destinos">
             </div>
         </div>
     </div>
@@ -101,6 +109,14 @@
 
     <script>
         $(function (){
+            //Abrir cargar destino en un modal
+            {% comment %} $('#id_cargarDestino').on('click', function(){
+
+                var url = "{% url 'cargar-destino'%}";
+                $.get(url, function(data){
+                    $('.modal-content-destinos').html(data);
+                })
+            }) {% endcomment %}
             //confirmar el viaje
             $('#btn-confirmar-viaje').on('click',function(){
 

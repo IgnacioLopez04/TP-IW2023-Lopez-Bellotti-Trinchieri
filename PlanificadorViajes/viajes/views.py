@@ -2,28 +2,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
 from django.forms import formset_factory
-from viajes.models import Viaje_General, Destino, Viaje_Dia
-from django.http import HttpResponse
+from viajes.models import Viaje_General, Viaje_Dia
 import random
-from decimal import Decimal
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.contrib.auth import get_user_model
-from registration.token import account_activation_token, account_activation_token_viaje 
+from registration.token import account_activation_token_viaje 
 from django.contrib import messages
 import json
 
 from django.core import serializers
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+
 from .forms import CargarDiaViajeForm
 from .models import Viaje_Dia
 from django.views.generic.edit import (
