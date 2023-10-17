@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def filtrar_viajes_queryset(viajes, destino, dias_hasta, calif):
     if destino:
-        viajes = viajes.filter(viaje_dia__destinos__nombre__icontains=destino).distinct()
+        viajes = viajes.filter(viaje_dia__destinos__icontains=destino).distinct()
 
     if dias_hasta:
         viajes = viajes.filter(cantidadDias__lte=dias_hasta)

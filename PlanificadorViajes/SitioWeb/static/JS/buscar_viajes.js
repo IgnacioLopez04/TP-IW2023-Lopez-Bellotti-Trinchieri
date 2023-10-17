@@ -60,9 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 if (data.length === 0) {
+                    console.log("no anduvo");
                     // Si no se encontraron resultados, muestra un mensaje
                     resultsDiv.innerHTML = '<p>No se encontraron resultados.</p>';
                 } else {
+                    console.log("data: ", data);
                     // Maneja los datos recibidos y genera el HTML de los resultados
                     data.forEach(viaje => {
                         resultsDiv.innerHTML += `
