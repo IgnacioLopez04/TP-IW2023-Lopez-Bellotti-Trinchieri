@@ -257,7 +257,7 @@ class DiaViajeReadView(DetailView):
 class DiaViajeDeleteView(DeleteView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/eliminar-dia-viaje.html'
-    success_message = 'El dia fue actualizado con exito!.'
+    success_message = 'El dia fue eliminado con exito!.'
     success_url = reverse_lazy('viajes-cargar-viaje')
 
     def get(self, request, dia_pk, *args, **kwargs):
