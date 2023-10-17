@@ -113,17 +113,17 @@ if DEBUG == True:
     from dotenv import load_dotenv
     load_dotenv()
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_FROM = os.getenv('VERIFICATION_EMAIL')
-EMAIL_HOST_USER = os.getenv('VERIFICATION_EMAIL')
-EMAIL_HOST_PASSWORD = os.getenv('VERIFICATION_EMAIL_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_FROM = os.getenv('VERIFICATION_EMAIL')
+    EMAIL_HOST_USER = os.getenv('VERIFICATION_EMAIL')
+    EMAIL_HOST_PASSWORD = os.getenv('VERIFICATION_EMAIL_PASSWORD')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
-PASSWORD_RESET_TIMEOUT = 14400 
+    PASSWORD_RESET_TIMEOUT = 14400
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
