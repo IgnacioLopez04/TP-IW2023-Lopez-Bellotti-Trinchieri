@@ -104,10 +104,14 @@ def cargarViaje(request):
             
             buscarCorreo(request, viaje_form)
             viaje_form.estado = 'BORRADOR'
-            viaje_form.save()
+
             
             dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)
 
+            print(dias_viaje.count())
+
+            viaje_form.cantidadDias= dias_viaje.count()
+            viaje_form.save()
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
             response_data = {
@@ -146,6 +150,8 @@ def confirmarViaje(request):
             viaje_actual = get_object_or_404(Viaje_General, pk = id_viaje)
             
             viaje_actual.estado = "ACTIVO"
+            # Calcular y asignar la cantidad de días
+            viaje_actual.cantidadDias = viaje_actual.viaje_dia.count()
             viaje_actual.save()
             messages.success(request, f'Se confirmo el viaje.')
             response_data['success'] = True

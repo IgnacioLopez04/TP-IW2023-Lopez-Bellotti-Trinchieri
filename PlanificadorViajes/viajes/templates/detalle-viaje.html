@@ -75,9 +75,7 @@
 
                 viajeDestinos.forEach(function(destino) {
 
-                    console.log("contador dia: ", (contadorDia + 1));
                     var ul = document.getElementById("destino-" + (contadorDia+1));
-                    console.log("ul: ", ul);
 
                     var latitud = parseFloat(destino.latitud.replace(',', '.'));
                     var longitud = parseFloat(destino.longitud.replace(',', '.'));

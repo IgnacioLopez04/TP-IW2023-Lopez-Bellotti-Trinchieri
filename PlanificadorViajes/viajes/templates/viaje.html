@@ -126,9 +126,6 @@
                     hiddenField.id = "id-destino-" + i;
                     hiddenField.value = destino;
 
-                    console.log("destino: ", destino);
-                    console.log("hidden fields: ", hiddenField);
-
                     // Agrega el campo type="hidden" al contenedor
                     container.appendChild(hiddenField);
                 }
@@ -207,7 +204,6 @@
                     data: formData,
                     dataType: 'json',
                     success: function (response) {
-                        console.log("destinos JSON: ", response.destinos);
                         //Restea el formulario normal
                         $("#crear-dia-form")[0].reset();
 
