@@ -217,6 +217,7 @@ def confirmarViaje(request):
 #CREAR
 def DiaViajeCreateView(request):
     id_viaje = request.POST.get('id-viaje')
+    destinos = request.POST.getlist('input-destino')
     viaje_general = get_object_or_404(Viaje_General, id=id_viaje)
 
     if request.method == 'POST':
@@ -226,9 +227,26 @@ def DiaViajeCreateView(request):
             dia.viaje = viaje_general
             dia.save()
 
+            destinos_fomateados = []
+            for destino in destinos:
+                ciudad, provincia, latitud, longitud = destino.split(", ")
+                destino_fomateado = {
+                    'nombre' : ciudad,
+                    'provincia' : provincia,
+                    'latitud' : latitud,
+                    'longitud' : longitud,
+                }
+
+                destinos_fomateados.append(destino_fomateado)
+
+            destinos_json = json.dumps(destinos_fomateados)
+
+            dia.destinos = destinos_json
+
             response_data = {
                 'success': True,
                 'message': 'Los datos del dia han sido guardados con éxito.',
+                'destinos': destinos_json,
             }
 
             return JsonResponse(response_data)

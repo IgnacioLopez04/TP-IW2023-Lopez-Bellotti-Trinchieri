@@ -189,36 +189,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // Agrega el evento click al botón "Confirmar destinos"
     $('#confirmar-destinos').on('click', function () {
         //Almacena los valores del input 'input-destino'
-        console.log({ idViaje });
-
         var formData = {
             'destinos': []
         }
+
         $('.input-destino').each(function () {
             formData['destinos'].push($(this).attr('name'));
         });
 
-        // var urlActual = window.location.href;
-        // console.log(urlActual);
-        // // Analizar la URL para obtener los parámetros
-        // var urlParams = new URLSearchParams(urlActual);
-        // console.log(urlParams);
-        // // Obtener el valor del parámetro "id"
-        // var idViaje = urlParams.get("id");
+        window.opener.postMessage(formData, "*");
 
-        //ESTO TENIA NACHO
-        //var urlActual = window.location.href;
-        //var url = new URL(urlActual);
-        //console.log(url);
-        //var idViaje = url.searchParams.get("id_viaje");
+        window.close();
 
-        var urlActual = window.location.href;
+        /* var urlActual = window.location.href;
+        console.log(urlActual);
         var partesDeLaURL = urlActual.split('/');
-        var idViaje = partesDeLaURL[partesDeLaURL.length - 1];
-        console.log(idViaje);
+        var id_dia_viaje = partesDeLaURL[partesDeLaURL.length - 1];
+        console.log(id_dia_viaje);
 
 
-        var url = `/googleMaps/confirmarDestino/${idViaje}`;
+        var url = `/googleMaps/confirmarDestino/${id_dia_viaje}`;
         console.log(url);
 
         var csrfToken = $('[name=csrfmiddlewaretoken]').val();
@@ -233,30 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             dataType: 'json',
             success: function (data) {
-                alert('nashe');
                 window.close();
             }
-        })
+        }) */
     });
-
-    // const confirmarDestinosBtn = document.getElementById('confirmar-destinos');
-    // confirmarDestinosBtn.addEventListener('click', function () {
-
-    //     const urlActual = window.location.href;
-    //     const matches = urlActual.match(/\/(\d+)$/);
-    //     var ultimoNumero = parseInt(matches[1]);
-
-    //     const objetoJSON = {
-    //         destinos: listaDestinos,
-    //         num_dia: ultimoNumero
-    //     };
-
-    //     let nuevoJson = JSON.stringify(objetoJSON)
-
-    //     // window.opener.recibirDestinos(nuevoJson);
-
-    //     //listarDestinosPorDia(listaDestinos, ultimoNumero);
-    //     window.close();
-    // });
 });
 

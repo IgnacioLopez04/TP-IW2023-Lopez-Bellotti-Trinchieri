@@ -21,10 +21,16 @@ admin.site.register(Viaje_General, AdminViaje)
 
 class AdminDiaViaje(admin.ModelAdmin):
     list_display = ('nombreDia', 'viaje','get_destinos','notas')  # uso una función get_destinos para mostrar la lista en el admin
-    
-    def get_destinos(self, obj):
+    #list_display = ('nombreDia', 'viaje','notas')  # uso una función get_destinos para mostrar la lista en el admin
+
+    """def get_destinos(self, obj):
         return ", ".join([destino.nombre for destino in obj.destinos.all()])
-    get_destinos.short_description = 'Destinos'  # Nombre de la columna en la lista
+    get_destinos.short_description = 'Destinos'  # Nombre de la columna en la lista"""
+
+    def get_destinos(self, obj):
+        return ", ".join([[f"{d['nombre']} ({d['ciudad']})" for d in destinos]])
+
+    get_destinos.short_description = 'Destinos'
 
 admin.site.register(Viaje_Dia, AdminDiaViaje)
 

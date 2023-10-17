@@ -33,7 +33,7 @@ class Viaje_General(models.Model):
 
 class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
-    destinos = models.ManyToManyField(Destino, related_name='destinos')
+    destinos = models.JSONField(Destino, null=True)
     notas = models.CharField(max_length=250)
     viaje = models.ForeignKey(Viaje_General, related_name='viaje_dia', on_delete=models.CASCADE, null=True)
     

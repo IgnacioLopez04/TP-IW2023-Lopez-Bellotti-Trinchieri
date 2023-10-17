@@ -6,19 +6,16 @@ from django.http import JsonResponse
 from django.conf import settings
 
 @login_required
-def cargarDestino(request, id_viaje):
+def cargarDestino(request, id_dia_viaje):
     return render(request, 'cargarDestino.html', {'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
 
-def confirmarDestino(request, id_viaje):
+def confirmarDestino(request, id_dia_viaje):
     if request.method == 'POST':
-        viaje_actual = get_object_or_404(Viaje_General, id = id_viaje)
-        dia_viaje = get_object_or_404(Viaje_Dia, viaje = viaje_actual)
-        print(dia_viaje)
+        dia_viaje = get_object_or_404(Viaje_Dia, id = id_dia_viaje)
         try:
             data = json.loads(request.body.decode('utf-8'))
             destinos = data['destinos']
             for destino in destinos:
-                print("El destino es: ", destino)
                 dia_viaje.destinos.create(nombre=destino)
             
             dia_viaje.save()
