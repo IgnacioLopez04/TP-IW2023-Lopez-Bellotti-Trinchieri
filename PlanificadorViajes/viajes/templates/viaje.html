@@ -113,7 +113,6 @@
     {% comment %} <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script> {% endcomment %}
 
     <script>
-<<<<<<< HEAD
         window.addEventListener("message", function(event) {
             if (event.data && Array.isArray(event.data.destinos)) {
                 var container = document.getElementById("hidden-fields");
@@ -149,7 +148,7 @@
             }) {% endcomment %}
             //Boton confirmar el viaje
 
-            $(document).ready(function(){
+            {% comment %}$(document).ready(function(){
                 function cargarDiasViaje(formData){
                     $.ajax({
                         url:"{% url 'mostrar-dias-viaje' %}",
@@ -164,7 +163,7 @@
                         }
                     });
                 }
-            }
+            }) {% endcomment %}
 
             //confirmar viaje
             $('#btn-confirmar-viaje').on('click',function(){
@@ -208,7 +207,7 @@
                     data: formData,
                     dataType: 'json',
                     success: function (response) {
-                        console.log("destinos: ", response.destinos);
+                        console.log("destinos JSON: ", response.destinos);
                         var url = "{% url 'mostrar-dias-viaje' %}";
                         $.ajax({
                             url: url,
