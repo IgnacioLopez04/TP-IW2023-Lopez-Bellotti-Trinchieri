@@ -1,0 +1,32 @@
+
+.modal-header, .modal-body{
+    border-bottom: 2px dotted #ff8000;
+}
+
+.modal-body input{
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.btn-confirmar-dia{
+    background-color: #1B3358;
+    color: #ff8000;
+    border: none;
+}
+
+.btn-confirmar-dia:hover {
+    background-color: #ff8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+
+#id_cargarDestino{
+    border: none;
+    border-radius: 10px;
+    padding: 5px 0px;
+}
+
+#id_cargarDestino:hover{
+    background-color: #ff8000;
+    color: #1B3358;
+}
