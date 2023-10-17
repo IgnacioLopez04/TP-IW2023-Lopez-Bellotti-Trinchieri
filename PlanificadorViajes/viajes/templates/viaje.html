@@ -92,7 +92,6 @@
 
     {% comment %} Mostrar los dias del viaje {% endcomment %}
     <div class='d-flex justify-content-center align-items-center flex-wrap w-100 cont-dias'>
-        
     </div>
     
   </section>
@@ -108,18 +107,25 @@
     {% comment %} <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script> {% endcomment %}
 
     <script>
-        $(function (){
-            //Abrir cargar destino en un modal
-            {% comment %} $('#id_cargarDestino').on('click', function(){
+        $(document).ready(function(){
+            function cargarDiasViaje(formData){
+                $.ajax({
+                    url:"{% url 'mostrar-dias-viaje' %}",
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('.cont-dias').html(data.html_response);
+                    },
+                    error: function(){
+                        alert('No se pudieron cargar los dias.');
+                    }
+                });
+            }
 
-                var url = "{% url 'cargar-destino'%}";
-                $.get(url, function(data){
-                    $('.modal-content-destinos').html(data);
-                })
-            }) {% endcomment %}
-            //confirmar el viaje
+            //confirmar viaje
             $('#btn-confirmar-viaje').on('click',function(){
-
+    
                 var formData = $('#crear-dia-form').serialize();
                 $.ajax({
                     url: "{% url 'confirmar-viaje' %}",
@@ -127,14 +133,12 @@
                     data: formData,
                     dataType: 'json',
                     success: function(data){
-                        //console.log(data.messages);
                         if (data.success){
                             window.location.href = "{% url 'sitio-inicio' %}";
                             if(data.messages){
-                                //console.log($('#mensaje-alerta').text(data.messages));
+                                console.log($('#mensaje-alerta').text(data.messages));
                             }
                         }else{
-                            console.log(document.getElementById('mensaje-alerta'));
                             if(data.messages){
                                 console.log($('#mensaje-alerta').text(data.messages));
                             }
@@ -144,8 +148,8 @@
                         alert('No se pudo realizar.');
                     }
                 })
-            })
-
+            });
+    
             //Boton crear dia
             $("#create-dia-viaje").on('click', function (){
                 $("#create-modal").modal('show');
@@ -167,9 +171,10 @@
                             type: 'POST',
                             data: formData,
                             dataType: 'json',
-
+    
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
+                                cargarDiasViaje(formData);
                             }
                         })
                     },
@@ -177,80 +182,69 @@
                         alert('Error al guardar los datos del dia');
                     }
                 })
-
+    
                 $("#create-modal").modal('hide');
+    
+            });
+        });
 
-            })
+
+        {% comment %} //Boton leer dia
+        $(".read-dia-viaje").on('click', function (){
         
-            //Boton leer dia
-            $(".read-dia-viaje").on('click', function (){
+            var formUrl = $(this).data("form-url");
+    
+            $.get(formUrl, function (data) {
+                $(".modal-content").html(data);
+                $("#modal").modal('show');
+            });
+        });
+
+         //Boton actualizar dia
+        $(".update-dia-viaje").on('click', function (){
         
-                var formUrl = $(this).data("form-url");
-        
-                $.get(formUrl, function (data) {
-                    $(".modal-content").html(data);
-                    $("#modal").modal('show');
-                });
-            })
-        
-            //Boton actualizar dia
-            $(".update-dia-viaje").on('click', function (){
-        
-                var formUrl = $(this).data("form-url");
-        
-                $.get(formUrl, function (data) {
-                    $(".modal-content").html(data);
-                    $("#modal").modal('show');
-                });
-                $("#modal").on('submit', "#update-dia-form", function (e) {
-                    e.preventDefault();
-        
-                    var formData = $(this).serialize();
-                    $.ajax({
-                        url: formUrl,
-                        type: 'POST',
-                        data: formData,
-                        dataType: 'json',
-                        /*success: function () {
-                            alert('El dia fue actualizado');
-                        },
-                        error: function() {
-                            alert('Error al actualizar los datos');
-                        }*/
-                    })
-        
-                    $("#modal").modal('hide');
+            var formUrl = $(this).data("form-url");
+    
+            $.get(formUrl, function (data) {
+                $(".modal-content").html(data);
+                $("#modal").modal('show');
+            });
+            $("#modal").on('submit', "#update-dia-form", function (e) {
+                e.preventDefault();
+    
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: formUrl,
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
                 })
-            })
-        
-            //Boton eliminar dia
-            $(".delete-dia-viaje").on('click', function (){
-                var formUrl = $(this).data("form-url");
-        
-                $.get(formUrl, function (data) {
-                    $(".modal-content").html(data);
-                    $("#modal").modal('show');
-                });
-        
-                $("#modal").on('submit', "#delete-dia-form", function (e) {
-                    e.preventDefault();
-        
-                    var formData = $(this).serialize();
-                    $.ajax({
-                        url: formUrl,
-                        type: 'POST',
-                        data: formData,
-                        /*success: function () {
-                            alert('El dia se elimino con exito');
-                        },
-                        error: function() {
-                            alert('Error al eliminar el dia');
-                        }*/
-                    });
-                    $("#modal").modal('hide');
-                })
+    
+                $("#modal").modal('hide');
             })
         });
+
+        //Boton eliminar dia
+        $(".delete-dia-viaje").on('click', function (){
+            var formUrl = $(this).data("form-url");
+    
+            $.get(formUrl, function (data) {
+                $(".modal-content").html(data);
+                $("#modal").modal('show');
+            });
+    
+            $("#modal").on('submit', "#delete-dia-form", function (e) {
+                e.preventDefault();
+    
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: formUrl,
+                    type: 'POST',
+                    data: formData,
+                });
+                $("#modal").modal('hide');
+            })
+        }); {% endcomment %}
     </script>
     <!-- Guardar el formulario sin redireccionar/recargar la pagina -->
     <script>

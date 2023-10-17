@@ -294,6 +294,5 @@ def mostrarDiasViaje(request):
         'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje}),
     }
     
-    
     return JsonResponse(response)
      

@@ -215,11 +215,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var urlActual = window.location.href;
         var partesDeLaURL = urlActual.split('/');
         var idViaje = partesDeLaURL[partesDeLaURL.length - 1];
-        console.log(idViaje);
-
 
         var url = `/googleMaps/confirmarDestino/${idViaje}`;
-        console.log(url);
 
         var csrfToken = $('[name=csrfmiddlewaretoken]').val();
 
@@ -233,7 +230,6 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             dataType: 'json',
             success: function (data) {
-                alert('nashe');
                 window.close();
             }
         })
