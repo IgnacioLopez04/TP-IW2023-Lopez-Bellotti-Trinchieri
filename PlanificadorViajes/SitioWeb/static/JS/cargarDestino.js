@@ -200,30 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.opener.postMessage(formData, "*");
 
         window.close();
-
-        /* var urlActual = window.location.href;
-        console.log(urlActual);
-        var partesDeLaURL = urlActual.split('/');
-
-        var idViaje = partesDeLaURL[partesDeLaURL.length - 1];
-
-        var url = `/googleMaps/confirmarDestino/${idViaje}`;
-
-        var csrfToken = $('[name=csrfmiddlewaretoken]').val();
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            headers: {
-                'X-CSRFToken': csrfToken
-            },
-            dataType: 'json',
-            success: function (data) {
-                window.close();
-            }
-        }) */
     });
 });
 

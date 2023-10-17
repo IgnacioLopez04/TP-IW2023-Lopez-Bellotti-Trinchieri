@@ -208,6 +208,12 @@
                     dataType: 'json',
                     success: function (response) {
                         console.log("destinos JSON: ", response.destinos);
+                        //Restea el formulario normal
+                        $("#crear-dia-form")[0].reset();
+
+                        //Reseta los campos hidden 'input-destino'
+                        $('#crear-dia-form').find('input[name="input-destino"]').remove();
+
                         var url = "{% url 'mostrar-dias-viaje' %}";
                         $.ajax({
                             url: url,

@@ -69,12 +69,18 @@
     
             // Itera sobre los destinos y establece los marcadores.
             {% for dia in viaje.viaje_dia.all %}
-                var contadorDia={{forloop.counter0}}; 
-                {% for destino in dia.destinos.all %}
+                var contadorDia={{forloop.counter0}};
 
-                    //las paso al formato correcto porque la base de datos no la almacena con punto, sino que con coma
-                    var latitud = parseFloat("{{ destino.latitud }}".replace(',', '.'));
-                    var longitud = parseFloat("{{ destino.longitud }}".replace(',', '.'));
+                var viajeDestinos = {{ dia.destinos|safe }};
+
+                viajeDestinos.forEach(function(destino) {
+
+                    console.log("contador dia: ", (contadorDia + 1));
+                    var ul = document.getElementById("destino-" + (contadorDia+1));
+                    console.log("ul: ", ul);
+
+                    var latitud = parseFloat(destino.latitud.replace(',', '.'));
+                    var longitud = parseFloat(destino.longitud.replace(',', '.'));
 
                     var colorMarcador;
 
@@ -83,7 +89,7 @@
                         colorMarcador = coloresMarcadores[contadorDia];
                     } else {
                         colorMarcador=generarColorAleatorioUnico();
-                    }  
+                    }
 
                     var marker= setMarkers(map, latitud, longitud, colorMarcador, "{{destino.nombre}}");
                     if (!marcadores[contadorDia]) {
@@ -91,8 +97,12 @@
                     }
                     marcadores[contadorDia].push(marker);
 
+                    var destino_p = document.createElement('p');
+                    destino_p.textContent = destino.nombre + ', ' + destino.provincia;
 
-                {% endfor %}
+                    ul.appendChild(destino_p);
+
+                });
             {% endfor %}
         }
 
@@ -199,13 +209,8 @@
                                     <h4>Destinos del Día</h4>
                                     <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver en mapa</button>
                                 </div>
-                                <ul>
-                                    {% for destino in dia.destinos.all %}
-                                        <li class="li-dias">
-                                            <p><strong>Nombre del Destino:</strong> {{ destino.nombre }}</p>
-                                            <p><strong>Descripción:</strong> {{ destino.descripcion }}</p>    
-                                        </li>
-                                    {% endfor %}
+                                <ul id="destino-{{forloop.counter}}">
+
                                 </ul>
                             </li>
                         {% endfor %}

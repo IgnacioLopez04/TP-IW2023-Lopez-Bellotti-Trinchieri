@@ -187,6 +187,8 @@ def DiaViajeCreateView(request):
 
             dia.destinos = destinos_json
 
+            dia.save()
+
             response_data = {
                 'success': True,
                 'message': 'Los datos del dia han sido guardados con éxito.',
