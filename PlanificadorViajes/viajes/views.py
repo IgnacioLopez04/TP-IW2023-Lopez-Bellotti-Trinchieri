@@ -45,7 +45,7 @@ def detalle_viaje_token(request, tk):
     viaje = get_object_or_404(Viaje_General, token=tk)
     
     if viaje is not None:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')
