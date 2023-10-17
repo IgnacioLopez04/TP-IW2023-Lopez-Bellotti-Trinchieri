@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Manejar el clic en el botón de eliminar junto a los correos existentes
+    // Manejar el click en el botón de eliminar junto a los correos existentes
     correosAgregados.addEventListener("click", function (event) {
         if (event.target.classList.contains("btn-eliminar")) {
             var correoAEliminar = event.target.previousSibling; // El span del correo
@@ -133,7 +133,6 @@ function obtener_campos(lista, attr, texto) {
 }
 
 function eliminar_dia(event) {
-
 
     const form_a_eliminar = event.target.closest('.form-dia');
     form_a_eliminar.setAttribute('class', 'hidden');

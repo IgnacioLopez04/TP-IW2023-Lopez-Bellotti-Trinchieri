@@ -204,12 +204,10 @@ document.addEventListener('DOMContentLoaded', function () {
         /* var urlActual = window.location.href;
         console.log(urlActual);
         var partesDeLaURL = urlActual.split('/');
-        var id_dia_viaje = partesDeLaURL[partesDeLaURL.length - 1];
-        console.log(id_dia_viaje);
 
+        var idViaje = partesDeLaURL[partesDeLaURL.length - 1];
 
-        var url = `/googleMaps/confirmarDestino/${id_dia_viaje}`;
-        console.log(url);
+        var url = `/googleMaps/confirmarDestino/${idViaje}`;
 
         var csrfToken = $('[name=csrfmiddlewaretoken]').val();
 

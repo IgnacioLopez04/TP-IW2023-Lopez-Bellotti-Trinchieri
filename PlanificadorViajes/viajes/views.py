@@ -26,67 +26,6 @@ from django.views.generic.edit import (
 )
 from django.views.generic.detail import DetailView
 
-# @login_required
-# def cargarViaje_viejo(request):
-#     DiaFormSet = formset_factory(CargarDiaViajeForm, extra=1, can_delete=True)
-
-#     correos = []
-    
-#     if request.method == 'POST':
-#         # form = ViajeForm(request.POST, meses_dict = meses_dict)
-#         viaje_form = ViajeForm(request.POST)
-#         dia_formset = DiaFormSet(request.POST)
-
-#         if viaje_form.is_valid():
-#             viaje_form = viaje_form.save(commit=False)
-#             viaje_form.usuario = request.user
-
-#             viaje_form.calificacion= random.randint(1, 5) #le doy una calificacion aleatoria por ahora para que ande el filtro
-
-#             viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
-#             for key in request.POST.keys():
-#                 if key.startswith('correo-span'):
-#                     print(key)
-#                     correo = request.POST.get(key, '')
-#                     correos.append(correo)
-            
-#             for correo in correos:
-#                 enviar_correos_privados(request,correo,viaje_form.token)
-#             viaje_form.save()
-
-
-#         #ver si el viaje es privado y si hay correos para enviar (puede ser que sea privado y no quiera invitar a nadie)
-#         es_privado = viaje_form.esPrivado
-        
-#         if dia_formset.is_valid():
-#             cant_dias = 0
-
-#             for f in dia_formset:
-#                 if f in dia_formset.deleted_forms:
-#                     continue
-#                 f_instance = f.save(commit=False)
-#                 f_instance.viaje = viaje_form
-#                 f_instance.save()
-
-#                 cant_dias += 1
-
-#                 destinos_seleccionados = f.cleaned_data.get('destinos')
-#                 f_instance.destinos.set([destinos_seleccionados])
-
-#             viaje_form.cantidadDias = cant_dias
-#             viaje_form.save()
-
-#             return redirect('sitio-inicio')
-#     else:
-#         viaje_form = ViajeForm()
-#         dia_formset = DiaFormSet()
-
-#     return render(request, 'viaje.html', {
-#         'form': viaje_form,
-#         'formset': dia_formset,
-#     })
-
-
 def detalle_viaje(request, viaje_id): 
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
     
@@ -138,6 +77,18 @@ def enviar_correos_privados(request, to_email, token):
 
 ###########
 
+def buscarCorreo(request, viaje):
+    correos = []
+    viaje.token = account_activation_token_viaje.make_token(viaje.usuario)
+    for key in request.POST.keys():
+        if key.startswith('correo-span'):
+            print(key)
+            correo = request.POST.get(key, '')
+            correos.append(correo)
+
+    for correo in correos:
+        enviar_correos_privados(request, correo, viaje.token)
+
 @login_required
 def cargarViaje(request):
     correos = []
@@ -150,17 +101,8 @@ def cargarViaje(request):
             viaje_form.usuario = request.user
 
             viaje_form.calificacion = random.randint(1, 5)  # le doy una calificacion aleatoria por ahora para que ande el filtro
-
-            viaje_form.token = account_activation_token_viaje.make_token(viaje_form.usuario)
-            for key in request.POST.keys():
-                if key.startswith('correo-span'):
-                    print(key)
-                    correo = request.POST.get(key, '')
-                    correos.append(correo)
-
-            for correo in correos:
-                enviar_correos_privados(request, correo, viaje_form.token)
-
+            
+            buscarCorreo(request, viaje_form)
             viaje_form.estado = 'BORRADOR'
             viaje_form.save()
             
@@ -207,6 +149,8 @@ def confirmarViaje(request):
             viaje_actual.save()
             messages.success(request, f'Se confirmo el viaje.')
             response_data['success'] = True
+            
+            buscarCorreo(request, viaje_actual)
            
         messages_list = [str(message) for message in messages.get_messages(request)]
         response_data['messages'] = messages_list
@@ -275,7 +219,7 @@ class DiaViajeReadView(DetailView):
 class DiaViajeDeleteView(DeleteView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/eliminar-dia-viaje.html'
-    success_message = 'El dia fue actualizado con exito!.'
+    success_message = 'El dia fue eliminado con exito!.'
     success_url = reverse_lazy('viajes-cargar-viaje')
 
     def get(self, request, dia_pk, *args, **kwargs):
@@ -311,7 +255,6 @@ def mostrarDiasViaje(request):
     response = {
         'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje}),
     }
-    
     
     return JsonResponse(response)
      
