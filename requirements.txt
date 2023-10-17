@@ -14,3 +14,5 @@ django-allauth==0.55.2
 django-extensions==3.2.3
 
 six==1.16.0
+
+python-dotenv==1.0.0
