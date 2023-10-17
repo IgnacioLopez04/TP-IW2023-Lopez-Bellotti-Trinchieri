@@ -102,6 +102,8 @@
 
                 });
             {% endfor %}
+            
+            mostrarTodosLosMarcadores(map);
         }
 
         //Si hay viajes con mas de 20 días, se empiezan a generar colores aleatorios para los marcadores
@@ -121,21 +123,33 @@
         }
 
         function mostrarMarcadoresPorDia(diaSeleccionado, mapa) {
-            // Itera sobre los marcadores de todos los días.
+            // Oculta todos los marcadores
             for (var dia in marcadores) {
                 if (marcadores.hasOwnProperty(dia)) {
                     marcadores[dia].forEach(function(marker) {
-                        // Verifica si el marcador pertenece al día seleccionado.
-                        if (dia == diaSeleccionado) {
-                            marker.setMap(mapa); // Muestra el marcador en el mapa.
-                        } else {
-                            marker.setMap(null); // Oculta el marcador.
-                        }
+                        marker.setMap(null);
                     });
                 }
             }
+        
+            // Muestra los marcadores del día seleccionado
+            if (marcadores.hasOwnProperty(diaSeleccionado)) {
+                marcadores[diaSeleccionado].forEach(function(marker) {
+                    marker.setMap(mapa);
+                });
+        
+                // Calcula el centro geográfico de los marcadores del día seleccionado
+                var bounds = new google.maps.LatLngBounds();
+                marcadores[diaSeleccionado].forEach(function(marker) {
+                    bounds.extend(marker.getPosition());
+                });
+        
+                // Centra el mapa en el centro geográfico de los marcadores
+                mapa.setCenter(bounds.getCenter());
+                mapa.fitBounds(bounds);
+            }
         }
-
+        
         function cargarBotones(mapa)
         {
             {% for dia in viaje.viaje_dia.all %}
@@ -150,14 +164,27 @@
         }
         
 
-        function mostrarTodosLosMarcadores( mapa) {
-            // Itera sobre los marcadores de todos los días.
+        function mostrarTodosLosMarcadores(mapa) {
+            var allMarkers = [];
+            
+            // Itera sobre los marcadores de todos los días y agrega todos los marcadores a la lista "allMarkers".
             for (var dia in marcadores) {
                 if (marcadores.hasOwnProperty(dia)) {
-                    marcadores[dia].forEach(function(marker) {
-                            marker.setMap(mapa); // Muestra el marcador en el mapa.
-                    });
+                    allMarkers = allMarkers.concat(marcadores[dia]);
                 }
+            }
+        
+            if (allMarkers.length > 0) {
+                // Calcula el centro geográfico de todos los marcadores.
+                var bounds = new google.maps.LatLngBounds();
+                allMarkers.forEach(function(marker) {
+                    marker.setMap(mapa); // Muestra el marcador en el mapa.
+                    bounds.extend(marker.getPosition());
+                });
+        
+                // Centra el mapa en el centro geográfico de todos los marcadores.
+                mapa.setCenter(bounds.getCenter());
+                mapa.fitBounds(bounds);
             }
         }
 
