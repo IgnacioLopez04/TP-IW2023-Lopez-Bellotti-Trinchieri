@@ -108,9 +108,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'PlanificadorViajes.wsgi.application'
 
 #Email
-import os
-from dotenv import load_dotenv
-load_dotenv()
+if DEBUG == True:
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -197,8 +198,8 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
-#import os
-#import dj_database_url
+import os
+import dj_database_url
 
 if 'RENDER' in os.environ:
     print("USING RENDER.COM SETTINGS!")
