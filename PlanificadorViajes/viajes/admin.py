@@ -32,7 +32,7 @@ class AdminDiaViaje(admin.ModelAdmin):
 
         if destinos_json:
             destinos = json.loads(destinos_json)
-            return ", ".join([f"{d['nombre']} ({d['ciudad']})" for d in destinos])
+            return ", ".join([f"{d['nombre']} ({d['provincia']})" for d in destinos])
         else:
             return "Sin destinos"
 
