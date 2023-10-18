@@ -2,3 +2,9 @@
 {{ object.descripcion }}
 {{ object.mesDesde }}
 {{ object.mesHasta }}
+
+{% for dia in object.viaje_dia.all %}
+    {{ dia.nombreDia }}
+    {{ dia.notas }}
+    {{ dia.destinos }}
+{% endfor %}
