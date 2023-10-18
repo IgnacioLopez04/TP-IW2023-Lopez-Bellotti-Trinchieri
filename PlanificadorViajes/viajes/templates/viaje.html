@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class='d-flex justify-content-end align-items-center my-1'>
-                <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Guardar</button>
+                <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Sigiuente</button>
                 <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar</button>
             </div>
         </form>
@@ -68,8 +68,6 @@
                           {% endfor %}
                       </div>
                       <div class="modal-footer">
-                          {% comment %} <button type="submit" class='btn btn-primary' id='anterior'>Anterior</button>
-                          <button type="submit" class='btn btn-primary' id='siguiente'>Siguiente</button> {% endcomment %}
                           <button type="submit" class="btn btn-primary btn-confirmar-dia">Confirmar</button>
                       </div>
                   </form>
@@ -79,14 +77,7 @@
     <!-- Modal para read / update / delete  -->
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            </div>
-        </div>
-    </div>
-    {% comment %} Modal cargar destinos {% endcomment %}
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content-destinos">
+            <div class="modal-content" id="modal-content">
             </div>
         </div>
     </div>
@@ -132,36 +123,9 @@
             }
         });
     </script>
-
+    {% comment %} Detalle de los dias cargados  {% endcomment %}
     <script>
         $(function (){
-            //Abrir cargar destino en un modal
-            {% comment %} $('#id_cargarDestino').on('click', function(){
-
-                var url = "{% url 'cargar-destino'%}";
-                $.get(url, function(data){
-                    $('.modal-content-destinos').html(data);
-                })
-            }) {% endcomment %}
-            //Boton confirmar el viaje
-
-            {% comment %}$(document).ready(function(){
-                function cargarDiasViaje(formData){
-                    $.ajax({
-                        url:"{% url 'mostrar-dias-viaje' %}",
-                        type: 'POST',
-                        data: formData,
-                        dataType: 'json',
-                        success: function(data) {
-                            $('.cont-dias').html(data.html_response);
-                        },
-                        error: function(){
-                            alert('No se pudieron cargar los dias.');
-                        }
-                    });
-                }
-            }) {% endcomment %}
-
             //confirmar viaje
             $('#btn-confirmar-viaje').on('click',function(){
     
@@ -229,21 +193,10 @@
                 })
     
                 $("#create-modal").modal('hide');
-    
             });
         });
 
-
-        {% comment %} //Boton leer dia
-        $(".read-dia-viaje").on('click', function (){
-        
-            var formUrl = $(this).data("form-url");
-    
-            $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
-                $("#modal").modal('show');
-            });
-        });
+        {% comment %}
 
          //Boton actualizar dia
         $(".update-dia-viaje").on('click', function (){

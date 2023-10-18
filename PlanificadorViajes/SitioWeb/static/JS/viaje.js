@@ -164,3 +164,11 @@ function eliminar_dia(event) {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const btnSiguiente = document.getElementById('btn-cargar-info-viaje-general');
+    
+    btnSiguiente.addEventListener('click', function () {
+      btnSiguiente.style.display = 'none';
+    });
+});
