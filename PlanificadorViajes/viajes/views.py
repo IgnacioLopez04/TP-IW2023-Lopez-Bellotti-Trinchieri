@@ -29,17 +29,12 @@ from django.views.generic.detail import DetailView
 def detalle_viaje(request, viaje_id): 
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
     
-    if request.user == viaje.usuario:
-        
-        if request.method == 'POST':
-            correo = request.POST.get('correo', '')
-            if correo:
-                enviar_correos_privados(request,correo,viaje.token)
-        
-        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
-    else:
-        messages.error(request, f'El viaje es privado. No tenes acceso.')
-        return redirect('sitio-inicio')
+    if request.method == 'POST':
+        correo = request.POST.get('correo', '')
+        if correo:
+            enviar_correos_privados(request,correo,viaje.token)
+    
+    return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
 
 def detalle_viaje_token(request, tk):
     viaje = get_object_or_404(Viaje_General, token=tk)
