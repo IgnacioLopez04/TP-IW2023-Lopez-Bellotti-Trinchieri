@@ -9,14 +9,14 @@
             <p class='m-1'>{{ dia.notas}}</p>
         </div>
         <div class="text-center">
-            <!-- Boton para actualizar el dia -->
+            {% comment %} <!-- Boton para actualizar el dia -->
             <button type="button" data-target="#modal" class="my-1 bs-modal btn btn-sm btn-primary btn-accion-dia update-dia-viaje" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
             <span class="fa fa-pencil">Actualizar</span>
             </button>
             <!-- Boton para eliminar el dia -->
             <button type="button" data-target="#modal" class="my-1 w-100 bs-modal btn btn-sm btn-danger btn-accion-dia delete-dia-viaje" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
             <span class="fa fa-trash">Eliminar</span>
-            </button> 
+            </button>  {% endcomment %}
         </div>
     </div>
 {% endfor %} 
