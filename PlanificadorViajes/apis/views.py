@@ -77,7 +77,7 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['GET'])
     def buscar_un_viaje(self, request):
         id= request.GET.get('id')
-        viaje = self.get_queryset().filter(id=id)
+        viaje = self.get_queryset().filter(id=id).first()
         serializer = self.get_serializer(viaje)
 
         return Response(serializer.data)

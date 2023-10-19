@@ -168,23 +168,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtén el ID del viaje desde la URL
     const urlParams = new URLSearchParams(window.location.search);
     const viajeID = urlParams.get('viaje_id');
-
+    console.log(viajeID);
     if (viajeID) {
         // Realiza una solicitud a la API o al servidor para obtener los detalles del viaje
         // y luego llena los campos de datos con los detalles del viaje.
-        fetch(`/api/viaje_general/un_viaje/?id=${viajeID}`)
+        fetch(`/api/viaje_general/buscar_un_viaje/?id=${viajeID}`)
             .then(response => response.json())
             .then(data => {
-                // Rellena los campos de datos con los detalles del viaje
-                const nombreViajeInput = document.getElementById('id_nombreViaje');
-                const descripcionInput = document.getElementById('id_descripcion');
-                // Agrega más campos según sea necesario
-                print(data.nombreViaje)
-                nombreViajeInput.value = data.nombreViaje;
-                descripcionInput.value = data.descripcion;
-                // Llena más campos según sea necesario
+
+                document.getElementById('id_nombreViaje').value = data.nombreViaje;
+                document.getElementById('id_descripcion').value = data.descripcion;
+                document.getElementById('id_mesDesde').value = data.mesDesde;
+                document.getElementById('id_mesHasta').value = data.mesHasta;
+                document.getElementById('id_esPrivado').selectedIndex = data.esPrivado === false ? 0 : 1;
+
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('No entro:', error));
     }
 });
 

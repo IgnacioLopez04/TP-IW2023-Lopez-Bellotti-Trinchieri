@@ -229,6 +229,7 @@
                             {% if viaje.estado == 'BORRADOR' %}
                                 <p>¡El viaje aun <strong>no esta publicado</strong>!</p>
                             {% endif %}
+                            <script src="{% static 'JS/actualizar_viaje.js' %}"></script>
                             <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
                             <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
                             <p><strong>Se recomienda realizarlo: </strong></p>
@@ -261,6 +262,9 @@
             <section id="mapita" >
                 <div class="map" id="map" ></div>
                 <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
+                {% if user == viaje.usuario %}
+                    <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary">Editar viaje</a>
+                {% endif %}
             </section>
         </section>
     </div>
