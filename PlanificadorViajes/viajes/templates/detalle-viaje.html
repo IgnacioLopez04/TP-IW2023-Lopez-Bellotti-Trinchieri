@@ -226,14 +226,14 @@
                     <div class='cont-info-nombre'>
                         <p class="nombre-viaje">{{ viaje.nombreViaje }}</p>
                         <div class='cont-info'>
+                            {% if viaje.estado == 'BORRADOR' %}
+                                <p>¡El viaje aun <strong>no esta publicado</strong>!</p>
+                            {% endif %}
                             <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
                             <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
                             <p><strong>Se recomienda realizarlo: </strong></p>
                             <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
                             <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>   
-                            {% if viaje.estado == 'BORRADOR' %}
-                                <p><strong>Estado:</strong> Borrador</p>
-                            {% endif %}
                         </div>
                     </div>             
                     <div class='cont-dias-viajes'>
