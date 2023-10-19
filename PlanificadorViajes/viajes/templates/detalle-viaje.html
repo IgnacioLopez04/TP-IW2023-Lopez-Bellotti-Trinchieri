@@ -209,12 +209,14 @@
         window.onload = initializeMapAndMarkers;
     </script>
     <div class='cont-detalle-mapa'>
-        <form class='form-invitacion' method='post'>
-            {% csrf_token %}
-            <label for='correo'>Invita a tus amigos a ver tu viaje!</label>
-            <input type="text" placeholder="Correo electrónico" id='correo' name='correo'></input>
-            <button type='submit' id='btn-invitar'>Invitar</button>
-        </form>
+        {%if correo %}
+            <form class='form-invitacion' method='post'>
+                {% csrf_token %}
+                <label for='correo'>Invita a tus amigos a ver tu viaje!</label>
+                <input type="text" placeholder="Correo electrónico" id='correo' name='correo'></input>
+                <button type='submit' id='btn-invitar'>Invitar</button>
+            </form>
+        {% endif %}
         <section id="viaje-invitacion">
             <article id='viaje'>
                 <div id="cont-detalle-viaje">
