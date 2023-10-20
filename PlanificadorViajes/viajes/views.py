@@ -110,11 +110,9 @@ def cargarViaje(request):
 
             if imagen_formset.is_valid():
                 for imagen_form in imagen_formset:
-                    print("quiero cargar")
                     if imagen_form.cleaned_data:
                         imagen_instance = imagen_form.save(commit=False)
                         imagen_instance.viaje = viaje_form
-                        print("quiero cargar")
                         imagen_instance.save()
             else:
                 print("la imagen no anda")
