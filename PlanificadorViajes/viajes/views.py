@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from viajes.forms import ViajeForm, CargarDiaViajeForm, ImagenForm
-from django.forms import formset_factory
-from viajes.models import Viaje_General, Viaje_Dia, imagen
+from viajes.forms import ViajeForm, CargarDiaViajeForm
+from viajes.models import Viaje_General, Viaje_Dia
 import random
 
 from django.conf import settings
@@ -17,7 +16,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .forms import CargarDiaViajeForm, ImagenFormSet
+from .forms import CargarDiaViajeForm
 from .models import Viaje_Dia
 from django.views.generic.edit import (
     CreateView,
@@ -88,11 +87,9 @@ def buscarCorreo(request, viaje):
 
 @login_required
 def cargarViaje(request):
-    correos = []
 
     if request.method == 'POST':
         viaje_form = ViajeForm(request.POST, request.FILES)
-        imagen_formset = ImagenFormSet(request.POST, request.FILES, prefix='imagen')
 
         if viaje_form.is_valid():
             viaje_form = viaje_form.save(commit=False)
@@ -109,17 +106,6 @@ def cargarViaje(request):
             viaje_form.cantidadDias= dias_viaje.count()
           
             viaje_form.save()
-
-            if imagen_formset.is_valid():
-                for imagen_form in imagen_formset:
-                    if imagen_form.cleaned_data:
-                        print(imagen_form)
-                        imagen_instance = imagen_form.save(commit=False)
-                        imagen_instance.viaje = viaje_form
-                        imagen_instance.save()
-            else:
-                print("la imagen no anda")
-                print(imagen_formset)
 
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
@@ -138,13 +124,11 @@ def cargarViaje(request):
     # por ahora devuelvo todos para testear
     dias_viaje = ''
     dia_form = CargarDiaViajeForm()
-
     return render(request, 'viaje.html', {
         'dias_viaje' : dias_viaje,
         'viaje_form': viaje_form,
         'dia_form' : dia_form,
-        'imagen_form' : ImagenForm()
-    })
+     })
     
 def confirmarViaje(request):
     response_data = {}
@@ -180,7 +164,7 @@ def DiaViajeCreateView(request):
     viaje_general = get_object_or_404(Viaje_General, id=id_viaje)
 
     if request.method == 'POST':
-        dia_form = CargarDiaViajeForm(request.POST)
+        dia_form = CargarDiaViajeForm(request.POST, request.FILES)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
             dia.viaje = viaje_general
