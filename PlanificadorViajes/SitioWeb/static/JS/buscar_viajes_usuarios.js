@@ -16,11 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         viajeDiv.classList.add('viajes');
 
                         viajeDiv.innerHTML = `
-                            <a href='/viajes/detalle-viaje/${viaje.id}'>
+                            <a href='/viajes/detalle-viaje/${viaje.id}' class='text-decoration-none h-100 d-flex justify-content-between align-items-center flex-column''>
                             <h2>${viaje.nombreViaje}</h2>
-                            <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                            <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                            <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
+                                <p><span>Descripción:</span> ${viaje.descripcion}</p>
+                                <p><span>Cantidad de días:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificación:</span> ${viaje.calificacion}</p>
+                            </div>
                         `;
 
                         const editarButton = document.createElement('button');
@@ -84,11 +86,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         viajeDiv.classList.add('viajes');
 
                         viajeDiv.innerHTML = `
-                            <a href='/viajes/detalle-viaje/${viaje.id}'>
+                            <a href='/viajes/detalle-viaje/${viaje.id}' class='text-decoration-none h-100 d-flex justify-content-between align-items-center flex-column''>
                             <h2>${viaje.nombreViaje}</h2>
-                            <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                            <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                            <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                            <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
+                                <p><span>Descripción:</span> ${viaje.descripcion}</p>
+                                <p><span>Cantidad de días:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificación:</span> ${viaje.calificacion}</p>
+                            </div>  
                         `;
 
                         const editarButton = document.createElement('button');

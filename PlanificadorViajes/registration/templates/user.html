@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content%}
-<main>
+<main class='d-flex justify-content-start align-items-center flex-column'>
     <section class='container m-4 section-user'>
         <div class='row'>
             <div class='col-md-4 d-flex align-items-center justify-content-center cont-fg'>
@@ -26,25 +26,31 @@
     <section class='container mb-4 section-user'>
         <script src="{% static 'JS/buscar_viajes_usuarios.js' %}"></script>
         <script src="{% static 'JS/actualizar_viaje.js' %}"></script>
-        <form method="get" class='d-flex p-2' id="search-form">
-            <label for="destino-input" >Buscar destino:</label>
-            <input type="text" id="destino-input" placeholder="Ej: 'Jujuy' ">
-            <label for="dias-hasta-input">Cantidad de dias:</label>
-            <input type="number" id="dias-hasta-input" name="dias-hasta" min="1" placeholder="Dia maximo">
-            <label for="calificacion-input">Calificacion:</label>
-            <input type="number" id="calificacion-input" name="calificacion" min="1" max="5" placeholder="Ej: 3">
+        <form method="get" class='d-flex justify-content-start align-items-center mx-2 p-2' id="search-form">
+            <div class='d-flex flex-column mx-2'>
+                <label for="destino-input" >Buscar destino:</label>
+                <input type="text" id="destino-input" placeholder="Ej: 'Jujuy' ">
+            </div>    
+            <div class='d-flex flex-column mx-2'>
+                <label for="dias-hasta-input">Cantidad de dias:</label>
+                <input type="number" id="dias-hasta-input" name="dias-hasta" min="1" placeholder="Dia maximo">
+            </div>    
+            <div class='d-flex flex-column mx-2'>
+                <label for="calificacion-input">Calificacion:</label>
+                <input type="number" id="calificacion-input" name="calificacion" min="1" max="5" placeholder="Ej: 3">
+            </div>    
             <div id="seleccionar-estado">
                 <label for="estado-viaje">Estado del viaje:</label>
-                <select id="estado-viaje">
+                <select id="estado-viaje" class='select-viaje-detalle'>
                     <option value="publico">Público</option>
                     <option value="privado">Privado</option>
                     <option value="no-terminado">No terminado</option>
                 </select>
             </div>
-            <div class='div-btn-limpiar'>
-                <button id="limpiar-filtros" type="button">Limpiar Filtros</button>
+            <div class='d-flex justify-content-start align-items-center flex-column div-btn-limpiar'>
+                <button id='limpiar-filtros' class='p-1 limpiar-filtros' type="button">Limpiar Filtros</button>
             </div>
-            <div class='div-btn-buscar'>
+            <div class='d-flex justify-content-end align-items-center div-btn-buscar'>
                 <button id="submit" type="submit">Buscar</button>
             </div>
         </form>

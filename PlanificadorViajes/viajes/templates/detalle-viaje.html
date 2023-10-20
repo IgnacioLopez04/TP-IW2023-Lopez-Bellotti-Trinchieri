@@ -225,26 +225,32 @@
                     </div>
                     <div class='cont-info-nombre'>
                         <p class="nombre-viaje">{{ viaje.nombreViaje }}</p>
+                        {% if viaje.estado == 'BORRADOR' %}
+                            <p>¡El viaje aún <strong class='borrador'> no está publicado</strong>!</p>
+                        {% endif %}
                         <div class='cont-info'>
-                            {% if viaje.estado == 'BORRADOR' %}
-                                <p>¡El viaje aun <strong>no esta publicado</strong>!</p>
-                            {% endif %}
                             <script src="{% static 'JS/actualizar_viaje.js' %}"></script>
                             <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
                             <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
                             <p><strong>Se recomienda realizarlo: </strong></p>
-                            <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
-                            <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>   
+                            <ul>
+                                <li class='list-meses'>
+                                    <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
+                                </li>
+                                <li class='list-meses'>
+                                    <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>   
+                                </li>
+                            </ul>
                         </div>
                     </div>             
                     <div class='cont-dias-viajes'>
                         <h2>Días del Viaje</h2>
                     </div>
                     <ul>
-                        {% for dia in viaje.viaje_dia.all %}
+                        {%for dia in viaje.viaje_dia.all %}
                             <li class="li-viaje">
-                                <h3 id="nombre-dia-{{ forloop.counter0 }}">Dia: {{forloop.counter}}</h3>
-                                <p><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</p>
+                                <h3 id="nombre-dia-{{ forloop.counter0 }}">Día: {{forloop.counter}}</h3>
+                                <p><strong>Nombre del día:</strong> {{ dia.nombreDia }}</p>
                                 <p><strong>Notas:</strong> {{ dia.notas }}</p>
                                 <div class="btn-destino">
                                     <h4>Destinos del Día</h4>
@@ -263,7 +269,7 @@
                 <div class="map" id="map" ></div>
                 <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
                 {% if user == viaje.usuario %}
-                    <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary">Editar viaje</a>
+                    <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary btn-editar-viaje">Editar viaje</a>
                 {% endif %}
             </section>
         </section>

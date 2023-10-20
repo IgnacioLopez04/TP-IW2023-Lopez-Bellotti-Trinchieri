@@ -123,7 +123,7 @@
 /* Viajes encontrados */
 
 .viajes{
-    width: 250px;
+    max-width: 300px;
     max-height: 450px;
     border: 2px dotted #1B3358;
     border-radius: 10px;
