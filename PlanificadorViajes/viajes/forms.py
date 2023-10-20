@@ -1,6 +1,7 @@
 from django import forms
-from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes
-
+from viajes.models import Viaje_General, Viaje_Dia, Mes, imagen
+from django import forms
+from django.forms import formset_factory
 
 
 class ViajeForm(forms.ModelForm):
@@ -41,3 +42,12 @@ class CargarDiaViajeForm(forms.ModelForm):
         model = Viaje_Dia
         fields = ['nombreDia', 'notas']
 
+
+class ImagenForm(forms.ModelForm):
+    imagen = forms.ImageField(label="Cargar Imagen", required=False)
+
+    class Meta:
+        model = imagen
+        fields = ['imagen']
+
+ImagenFormSet = formset_factory(ImagenForm, extra=2, max_num=10)  # Puedes ajustar `extra` y `max_num` según tus necesidades

@@ -35,6 +35,11 @@
                         <!-- Aquí se mostrarán los correos agregados -->
                     </div>
                 </div>
+                {% csrf_token %}
+                <h6>Cargar imagenes!</h6>
+                <div class="imagenes-form">     
+                    {{ imagen_form.as_p }}
+                </div>
             </div>
             <div class='d-flex justify-content-end align-items-center my-1'>
                 <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Sigiuente</button>
@@ -196,7 +201,6 @@
             });
         });
 
-        {% comment %}
 
          //Boton actualizar dia
         $(".update-dia-viaje").on('click', function (){
@@ -242,7 +246,7 @@
                 });
                 $("#modal").modal('hide');
             })
-        }); {% endcomment %}
+        });
     </script>
     <!-- Guardar el formulario sin redireccionar/recargar la pagina -->
     <script>

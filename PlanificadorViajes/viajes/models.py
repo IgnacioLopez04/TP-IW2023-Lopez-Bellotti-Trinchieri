@@ -31,6 +31,13 @@ class Viaje_General(models.Model):
     def __str__(self):
         return  self.nombreViaje
 
+class imagen(models.Model):
+    imagen = models.ImageField(upload_to="viajes", null=True)
+    viaje = models.ForeignKey(Viaje_General, related_name='imagenes', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return  self.imagen.name
+
 class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
     destinos = models.JSONField(Destino, null=True)

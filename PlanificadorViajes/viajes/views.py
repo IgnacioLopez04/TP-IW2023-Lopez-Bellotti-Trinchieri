@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from viajes.forms import ViajeForm, CargarDiaViajeForm
+from viajes.forms import ViajeForm, CargarDiaViajeForm, ImagenForm
 from django.forms import formset_factory
-from viajes.models import Viaje_General, Viaje_Dia
+from viajes.models import Viaje_General, Viaje_Dia, imagen
 import random
 
 from django.conf import settings
@@ -17,7 +17,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .forms import CargarDiaViajeForm
+from .forms import CargarDiaViajeForm, ImagenFormSet
 from .models import Viaje_Dia
 from django.views.generic.edit import (
     CreateView,
@@ -91,7 +91,8 @@ def cargarViaje(request):
     correos = []
 
     if request.method == 'POST':
-        viaje_form = ViajeForm(request.POST)
+        viaje_form = ViajeForm(request.POST, request.FILES)
+        imagen_formset = ImagenFormSet(request.POST, request.FILES)
 
         if viaje_form.is_valid():
             viaje_form = viaje_form.save(commit=False)
@@ -103,11 +104,22 @@ def cargarViaje(request):
             viaje_form.estado = 'BORRADOR'
 
             
-            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)
-
-            print(dias_viaje.count())
+            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)               
 
             viaje_form.cantidadDias= dias_viaje.count()
+
+            if imagen_formset.is_valid():
+                for imagen_form in imagen_formset:
+                    print("quiero cargar")
+                    if imagen_form.cleaned_data:
+                        imagen_instance = imagen_form.save(commit=False)
+                        imagen_instance.viaje = viaje_form
+                        print("quiero cargar")
+                        imagen_instance.save()
+            else:
+                print("la imagen no anda")
+                print(imagen_formset.errors)
+
             viaje_form.save()
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
@@ -131,6 +143,7 @@ def cargarViaje(request):
         'dias_viaje' : dias_viaje,
         'viaje_form': viaje_form,
         'dia_form' : dia_form,
+        'imagen_form' : ImagenForm()
     })
     
 def confirmarViaje(request):
@@ -147,7 +160,6 @@ def confirmarViaje(request):
             viaje_actual = get_object_or_404(Viaje_General, pk = id_viaje)
             
             viaje_actual.estado = "ACTIVO"
-            # Calcular y asignar la cantidad de días
             viaje_actual.cantidadDias = viaje_actual.viaje_dia.count()
             viaje_actual.save()
             messages.success(request, f'Se confirmo el viaje.')
