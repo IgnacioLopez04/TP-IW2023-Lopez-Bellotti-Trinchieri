@@ -1,5 +1,5 @@
 from django.contrib import admin
-from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes, imagen
+from viajes.models import Viaje_General, Viaje_Dia, Mes, imagen
 import json
 # Register your models here.
 
@@ -40,11 +40,6 @@ class AdminDiaViaje(admin.ModelAdmin):
 
 admin.site.register(Viaje_Dia, AdminDiaViaje)
 
-
-class AdminDestino(admin.ModelAdmin):
-    list_display=('nombre', 'latitud', 'longitud', 'provincia')
-    
-admin.site.register(Destino, AdminDestino)
 
 class AdminMeses(admin.ModelAdmin):
     list_display=('nombreMes',)

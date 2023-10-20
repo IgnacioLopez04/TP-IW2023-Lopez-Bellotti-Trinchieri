@@ -36,9 +36,13 @@
                     </div>
                 </div>
                 {% csrf_token %}
-                <h6>Cargar imagenes!</h6>
-                <div class="imagenes-form">     
-                    {{ imagen_form.as_p }}
+                <h6>Cargar imágenes:</h6>
+                <div class="imagenes-form">
+                    {{ imagen_form.management_form }} 
+                    {% for form in imagen_form %}
+                        {{ form.as_table }}
+                    {% endfor %}
+                    <input type="file" name="imagen" accept="image/*" multiple>
                 </div>
             </div>
             <div class='d-flex justify-content-end align-items-center my-1'>

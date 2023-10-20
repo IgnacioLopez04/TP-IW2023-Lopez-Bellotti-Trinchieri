@@ -92,7 +92,7 @@ def cargarViaje(request):
 
     if request.method == 'POST':
         viaje_form = ViajeForm(request.POST, request.FILES)
-        imagen_formset = ImagenFormSet(request.POST, request.FILES)
+        imagen_formset = ImagenFormSet(request.POST, request.FILES, prefix='imagen')
 
         if viaje_form.is_valid():
             viaje_form = viaje_form.save(commit=False)
@@ -107,18 +107,20 @@ def cargarViaje(request):
             dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)               
 
             viaje_form.cantidadDias= dias_viaje.count()
+          
+            viaje_form.save()
 
             if imagen_formset.is_valid():
                 for imagen_form in imagen_formset:
                     if imagen_form.cleaned_data:
+                        print(imagen_form)
                         imagen_instance = imagen_form.save(commit=False)
                         imagen_instance.viaje = viaje_form
                         imagen_instance.save()
             else:
                 print("la imagen no anda")
-                print(imagen_formset.errors)
+                print(imagen_formset)
 
-            viaje_form.save()
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
             response_data = {

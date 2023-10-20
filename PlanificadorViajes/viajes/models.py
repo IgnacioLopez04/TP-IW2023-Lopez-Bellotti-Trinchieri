@@ -7,13 +7,6 @@ class Mes(models.Model):
 
     def __str__(self):
         return self.nombreMes
-class Destino(models.Model):
-    nombre = models.CharField(max_length=100)
-    latitud = models.FloatField(null=True)
-    longitud = models.FloatField(null=True)
-    provincia = models.CharField(max_length=100, null=True)
-    def __str__(self):
-        return self.nombre
 
 class Viaje_General(models.Model):
     nombreViaje = models.CharField(max_length=250)
@@ -40,7 +33,7 @@ class imagen(models.Model):
 
 class Viaje_Dia(models.Model):
     nombreDia = models.CharField(max_length=250)
-    destinos = models.JSONField(Destino, null=True)
+    destinos = models.JSONField(null=True, verbose_name='estino')
     notas = models.CharField(max_length=250)
     viaje = models.ForeignKey(Viaje_General, related_name='viaje_dia', on_delete=models.CASCADE, null=True)
     
