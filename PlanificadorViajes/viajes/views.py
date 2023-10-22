@@ -214,15 +214,6 @@ class DiaViajeUpdateView(UpdateView):
         dia_pk = self.kwargs['dia_pk']
         return get_object_or_404(self.model, pk=dia_pk)
 
-# LEER
-class DiaViajeReadView(DetailView):
-    model = Viaje_Dia
-    template_name = 'CRUD-dia-viaje/leer-dia-viaje.html'
-
-    def get(self, request, dia_pk, *args, **kwargs):
-        dia_viaje = get_object_or_404(Viaje_Dia, pk=dia_pk)
-        return render(request, self.template_name, {'dia': dia_viaje})
-
 # ELIMINAR
 class DiaViajeDeleteView(DeleteView):
     model = Viaje_Dia
