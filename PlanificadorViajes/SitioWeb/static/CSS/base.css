@@ -123,19 +123,15 @@ nav h1 span{
     width: 25%;
 }
 
-#limpiar-filtros{
+.limpiar-filtros{
     border: none;
     border-radius: 10px;
     background-color: transparent;
     color: #ff8000;
-    padding: 10px;
-    margin-left: 10px;
-
-    width: 70%;
     font-size: 13.33px;
 }
 
-#limpiar-filtros:hover{
+.limpiar-filtros:hover{
     background-color: rgba(255,128,0,0.2);
 }
 

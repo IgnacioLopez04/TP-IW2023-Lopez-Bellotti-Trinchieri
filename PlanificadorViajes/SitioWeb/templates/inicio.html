@@ -30,8 +30,8 @@
                                 <img src={{context.url}} alt={{context.alt}} class='img-fluid w-100 h-100'>
                                 <div class="position-absolute py-2 px-3 info-viaje">
                                     <p class="m-0 nombre-viaje">{{context.nombreViaje}}</p>
-                                    <p class="m-0 dias-viaje">Dias: {{context.dias}}</p>
-                                    <p class="m-0 calificacion-viaje">Calificacion: {{context.calificacion}}</p>
+                                    <p class="m-0 dias-viaje">Días: {{context.dias}}</p>
+                                    <p class="m-0 calificacion-viaje">Calificación: {{context.calificacion}}</p>
                                     <p class="m-0 descripcion-viaje">{{context.descripcion}}</p>
                                 </div>
                             </div>
@@ -55,20 +55,26 @@
             </div>
     </section>
     <section class="cont-button">
-        <h2>Encontra tu <span>itinerario</span> ideal</h2>
+        <h2>Encontrá tu <span>itinerario</span> ideal</h2>
     </section>
     <div class="my-2 divisor"></div>
     <section class='d-flex flex-column ms-0 mt-3 mb-5 me-0 px-3 cont-form-buscar'>
         <script src="{% static 'JS/buscar_viajes.js' %}"></script>
         <form method="get" id="search-form" class='p-1 d-flex align-items-center justify-content-center search-form'>
-            <label for="destino-input"class='mx-1' >Buscar destino:</label>
-            <input type="text" id="destino-input" class='mx-1'placeholder="Ej: 'Jujuy' ">
-            <label for="dias-hasta-input"class='mx-1'>Cantidad de dias:</label>
-            <input type="number" id="dias-hasta-input" class='mx-1'name="dias-hasta" min="1" placeholder="Dia maximo">
-            <label for="calificacion-input"class='mx-1'>Calificacion:</label>
-            <input type="number" id="calificacion-input" class='mx-1'name="calificacion" min="1" max="5" placeholder="Ej: 3">
-            <div class='div-btn-limpiar'>
-                <button id="limpiar-filtros" type="button">Limpiar Filtros</button>
+            <div class='d-flex mx-2 flex-column'>
+                <label for="destino-input" >Buscar destino:</label>
+                <input type="text" id="destino-input" placeholder="Ej: 'Jujuy' ">
+            </div>    
+            <div class='d-flex mx-2 flex-column'>
+                <label for="dias-hasta-input">Cantidad de dias:</label>
+                <input type="number" id="dias-hasta-input" name="dias-hasta" min="1" placeholder="Dia maximo">
+            </div>    
+            <div class='d-flex mx-2 flex-column'>
+                <label for="calificacion-input">Calificación:</label>
+                <input type="number" id="calificacion-input" name="calificacion" min="1" max="5" placeholder="Ej: 3">
+            </div>    
+            <div class='d-flex justify-content-start align-items-center flex-column div-btn-limpiar'>
+                <button id='limpiar-filtros' class='p-1 limpiar-filtros' type="button">Limpiar Filtros</button>
             </div>
             <div class='d-flex justify-content-end felx-grow-1 div-btn-buscar w-100'>
                 <button id="submit" class='p-2 fs-5 submit' type="submit">Buscar</button>

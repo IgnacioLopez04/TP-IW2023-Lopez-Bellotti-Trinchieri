@@ -1,6 +1,6 @@
 from django import forms
-from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes
-
+from viajes.models import Viaje_General, Viaje_Dia, Mes
+from django import forms
 
 
 class ViajeForm(forms.ModelForm):
@@ -39,5 +39,6 @@ class CargarDiaViajeForm(forms.ModelForm):
 
     class Meta:
         model = Viaje_Dia
-        fields = ['nombreDia', 'notas']
+        fields = ['nombreDia', 'notas', 'imagen']
+
 

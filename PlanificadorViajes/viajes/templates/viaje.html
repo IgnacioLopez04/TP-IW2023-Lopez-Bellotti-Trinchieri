@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class='d-flex justify-content-end align-items-center my-1'>
-                <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Guardar</button>
+                <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Sigiuente</button>
                 <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar</button>
             </div>
         </form>
@@ -45,7 +45,7 @@
       <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content d-flex justify-content-center align-items-center">
-                <form method="post" action="" id="crear-dia-form">
+                <form method="post" action="" id="crear-dia-form" enctype="multipart/form-data">
                     {% csrf_token %}
                       <div class="modal-header">
                           <h5 class="modal-title">Agregar un Dia</h5>
@@ -68,8 +68,6 @@
                           {% endfor %}
                       </div>
                       <div class="modal-footer">
-                          {% comment %} <button type="submit" class='btn btn-primary' id='anterior'>Anterior</button>
-                          <button type="submit" class='btn btn-primary' id='siguiente'>Siguiente</button> {% endcomment %}
                           <button type="submit" class="btn btn-primary btn-confirmar-dia">Confirmar</button>
                       </div>
                   </form>
@@ -79,14 +77,7 @@
     <!-- Modal para read / update / delete  -->
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            </div>
-        </div>
-    </div>
-    {% comment %} Modal cargar destinos {% endcomment %}
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content-destinos">
+            <div class="modal-content" id="modal-content">
             </div>
         </div>
     </div>
@@ -132,36 +123,9 @@
             }
         });
     </script>
-
+    {% comment %} Detalle de los dias cargados  {% endcomment %}
     <script>
         $(function (){
-            //Abrir cargar destino en un modal
-            {% comment %} $('#id_cargarDestino').on('click', function(){
-
-                var url = "{% url 'cargar-destino'%}";
-                $.get(url, function(data){
-                    $('.modal-content-destinos').html(data);
-                })
-            }) {% endcomment %}
-            //Boton confirmar el viaje
-
-            {% comment %}$(document).ready(function(){
-                function cargarDiasViaje(formData){
-                    $.ajax({
-                        url:"{% url 'mostrar-dias-viaje' %}",
-                        type: 'POST',
-                        data: formData,
-                        dataType: 'json',
-                        success: function(data) {
-                            $('.cont-dias').html(data.html_response);
-                        },
-                        error: function(){
-                            alert('No se pudieron cargar los dias.');
-                        }
-                    });
-                }
-            }) {% endcomment %}
-
             //confirmar viaje
             $('#btn-confirmar-viaje').on('click',function(){
     
@@ -197,11 +161,17 @@
             $("#crear-dia-form").submit(function (e) {
                 e.preventDefault();
         
-                var formData = $(this).serialize();
+                var formData = new FormData(document.getElementById('crear-dia-form'));
+                var imagenInput = $('#id_imagen');
+                var files = imagenInput.prop('files')
+                formData.append('imagen', files)
+
                 $.ajax({
                     url: "{% url 'create-dia-viaje'%}",
                     type: 'POST',
                     data: formData,
+                    processData: false, 
+                    contentType: false,
                     dataType: 'json',
                     success: function (response) {
                         //Restea el formulario normal
@@ -229,21 +199,9 @@
                 })
     
                 $("#create-modal").modal('hide');
-    
             });
         });
 
-
-        {% comment %} //Boton leer dia
-        $(".read-dia-viaje").on('click', function (){
-        
-            var formUrl = $(this).data("form-url");
-    
-            $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
-                $("#modal").modal('show');
-            });
-        });
 
          //Boton actualizar dia
         $(".update-dia-viaje").on('click', function (){
@@ -289,7 +247,7 @@
                 });
                 $("#modal").modal('hide');
             })
-        }); {% endcomment %}
+        });
     </script>
     <!-- Guardar el formulario sin redireccionar/recargar la pagina -->
     <script>

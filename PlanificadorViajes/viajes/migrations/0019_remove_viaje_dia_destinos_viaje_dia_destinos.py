@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='viaje_dia',
             name='destinos',
-            field=models.JSONField(null=True, verbose_name=viajes.models.Destino),
+            field=models.JSONField(null=True),
         ),
     ]

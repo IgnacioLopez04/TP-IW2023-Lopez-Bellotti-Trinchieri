@@ -9,21 +9,18 @@
             <p class='m-1'>{{ dia.notas}}</p>
         </div>
         <div class="text-center">
-            <!-- Boton para leer la info del dia -->
-            <button type="button" class="my-1 bs-modal btn btn-sm btn-primary btn-accion-dia px-5 read-dia-viaje" data-form-url="{% url 'read-dia-viaje' dia.pk %}">
-            <span class="fa fa-eye">Detalles</span>
-            </button>
             <!-- Boton para actualizar el dia -->
-            <button type="button" class="my-1 bs-modal btn btn-sm btn-primary btn-accion-dia update-dia-viaje" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
-            <span class="fa fa-pencil">Actualizar</span>
+            <button type="button" data-target="#modal" class="my-1 bs-modal btn btn-sm btn-primary btn-accion-dia update-dia-viaje" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
+                <span class="fa fa-pencil">Actualizar</span>
             </button>
             <!-- Boton para eliminar el dia -->
-            <button type="button" class="my-1 w-100 bs-modal btn btn-sm btn-danger btn-accion-dia delete-dia-viaje" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
-            <span class="fa fa-trash">Eliminar</span>
-            </button>
+            <button type="button" data-target="#modal" class="my-1 w-100 bs-modal btn btn-sm btn-danger btn-accion-dia delete-dia-viaje" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
+                <span class="fa fa-trash">Eliminar</span>
+            </button> 
+
         </div>
     </div>
-{% endfor %}
+{% endfor %} 
 <script>
     function cargarDiasViaje(formData){
         $.ajax({
@@ -39,25 +36,18 @@
             }
         });
     }
+
+    
     
     $(function(){
-        //Boton leer dia
-        $(".read-dia-viaje").on('click', function (){
-            var formUrl = $(this).data("form-url");
-    
-            $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
-                $("#modal").modal('show');
-            });
-        })
-    
         //Boton actualizar dia
         $(".update-dia-viaje").on('click', function (){
     
             var formUrl = $(this).data("form-url");
-    
+            $("#modal-content").empty(); // Limpia el contenido del modal
+
             $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
+                $("#modal-content").html(data);
                 $("#modal").modal('show');
             });
             $("#modal").on('submit', "#update-dia-form", function (e) {
@@ -81,8 +71,10 @@
         //Boton eliminar dia
         $(".delete-dia-viaje").on('click', function (){
             var formUrl = $(this).data("form-url");
+            $("#modal-content").empty(); // Limpia el contenido del modal
+
             $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
+                $("#modal-content").html(data);
                 $("#modal").modal('show');
             });
     

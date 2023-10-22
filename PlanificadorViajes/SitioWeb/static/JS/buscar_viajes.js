@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             <h2>${viaje.nombreViaje}</h2>
                             <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
                                 <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                                <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                                <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                                <p><span>Cantidad de días:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificación:</span> ${viaje.calificacion}</p>
                             </div>
                         </div>`;
                     });
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             <h2>${viaje.nombreViaje}</h2>
                             <div class='d-flex justify-content-center align-items-start flex-column flex-grow-1'>
                                 <p><span>Descripción:</span> ${viaje.descripcion}</p>
-                                <p><span>Cantidad de dias:</span> ${viaje.cantidadDias}</p>
-                                <p><span>Calificacion:</span> ${viaje.calificacion}</p>
+                                <p><span>Cantidad de días:</span> ${viaje.cantidadDias}</p>
+                                <p><span>Calificación:</span> ${viaje.calificacion}</p>
                             </div>
                         </div>`;
                     });

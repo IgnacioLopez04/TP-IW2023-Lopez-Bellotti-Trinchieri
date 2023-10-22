@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.http import HttpResponse
-from viajes.models import Viaje_General, Destino
+from viajes.models import Viaje_General
 from .serializers import ViajeGeneralSerializer
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -43,8 +43,8 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         dias_hasta = request.GET.get('dias-hasta')
         calif = request.GET.get('calificacion')
           
-        viajes = Viaje_General.objects.all().filter(esPrivado=False)
-        viajes = self.get_queryset().filter(estado='ACTIVO')
+        viajes = self.get_queryset().filter(esPrivado=False)
+        viajes = viajes.filter(estado='ACTIVO')
         viajes= filtrar_viajes_queryset(viajes,destino,dias_hasta,calif)
 
         #devuelvo los viajes y ordeno de manera descendente los viajes por la calificación que tengan
@@ -59,11 +59,25 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         destino = request.GET.get('destino')
         dias_hasta = request.GET.get('dias-hasta')
         calif = request.GET.get('calificacion')
+        estado= request.GET.get('estado')
           
         # Obtener todos los viajes desde la base de datos
-        viajes = Viaje_General.objects.all().filter(usuario=user_obj.pk)
+        viajes = self.get_queryset().filter(usuario=user_obj.pk)
         viajes= filtrar_viajes_queryset(viajes,destino,dias_hasta,calif)
+
+        if(estado == "no-terminado"):
+            viajes = viajes.filter(estado="BORRADOR")
+        elif(estado == "privado"):
+            viajes = viajes.filter(esPrivado=True)
 
         serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
       
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def buscar_un_viaje(self, request):
+        id= request.GET.get('id')
+        viaje = self.get_queryset().filter(id=id).first()
+        serializer = self.get_serializer(viaje)
+
         return Response(serializer.data)

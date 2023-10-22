@@ -195,3 +195,30 @@ li{
     height: 100%;
 }
 
+.btn-editar-viaje{
+    background-color: #1B3358;
+    color: #ff8000;
+    border: none;
+}
+
+.btn-editar-viaje:hover{
+    background-color: #ff8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+
+.cont-info strong{
+    color: #1B3358;
+}
+
+.cont-info p{
+    color: black;
+}
+
+.list-meses{
+    list-style:circle;
+}
+
+.borrador{
+    color: #ff8000;
+}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from viajes.models import Viaje_General, Viaje_Dia, Destino, Mes
+from viajes.models import Viaje_General, Viaje_Dia, Mes
 import json
 # Register your models here.
 
@@ -21,7 +21,7 @@ class AdminViaje(admin.ModelAdmin):
 admin.site.register(Viaje_General, AdminViaje)
 
 class AdminDiaViaje(admin.ModelAdmin):
-    list_display = ('nombreDia', 'viaje','get_destinos','notas')  # uso una función get_destinos para mostrar la lista en el admin
+    list_display = ('nombreDia', 'viaje','get_destinos','notas', 'imagen')  # uso una función get_destinos para mostrar la lista en el admin
 
     """def get_destinos(self, obj):
         return ", ".join([destino.nombre for destino in obj.destinos.all()])
@@ -41,12 +41,8 @@ class AdminDiaViaje(admin.ModelAdmin):
 admin.site.register(Viaje_Dia, AdminDiaViaje)
 
 
-class AdminDestino(admin.ModelAdmin):
-    list_display=('nombre', 'latitud', 'longitud', 'provincia')
-    
-admin.site.register(Destino, AdminDestino)
-
 class AdminMeses(admin.ModelAdmin):
     list_display=('nombreMes',)
     
 admin.site.register(Mes, AdminMeses)
+

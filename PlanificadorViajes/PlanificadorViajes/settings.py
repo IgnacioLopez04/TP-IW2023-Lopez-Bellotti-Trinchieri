@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'six',
+    'storages',
 ]
 
 GRAPH_MODELS = {
@@ -125,6 +126,11 @@ if DEBUG == True:
 
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
+import os
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -172,6 +178,24 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_S3_REGION_NAME = 'us-west-2'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -198,20 +222,20 @@ LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
 # code needed to deploy in Render.com:
-#import os
-#import dj_database_url
-#
-#if 'RENDER' in os.environ:
-#    print("USING RENDER.COM SETTINGS!")
-#    DEBUG = False
-#    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
-#    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-#    MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
-#                       'whitenoise.middleware.WhiteNoiseMiddleware')
-#    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#    EMAIL_FROM = os.environ.get('VERIFICATION_EMAIL')
-#    EMAIL_HOST_USER = os.environ.get('VERIFICATION_EMAIL')
-#    EMAIL_HOST_PASSWORD = os.environ.get('VERIFICATION_EMAIL_PASSWORD')
-#    GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+# import os
+# import dj_database_url
+
+# if 'RENDER' in os.environ:
+#     print("USING RENDER.COM SETTINGS!")
+#     DEBUG = False
+#     ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+#     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+#     MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
+#                        'whitenoise.middleware.WhiteNoiseMiddleware')
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#     EMAIL_FROM = os.environ.get('VERIFICATION_EMAIL')
+#     EMAIL_HOST_USER = os.environ.get('VERIFICATION_EMAIL')
+#     EMAIL_HOST_PASSWORD = os.environ.get('VERIFICATION_EMAIL_PASSWORD')
+#     GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 

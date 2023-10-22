@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from viajes.forms import ViajeForm, CargarDiaViajeForm
-from django.forms import formset_factory
 from viajes.models import Viaje_General, Viaje_Dia
 import random
 
@@ -28,19 +27,16 @@ from django.views.generic.detail import DetailView
 
 def detalle_viaje(request, viaje_id): 
     viaje = get_object_or_404(Viaje_General, pk=viaje_id)
-    
     if request.user == viaje.usuario:
-        
         if request.method == 'POST':
             correo = request.POST.get('correo', '')
             if correo:
                 enviar_correos_privados(request,correo,viaje.token)
         
-        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': True})
     else:
-        messages.error(request, f'El viaje es privado. No tenes acceso.')
-        return redirect('sitio-inicio')
-
+        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': False})
+        
 def detalle_viaje_token(request, tk):
     viaje = get_object_or_404(Viaje_General, token=tk)
     
@@ -91,10 +87,9 @@ def buscarCorreo(request, viaje):
 
 @login_required
 def cargarViaje(request):
-    correos = []
 
     if request.method == 'POST':
-        viaje_form = ViajeForm(request.POST)
+        viaje_form = ViajeForm(request.POST, request.FILES)
 
         if viaje_form.is_valid():
             viaje_form = viaje_form.save(commit=False)
@@ -106,12 +101,12 @@ def cargarViaje(request):
             viaje_form.estado = 'BORRADOR'
 
             
-            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)
-
-            print(dias_viaje.count())
+            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)               
 
             viaje_form.cantidadDias= dias_viaje.count()
+          
             viaje_form.save()
+
             #Con todos los datos guardados, armamos una respuesta JSON
             #para actualizar los valores que queremos
             response_data = {
@@ -129,12 +124,11 @@ def cargarViaje(request):
     # por ahora devuelvo todos para testear
     dias_viaje = ''
     dia_form = CargarDiaViajeForm()
-
     return render(request, 'viaje.html', {
         'dias_viaje' : dias_viaje,
         'viaje_form': viaje_form,
         'dia_form' : dia_form,
-    })
+     })
     
 def confirmarViaje(request):
     response_data = {}
@@ -150,7 +144,6 @@ def confirmarViaje(request):
             viaje_actual = get_object_or_404(Viaje_General, pk = id_viaje)
             
             viaje_actual.estado = "ACTIVO"
-            # Calcular y asignar la cantidad de días
             viaje_actual.cantidadDias = viaje_actual.viaje_dia.count()
             viaje_actual.save()
             messages.success(request, f'Se confirmo el viaje.')
@@ -171,7 +164,7 @@ def DiaViajeCreateView(request):
     viaje_general = get_object_or_404(Viaje_General, id=id_viaje)
 
     if request.method == 'POST':
-        dia_form = CargarDiaViajeForm(request.POST)
+        dia_form = CargarDiaViajeForm(request.POST, request.FILES)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
             dia.viaje = viaje_general

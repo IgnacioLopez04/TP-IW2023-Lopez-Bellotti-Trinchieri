@@ -18,16 +18,16 @@
         //esto me queda hardcodeado
         var coloresMarcadores = [  
         '#FF5733',   // Rojo
-        '#3399FF',   // Azul
-        '#33FF57',   // Verde
-        '#FF33A1',   // Rosado
+        '#8B4513',   // Marrón
+        '#3399FF',   // Azul        
+        '#0B610B',   // Verde
         '#FFA533',   // Naranja
         '#9933FF',   // Violeta
-        '#FFFF33',   // Amarillo
-        '#8B4513',   // Marrón
+        '#FFFF33',   // Amarillo        
         '#00CED1',   // Celeste
-        '#808080',   // Gris
         '#00FFFF',   // Verde agua
+        '#808080',   // Gris
+        '#33FF57',   // Verde
         '#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00',
         '#800000', '#008000', '#000080', '#800080', '#808000',
         '#FF4500', '#FF1493', '#4B0082', '#2E8B57', '#00FF7F',
@@ -72,10 +72,9 @@
                 var contadorDia={{forloop.counter0}};
 
                 var viajeDestinos = {{ dia.destinos|safe }};
+                var ul = document.getElementById("destino-" + (contadorDia+1));
 
-                viajeDestinos.forEach(function(destino) {
-
-                    var ul = document.getElementById("destino-" + (contadorDia+1));
+                viajeDestinos.forEach(function(destino) {                    
 
                     var latitud = parseFloat(destino.latitud.replace(',', '.'));
                     var longitud = parseFloat(destino.longitud.replace(',', '.'));
@@ -94,13 +93,24 @@
                         marcadores[contadorDia] = [];
                     }
                     marcadores[contadorDia].push(marker);
+                    
+                    // Obtén el elemento h3 que contiene el nombre del día
+                    //var nombreDiaElement = document.getElementById('nombre-dia-{{ forloop.counter0 }}');
+                    // Aplica un color en función del día
+                    //nombreDiaElement.style.color = coloresMarcadores[contadorDia];
 
                     var destino_p = document.createElement('p');
-                    destino_p.textContent = destino.nombre + ', ' + destino.provincia;
+                    destino_p.textContent ='Localidad: ' + destino.nombre + ', ' + destino.provincia;
 
                     ul.appendChild(destino_p);
 
                 });
+                var referencia = document.createElement('p');
+                referencia.style.color = coloresMarcadores[contadorDia];
+                referencia.textContent = "Color del marcador"
+                referencia.style.fontSize = "14px";
+                ul.appendChild(referencia); 
+
             {% endfor %}
             
             mostrarTodosLosMarcadores(map);
@@ -199,12 +209,14 @@
         window.onload = initializeMapAndMarkers;
     </script>
     <div class='cont-detalle-mapa'>
-        <form class='form-invitacion' method='post'>
-            {% csrf_token %}
-            <label for='correo'>Invita a tus amigos a ver tu viaje!</label>
-            <input type="text" placeholder="Correo electrónico" id='correo' name='correo'></input>
-            <button type='submit' id='btn-invitar'>Invitar</button>
-        </form>
+        {%if correo %}
+            <form class='form-invitacion' method='post'>
+                {% csrf_token %}
+                <label for='correo'>Invita a tus amigos a ver tu viaje!</label>
+                <input type="text" placeholder="Correo electrónico" id='correo' name='correo'></input>
+                <button type='submit' id='btn-invitar'>Invitar</button>
+            </form>
+        {% endif %}
         <section id="viaje-invitacion">
             <article id='viaje'>
                 <div id="cont-detalle-viaje">
@@ -213,25 +225,36 @@
                     </div>
                     <div class='cont-info-nombre'>
                         <p class="nombre-viaje">{{ viaje.nombreViaje }}</p>
+                        {% if viaje.estado == 'BORRADOR' %}
+                            <p>¡El viaje aún <strong class='borrador'> no está publicado</strong>!</p>
+                        {% endif %}
                         <div class='cont-info'>
+                            <script src="{% static 'JS/actualizar_viaje.js' %}"></script>
                             <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
                             <p><strong>Calificación:</strong> {{ viaje.calificacion }}</p>
                             <p><strong>Se recomienda realizarlo: </strong></p>
-                            <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
-                            <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>   
+                            <ul>
+                                <li class='list-meses'>
+                                    <p><strong>Desde:</strong> {{viaje.mesDesde.nombreMes}}</p>
+                                </li>
+                                <li class='list-meses'>
+                                    <p><strong>Hasta:</strong> {{viaje.mesHasta.nombreMes}}</p>   
+                                </li>
+                            </ul>
                         </div>
                     </div>             
                     <div class='cont-dias-viajes'>
                         <h2>Días del Viaje</h2>
                     </div>
                     <ul>
-                        {% for dia in viaje.viaje_dia.all %}
+                        {%for dia in viaje.viaje_dia.all %}
                             <li class="li-viaje">
-                                <h3>Dia: {{forloop.counter}}</h3>
-                                <p><strong>Nombre del Día:</strong> {{ dia.nombreDia }}</p>
+                                <h3 id="nombre-dia-{{ forloop.counter0 }}">Día: {{forloop.counter}}</h3>
+                                <p><strong>Nombre del día:</strong> {{ dia.nombreDia }}</p>
                                 <p><strong>Notas:</strong> {{ dia.notas }}</p>
                                 <div class="btn-destino">
                                     <h4>Destinos del Día</h4>
+                                    <h4 id"referencia-color-{{ forloop.counter0 }}"></h4>
                                     <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver en mapa</button>
                                 </div>
                                 <ul id="destino-{{forloop.counter}}">
@@ -245,6 +268,9 @@
             <section id="mapita" >
                 <div class="map" id="map" ></div>
                 <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
+                {% if user == viaje.usuario %}
+                    <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary btn-editar-viaje">Editar viaje</a>
+                {% endif %}
             </section>
         </section>
     </div>

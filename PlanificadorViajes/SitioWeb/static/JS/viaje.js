@@ -84,83 +84,113 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function agregar_dia() {
-    let total_form_dia = document;
-    let count = 0;
-    if (document.getElementsByClassName('form-dia') != null) {
-        total_form_dia = document.getElementsByClassName('form-dia');
-        count = total_form_dia.length;
+// function agregar_dia() {
+//     let total_form_dia = document;
+//     let count = 0;
+//     if (document.getElementsByClassName('form-dia') != null) {
+//         total_form_dia = document.getElementsByClassName('form-dia');
+//         count = total_form_dia.length;
+//     }
+
+//     const form_lista = document.getElementById('form-lista-dias');
+//     const empty_form = document.getElementById('empty-form').cloneNode(true);
+//     empty_form.setAttribute('class', 'form-dia')
+//     empty_form.setAttribute('id', `id-form-dia-${count + 1}`);
+
+//     const regex = new RegExp('__prefix__', 'g');
+//     empty_form.innerHTML = empty_form.innerHTML.replace(regex, count);
+//     total_form.setAttribute('value', count + 1);
+
+//     const titulo = document.createElement("h1");
+//     titulo.id = `id-dia-${count + 1}`;
+//     titulo.innerText = `Dia ${count + 1}`;
+
+//     const selector = '#id_form-' + count + '-DELETE'; // se deja count solo porque este
+//     // id va un numero menos que el formulario
+//     const inputs_delete = empty_form.querySelector(selector);
+//     inputs_delete.addEventListener('click', eliminar_dia);
+
+//     form_lista.appendChild(titulo);
+//     form_lista.append(empty_form);
+// }
+
+// function obtener_campos(lista, attr, texto) {
+
+//     const campos_deseados = [];
+
+//     for (let i = 0; i < lista.length; i++) {
+//         const elemento = lista[i];
+//         const campo = elemento.getAttribute(attr);
+
+//         var rgx = new RegExp('^' + texto + '-\\d+$')
+
+//         if (campo != null && rgx.test(campo)) {
+//             campos_deseados.push(elemento);
+//         }
+//     }
+
+//     return campos_deseados;
+// }
+
+// function eliminar_dia(event) {
+
+//     const form_a_eliminar = event.target.closest('.form-dia');
+//     form_a_eliminar.setAttribute('class', 'hidden');
+
+//     const form_lista = document.getElementById('form-lista-dias');
+//     var num_dia = form_a_eliminar.id.replace('id-form-dia-', '');
+//     const form_dias = form_lista.querySelectorAll('.form-dia');
+
+//     for (let i = 0; i < form_dias.length; i++) {
+//         const form_dia = form_dias[i];
+//         form_dia.setAttribute('id', `id-form-dia-${i + 1}`)
+//     }
+
+//     const titulo_a_eliminar = document.getElementById('id-dia-' + num_dia);
+
+//     form_a_eliminar.removeAttribute('id');
+
+//     form_lista.removeChild(titulo_a_eliminar);
+
+//     const h1 = document.querySelectorAll("h1");
+//     const dias = obtener_campos(h1, 'id', 'id-dia');
+
+//     for (let i = 0; i < dias.length; i++) {
+//         const dia = dias[i]
+//         if (dia.id.replace('id-dia-', '') >= num_dia) {
+//             const numero_dia = dia.id.replace('id-dia-', '')
+//             dia.setAttribute('id', `id-dia-${numero_dia - 1}`)
+//             dia.innerText = `Dia ${numero_dia - 1}`;
+//         }
+//     }
+// }
+document.addEventListener('DOMContentLoaded', function () {
+    // Obtén el ID del viaje desde la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const viajeID = urlParams.get('viaje_id');
+    console.log(viajeID);
+    if (viajeID) {
+        // Realiza una solicitud a la API o al servidor para obtener los detalles del viaje
+        // y luego llena los campos de datos con los detalles del viaje.
+        fetch(`/api/viaje_general/buscar_un_viaje/?id=${viajeID}`)
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById('id_nombreViaje').value = data.nombreViaje;
+                document.getElementById('id_descripcion').value = data.descripcion;
+                document.getElementById('id_mesDesde').value = data.mesDesde;
+                document.getElementById('id_mesHasta').value = data.mesHasta;
+                document.getElementById('id_esPrivado').selectedIndex = data.esPrivado === false ? 0 : 1;
+
+            })
+            .catch(error => console.error('No entro:', error));
     }
+});
 
-    const form_lista = document.getElementById('form-lista-dias');
-    const empty_form = document.getElementById('empty-form').cloneNode(true);
-    empty_form.setAttribute('class', 'form-dia')
-    empty_form.setAttribute('id', `id-form-dia-${count + 1}`);
+document.addEventListener('DOMContentLoaded', function () {
+    const btnSiguiente = document.getElementById('btn-cargar-info-viaje-general');
 
-    const regex = new RegExp('__prefix__', 'g');
-    empty_form.innerHTML = empty_form.innerHTML.replace(regex, count);
-    total_form.setAttribute('value', count + 1);
-
-    const titulo = document.createElement("h1");
-    titulo.id = `id-dia-${count + 1}`;
-    titulo.innerText = `Dia ${count + 1}`;
-
-    const selector = '#id_form-' + count + '-DELETE'; // se deja count solo porque este
-    // id va un numero menos que el formulario
-    const inputs_delete = empty_form.querySelector(selector);
-    inputs_delete.addEventListener('click', eliminar_dia);
-
-    form_lista.appendChild(titulo);
-    form_lista.append(empty_form);
-}
-
-function obtener_campos(lista, attr, texto) {
-
-    const campos_deseados = [];
-
-    for (let i = 0; i < lista.length; i++) {
-        const elemento = lista[i];
-        const campo = elemento.getAttribute(attr);
-
-        var rgx = new RegExp('^' + texto + '-\\d+$')
-
-        if (campo != null && rgx.test(campo)) {
-            campos_deseados.push(elemento);
-        }
-    }
-
-    return campos_deseados;
-}
-
-function eliminar_dia(event) {
-
-    const form_a_eliminar = event.target.closest('.form-dia');
-    form_a_eliminar.setAttribute('class', 'hidden');
-
-    const form_lista = document.getElementById('form-lista-dias');
-    var num_dia = form_a_eliminar.id.replace('id-form-dia-', '');
-    const form_dias = form_lista.querySelectorAll('.form-dia');
-
-    for (let i = 0; i < form_dias.length; i++) {
-        const form_dia = form_dias[i];
-        form_dia.setAttribute('id', `id-form-dia-${i + 1}`)
-    }
-
-    const titulo_a_eliminar = document.getElementById('id-dia-' + num_dia);
-
-    form_a_eliminar.removeAttribute('id');
-
-    form_lista.removeChild(titulo_a_eliminar);
-
-    const h1 = document.querySelectorAll("h1");
-    const dias = obtener_campos(h1, 'id', 'id-dia');
-
-    for (let i = 0; i < dias.length; i++) {
-        const dia = dias[i]
-        if (dia.id.replace('id-dia-', '') >= num_dia) {
-            const numero_dia = dia.id.replace('id-dia-', '')
-            dia.setAttribute('id', `id-dia-${numero_dia - 1}`)
-            dia.innerText = `Dia ${numero_dia - 1}`;
-        }
-    }
-}
+    btnSiguiente.addEventListener('click', function () {
+        btnSiguiente.style.display = 'none';
+    });
+});
