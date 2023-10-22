@@ -36,9 +36,14 @@
                     </div>
                 </div>
             </div>
+                <!--- Boton para crear un dia -->
+            <button id="create-dia-viaje" class="btn btn-primary m-3 agregar-dia" type="button" name="button"
+                data-toggle="modal" data-target="#create-modal" data-idviaje="{{ viaje_form.id }}" data-form-url="{% url 'create-dia-viaje' %}">
+                Cargar Dia
+            </button>
             <div class='d-flex justify-content-end align-items-center my-1'>
                 <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Sigiuente</button>
-                <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar</button>
+                <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar itinerario</button>
             </div>
         </form>
       <!-- Modal crear un dia -->
@@ -81,11 +86,7 @@
             </div>
         </div>
     </div>
-    <!--- Boton para crear un dia -->
-    <button id="create-dia-viaje" class="btn btn-primary m-3 agregar-dia" type="button" name="button"
-            data-toggle="modal" data-target="#create-modal" data-idviaje="{{ viaje_form.id }}" data-form-url="{% url 'create-dia-viaje' %}">
-            Cargar Dia
-    </button>
+
 
     {% comment %} Mostrar los dias del viaje {% endcomment %}
     <div class='d-flex justify-content-center align-items-center flex-wrap w-100 cont-dias'>

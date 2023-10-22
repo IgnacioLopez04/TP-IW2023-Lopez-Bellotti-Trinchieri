@@ -134,12 +134,19 @@ document.addEventListener('DOMContentLoaded', function () {
         var provincia = document.getElementById('administrative_area_level_1-input');
         var latitud = document.getElementById('latitud-input');
         var longitud = document.getElementById('longitud-input');
-        if (!localidad.value || !provincia.value || !longitud.value || !latitud.value) {
-            alert('Por favor, ingresa el dato de la localidad correctamente.');
+        if (!localidad.value) {
+            alert('Por favor, ingrese el nombre de la ciudad correctamente.');
+            return;
+        }
+        if (!provincia.value) {
+            alert('Por favor, ingresa el nombre de la provincia correctamente.');
+            return;
+        }
+        if (!longitud.value || !latitud.value) {
+            alert('Por favor, seleccione en el mapa la ubicacion de la misma.');
             return;
         }
 
-        // Crear un elemento de texto para mostrar el correo
         var elementoDiv = document.createElement('div');
         elementoDiv.className = 'div-destino'
         //Creo un input para guardar el valor del span y esta oculto
@@ -180,10 +187,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // destinosAgregados.appendChild(document.createTextNode(", "));
 
         // Limpia los campos después de agregar el destino
+
+        document.getElementById('location-input').value = '';
         document.getElementById('latitud-input').value = '';
         document.getElementById('longitud-input').value = '';
         document.getElementById('locality-input').value = '';
         document.getElementById('administrative_area_level_1-input').value = '';
+
+        // Restaura los placeholders
+        document.getElementById('location-input').placeholder = "Ingrese la ciudad";
+
+        // Selecciona automáticamente el campo "location-input" para escribir una nueva ubicación
+        document.getElementById('location-input').focus();
     });
 
     // Agrega el evento click al botón "Confirmar destinos"

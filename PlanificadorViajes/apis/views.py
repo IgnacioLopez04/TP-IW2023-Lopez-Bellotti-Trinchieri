@@ -10,7 +10,17 @@ from django.db.models import Q
 
 def filtrar_viajes_queryset(viajes, destino, dias_hasta, calif):
     if destino:
-        viajes = viajes.filter(viaje_dia__destinos__icontains=destino).distinct()
+        # Divide las palabras ingresadas por el usuario
+        palabras = destino.split()
+        # Inicializa un objeto Q vacío
+        q_objects = Q()
+        
+        # Para cada palabra, agrega una condición al objeto Q
+        for palabra in palabras:
+            q_objects |= Q(viaje_dia__destinos__icontains=palabra)
+        
+        # Filtra los viajes usando el objeto Q final
+        viajes = viajes.filter(q_objects).distinct()
 
     if dias_hasta:
         viajes = viajes.filter(cantidadDias__lte=dias_hasta)
