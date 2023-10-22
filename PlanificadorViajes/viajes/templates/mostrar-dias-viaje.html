@@ -28,6 +28,9 @@
             type: 'POST',
             data: formData,
             dataType: 'json',
+            processData: false,
+            contentType: false,
+            
             success: function(data) {
                 $('.cont-dias').html(data.html_response);
             },

@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtén el ID del viaje desde la URL
     const urlParams = new URLSearchParams(window.location.search);
     const viajeID = urlParams.get('viaje_id');
-    console.log(viajeID);
+
     if (viajeID) {
         // Realiza una solicitud a la API o al servidor para obtener los detalles del viaje
         // y luego llena los campos de datos con los detalles del viaje.

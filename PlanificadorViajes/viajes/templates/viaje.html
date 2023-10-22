@@ -161,10 +161,7 @@
             $("#crear-dia-form").submit(function (e) {
                 e.preventDefault();
         
-                var formData = new FormData(document.getElementById('crear-dia-form'));
-                var imagenInput = $('#id_imagen');
-                var files = imagenInput.prop('files')
-                formData.append('imagen', files)
+                var formData = new FormData($(this)[0]);
 
                 $.ajax({
                     url: "{% url 'create-dia-viaje'%}",
@@ -186,6 +183,8 @@
                             type: 'POST',
                             data: formData,
                             dataType: 'json',
+                            processData: false,
+                            contentType: false,
     
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
