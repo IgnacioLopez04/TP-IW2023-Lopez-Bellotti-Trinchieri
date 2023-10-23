@@ -8,19 +8,11 @@
 }
 
 main{
-    width: 100%;
-    height: auto;
     position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
 .cont-detalle-mapa{
     width: 90%;
-    height: 100vh;
     margin: 20px 0px;
     overflow: hidden;
 
@@ -33,14 +25,6 @@ main{
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 }
 
-#viaje-invitacion{
-    display: flex;
-    flex-direction: row;
-
-    width: 100%;
-    height: 85%;
-
-}
 
 .form-invitacion{
     margin: 10px 0px;
@@ -79,14 +63,13 @@ main{
     color: #1B3358;
 }
 
-#cont-detalle-viaje{
-    display: flex;
-    align-items: center;
-    overflow-y:scroll;
+#viaje-invitacion{
+    height: 1000px;
 
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
+}
+
+#cont-detalle-viaje{
+    overflow-y:scroll;
 }
 
 #cont-detalle-viaje h1{
@@ -159,16 +142,6 @@ li{
     margin-bottom: 15px ;
 }
 
-#mapita{
-    padding: 20px;
-    flex-grow: 1;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
 .btn-destino{
     display: flex;
     align-items: center;
@@ -192,7 +165,7 @@ li{
 .map {
     visibility: display;
     width: 100%;
-    height: 100%;
+    height: 50%;
 }
 
 .btn-editar-viaje{
@@ -222,3 +195,44 @@ li{
 .borrador{
     color: #ff8000;
 }
+
+.destinos-dia-lista{
+    list-style: circle;
+}
+
+/* imagenes */
+
+.cont-ctrl-fotos{
+    border-radius: 25px;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}
+
+.cont-ctrl-fotos .cont-fotos{
+    transition: all 0.2s ease;
+    transform: translateX(0%);
+}
+
+.cont-btn-fotos{
+    top: 50%;
+
+    width: 99%;
+}
+
+.cont-btn-fotos button{
+    background-color: transparent;
+    border: none;
+
+    width: 30px;
+    height: 30px;
+}
+
+.cont-btn-fotos button:hover{
+    background-color: rgba(255,128,0,0.3);
+    border-radius: 50%;
+}
+
+.divisor{
+    border-bottom: 2px dotted #ff8000;
+}
+/* fin imagenes */
