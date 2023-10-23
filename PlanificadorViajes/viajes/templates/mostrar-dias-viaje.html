@@ -30,7 +30,7 @@
             dataType: 'json',
             processData: false,
             contentType: false,
-            
+
             success: function(data) {
                 $('.cont-dias').html(data.html_response);
             },
@@ -56,14 +56,25 @@
             $("#modal").on('submit', "#update-dia-form", function (e) {
                 e.preventDefault();
     
-                var formData = $(this).serialize();
+                var formData = new FormData($(this)[0]);
                 $.ajax({
                     url: formUrl,
                     type: 'POST',
                     data: formData,
                     dataType: 'json',
-                    success: function(){
-                        cargarDiasViaje(formData);
+                    processData: false,
+                    contentType: false,
+
+                    success: function(data){
+                        console.log("data: ", data.html_response);
+                        $('.cont-dias').html(data.html_response);
+                        //cargarDiasViaje(formData);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("error: ", error);
+                        console.log("xhr: ", xhr);
+                        console.log("status: ", status);
+                        alert('Error al actualizar');
                     }
                 })
     

@@ -191,7 +191,6 @@ def DiaViajeCreateView(request):
             response_data = {
                 'success': True,
                 'message': 'Los datos del dia han sido guardados con éxito.',
-                'destinos': destinos_json,
             }
 
             return JsonResponse(response_data)
@@ -206,6 +205,18 @@ class DiaViajeUpdateView(UpdateView):
     def get_object(self):
         dia_pk = self.kwargs['dia_pk']
         return get_object_or_404(self.model, pk=dia_pk)
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+
+        viaje = obj.viaje
+        viaje_actual = get_object_or_404(Viaje_General, id=viaje.id)
+        dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
+
+        response_data = {
+            'html_response' : render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
+        }
+        return JsonResponse(response_data)
 
 # ELIMINAR
 class DiaViajeDeleteView(DeleteView):
