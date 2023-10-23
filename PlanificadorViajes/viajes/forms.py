@@ -10,12 +10,12 @@ class ViajeForm(forms.ModelForm):
     mesDesde = forms.ModelChoiceField(
         queryset=Mes.objects.all(),
         empty_label="Mes inicial", 
-        label="¿A partir del qué mes recomiendas realizarlo?"
+        label="¿A partir de qué mes recomiendas realizarlo?"
     )
     mesHasta = forms.ModelChoiceField(
         queryset=Mes.objects.all(),
         empty_label="Mes final",  
-        label="¿Y hasta cuándo?"
+        label="¿Hasta cuándo?"
     )
     
     esPrivado = forms.ChoiceField(choices=[(False, 'No'),(True, 'Si'),], required=False, label="¿Desea que sea privado?")
@@ -27,10 +27,11 @@ class ViajeForm(forms.ModelForm):
 
 class CargarDiaViajeForm(forms.ModelForm):
     cargarDestino = forms.CharField(
-        label="Cargar destinos",
-        widget=forms.TextInput(attrs={'type': 'button', 'value': 'Cargar destino', 'onclick': 'abrirMapa()'}),
+        label="",
+        widget=forms.TextInput(attrs={'type': 'button', 'value': 'Cargar ubicaciones', 'onclick': 'abrirMapa()'}),
         required=False,
     )
+
 
     def save(self, commit=True):
         dia_viaje = super().save(commit=False)
@@ -40,5 +41,11 @@ class CargarDiaViajeForm(forms.ModelForm):
     class Meta:
         model = Viaje_Dia
         fields = ['nombreDia', 'notas', 'imagen']
+        labels = {
+            'nombreDia': 'Nombre del dia',
+            'notas': 'Notas',
+        }
+
+    imagen = forms.ImageField(required=False, label= '¿Deseas cargar una foto del dia?')
 
 

@@ -26,22 +26,24 @@ from django.views.generic.edit import (
 from django.views.generic.detail import DetailView
 
 def detalle_viaje(request, viaje_id): 
-    viaje = get_object_or_404(Viaje_General, pk=viaje_id)
-    if request.user == viaje.usuario:
+    viaje_actual = get_object_or_404(Viaje_General, pk=viaje_id)
+    dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_actual)
+    if request.user == viaje_actual.usuario:
         if request.method == 'POST':
             correo = request.POST.get('correo', '')
             if correo:
-                enviar_correos_privados(request,correo,viaje.token)
+                enviar_correos_privados(request,correo,viaje_actual.token)
         
-        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': True})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': True})
     else:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': False})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': False})
         
 def detalle_viaje_token(request, tk):
     viaje = get_object_or_404(Viaje_General, token=tk)
+    dias_viaje = get_object_or_404(Viaje_Dia, viaje = viaje)
     
-    if viaje is not None:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+    if viaje  is not None:
+        return render(request, 'detalle-viaje.html', {'viaje': viaje , 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')

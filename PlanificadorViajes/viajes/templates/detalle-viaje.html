@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<main>
+<main class='d-flex justify-content-center align-items-center flex-column h-100 w-100'>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=initMap&v=weekly"></script>
     <script>
@@ -63,6 +63,7 @@
            
            return marker;
         }    
+        var colorMarcador;
 
         function initializeMapAndMarkers() {
             initMap();
@@ -79,7 +80,7 @@
                     var latitud = parseFloat(destino.latitud.replace(',', '.'));
                     var longitud = parseFloat(destino.longitud.replace(',', '.'));
 
-                    var colorMarcador;
+                   
 
                     if(contadorDia <= 19){
                         // Asigna un color diferente al marcador en función del día.
@@ -99,17 +100,18 @@
                     // Aplica un color en función del día
                     //nombreDiaElement.style.color = coloresMarcadores[contadorDia];
 
-                    var destino_p = document.createElement('p');
-                    destino_p.textContent ='Localidad: ' + destino.nombre + ', ' + destino.provincia;
+                    var destino_p = document.createElement('li');
+                    destino_p.textContent = destino.nombre + ', ' + destino.provincia;
+                    destino_p.className = 'destinos-dia-lista mb-2';
 
                     ul.appendChild(destino_p);
 
                 });
-                var referencia = document.createElement('p');
+                {% comment %} var referencia = document.createElement('p');
                 referencia.style.color = coloresMarcadores[contadorDia];
                 referencia.textContent = "Color del marcador"
                 referencia.style.fontSize = "14px";
-                ul.appendChild(referencia); 
+                ul.appendChild(referencia);  {% endcomment %}
 
             {% endfor %}
             
@@ -208,7 +210,7 @@
 
         window.onload = initializeMapAndMarkers;
     </script>
-    <div class='cont-detalle-mapa'>
+    <div class='h-100 cont-detalle-mapa'>
         {%if correo %}
             <form class='form-invitacion' method='post'>
                 {% csrf_token %}
@@ -217,16 +219,17 @@
                 <button type='submit' id='btn-invitar'>Invitar</button>
             </form>
         {% endif %}
-        <section id="viaje-invitacion">
-            <article id='viaje'>
-                <div id="cont-detalle-viaje">
+        
+        <section id="viaje-invitacion" class="d-flex flex-row w-100">
+            <article id='viaje' class='position-relative'>
+                <div id="cont-detalle-viaje" class='h-100 position-relative d-flex align-items-center w-100 flex-column'>
                     <div>
                         <h1>Detalles del Viaje</h1>
                     </div>
                     <div class='cont-info-nombre'>
                         <p class="nombre-viaje">{{ viaje.nombreViaje }}</p>
                         {% if viaje.estado == 'BORRADOR' %}
-                            <p>¡El viaje aún <strong class='borrador'> no está publicado</strong>!</p>
+                        <p>¡El viaje aún <strong class='borrador'> no está publicado</strong>!</p>
                         {% endif %}
                         <div class='cont-info'>
                             <script src="{% static 'JS/actualizar_viaje.js' %}"></script>
@@ -248,31 +251,65 @@
                     </div>
                     <ul>
                         {%for dia in viaje.viaje_dia.all %}
-                            <li class="li-viaje">
-                                <h3 id="nombre-dia-{{ forloop.counter0 }}">Día: {{forloop.counter}}</h3>
-                                <p><strong>Nombre del día:</strong> {{ dia.nombreDia }}</p>
-                                <p><strong>Notas:</strong> {{ dia.notas }}</p>
-                                <div class="btn-destino">
-                                    <h4>Destinos del Día</h4>
-                                    <h4 id"referencia-color-{{ forloop.counter0 }}"></h4>
-                                    <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver en mapa</button>
-                                </div>
-                                <ul id="destino-{{forloop.counter}}">
-
-                                </ul>
-                            </li>
+                        <li class="li-viaje">
+                            <h3 id="nombre-dia-{{ forloop.counter0 }}">Día: {{forloop.counter}}</h3>
+                            <p><strong>Nombre del día:</strong> {{ dia.nombreDia }}</p>
+                            <p><strong>Notas:</strong> {{ dia.notas }}</p>
+                            <div class="btn-destino">
+                                <h4>Destinos del Día</h4>
+                                <h4 id"referencia-color-{{ forloop.counter0 }}"></h4>
+                                <button id="btn-ver-destinos-{{ forloop.counter0 }}" type="button" class='btn-correo'>Ver en mapa</button>
+                            </div>
+                            <ul id="destino-{{forloop.counter}}">
+                                
+                            </ul>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
             </article>
-            <section id="mapita" >
-                <div class="map" id="map" ></div>
+            <section id="mapita" class='d-flex justify-content-center align-items-center flex-column flex-grow-1 p-3'>
+                <div class="h-100 w-100  map" id="map" ></div>
                 <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
                 {% if user == viaje.usuario %}
-                    <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary btn-editar-viaje">Editar viaje</a>
+                <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary btn-editar-viaje">Editar viaje</a>
                 {% endif %}
             </section>
         </section>
+        <div class='my-3 py-2 d-flex justify-content-center aling-items-center w-75 divisor'>
+            <p class='mb-0 fs-4'>Observa del paisaje de tus destinos!</p>
+        </div>
+        <section class='d-flex justify-content-center align-items-center w-100'>
+            <div class='d-flex position-relative w-75 mx-4 my-3 overflow-hidden cont-ctrl-fotos'>
+                <div 'class='overflow-hidden cont-ctrl-fotos'>
+                    <div id='cont-imagenes' class='h-100 d-flex flex-row flex-wrap-nowrap justify-content-between cont-fotos'>
+                        {% for imagen in imagen_dia %}
+                            {% if imagen.imagen %}
+                                <img class='img-fluid w-100'src="{{ imagen.imagen.url }}" alt="Imagen del día {{ imagen.nombreDia }}" width="200" height="200">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="position-absolute d-flex justify-content-between position-absolute cont-btn-fotos">
+                        <button class="fs-4 px-2 d-flex justify-content-center align-items-center btn-flecha-izq">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                <style>svg{fill:#ff8000}</style>
+                                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                            </svg>
+                        </button>
+                        <button class="fs-4 px-2 d-flex justify-content-center align-items-center btn-flecha-der">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                <style>svg{fill:#ff8000}</style>
+                                <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </main>
+{% endblock %}
+
+{% block js %}
+    <script src={% static 'JS/detalle_viaje.js'%}></script>
 {% endblock %}
