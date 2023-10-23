@@ -221,7 +221,7 @@ AUTHENTICATION_BACKENDS = {
 LOGIN_REDIRECT_URL = 'sitio-inicio'
 LOGOUT_REDIRECT_URL = 'sitio-inicio'
 
-# code needed to deploy in Render.com:
+code needed to deploy in Render.com:
 import os
 import dj_database_url
 
@@ -238,4 +238,7 @@ if 'RENDER' in os.environ:
     EMAIL_HOST_USER = os.environ.get('VERIFICATION_EMAIL')
     EMAIL_HOST_PASSWORD = os.environ.get('VERIFICATION_EMAIL_PASSWORD')
     GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
