@@ -109,8 +109,6 @@ def cargarViaje(request):
           
             viaje_form.save()
 
-            #Con todos los datos guardados, armamos una respuesta JSON
-            #para actualizar los valores que queremos
             response_data = {
                 'success': True,
                 'message': 'Los datos del viaje han sido guardados con éxito.',
@@ -137,7 +135,6 @@ def confirmarViaje(request):
     
     if request.method == "POST":
         id_viaje = request.POST.get('id-viaje')
-        
         if id_viaje == '':
             messages.error(request, f'Se necesita tener al menos cargado un dia del viaje.')
             response_data['success'] = False
@@ -209,7 +206,6 @@ class DiaViajeUpdateView(UpdateView):
         return get_object_or_404(self.model, pk=dia_pk)
 
     def post(self, request, *args, **kwargs):
-        print(request)
         obj = self.get_object()
         viaje = obj.viaje
         viaje_actual = get_object_or_404(Viaje_General, id=viaje.id)
@@ -262,14 +258,40 @@ def mostrarDiasViaje(request):
     id_viaje = request.POST.get('id-viaje')
     viaje_actual = get_object_or_404(Viaje_General, id = id_viaje)
     dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
-    
-    dias_serializados = json.loads(serializers.serialize("json", dias_viaje))
-    # Convertir la serialización en una lista de diccionarios
-    dias_serializados = [item['fields'] for item in dias_serializados]
 
     response = {
         'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje}),
     }
     
     return JsonResponse(response)
-     
+
+class ViajeUpdateView(UpdateView):
+    model = Viaje_General
+    template_name = 'viaje.html'
+    form_class = ViajeForm
+    success_message = 'El viaje fue actualizado con exito!.'
+    success_url = reverse_lazy('viajes-cargar-viaje')
+
+    def get_object(self):
+        viaje_pk = self.kwargs['viaje_pk']
+        return get_object_or_404(self.model, pk=viaje_pk)
+
+    def get_context_data(self, **kwargs):
+        dia_form = CargarDiaViajeForm
+        context = super().get_context_data(**kwargs)
+        context['viaje_form'] = context['form']
+        context['dia_form'] = dia_form
+        dias = Viaje_Dia.objects.filter(viaje=self.get_object())
+        context['dias_viaje'] = render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        r = super().post(request, *args, **kwargs)
+
+        viaje = self.get_object()
+        viaje.estado = "ACTIVO"
+        viaje.cantidadDias = viaje.viaje_dia.count()
+        viaje.save()
+
+        return r
+

@@ -52,6 +52,7 @@
                 </div>
                 <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Siguiente</button>
                 <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar itinerario</button>
+                <button type="button" id='btn-update-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1" style="display: none;">Actualizar</button>
             </div>
         </form>
       <!-- Modal crear un dia -->
@@ -106,6 +107,7 @@
 
     {% comment %} Mostrar los dias del viaje {% endcomment %}
     <div class='d-flex justify-content-center align-items-center flex-wrap w-100 cont-dias'>
+        {{ dias_viaje|safe }}
     </div>
     
   </section>
@@ -156,11 +158,11 @@
                         if (data.success){
                             window.location.href = "{% url 'sitio-inicio' %}";
                             if(data.messages){
-                                console.log($('#mensaje-alerta').text(data.messages));
+                                $('#mensaje-alerta').text(data.messages);
                             }
                         }else{
                             if(data.messages){
-                                console.log($('#mensaje-alerta').text(data.messages));
+                                $('#mensaje-alerta').text(data.messages);
                             }
                         }
                     },
@@ -209,7 +211,6 @@
     
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
-                                //cargarDiasViaje(formData);
 
                                 
                                 $("#loading-overlay").hide();
@@ -229,52 +230,6 @@
             });
         });
 
-
-         //Boton actualizar dia
-        $(".update-dia-viaje").on('click', function (){
-        
-            var formUrl = $(this).data("form-url");
-    
-            $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
-                $("#modal").modal('show');
-            });
-            $("#modal").on('submit', "#update-dia-form", function (e) {
-                e.preventDefault();
-    
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: formUrl,
-                    type: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                })
-    
-                $("#modal").modal('hide');
-            })
-        });
-
-        //Boton eliminar dia
-        $(".delete-dia-viaje").on('click', function (){
-            var formUrl = $(this).data("form-url");
-    
-            $.get(formUrl, function (data) {
-                $(".modal-content").html(data);
-                $("#modal").modal('show');
-            });
-    
-            $("#modal").on('submit', "#delete-dia-form", function (e) {
-                e.preventDefault();
-    
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: formUrl,
-                    type: 'POST',
-                    data: formData,
-                });
-                $("#modal").modal('hide');
-            })
-        });
     </script>
     <!-- Guardar el formulario sin redireccionar/recargar la pagina -->
     <script>
@@ -292,8 +247,6 @@
               type: 'POST',
               data: formData,
               success: function(response) {
-                
-
                 if (response.success) {
                   // Actualiza el contexto pasado a la vista
                   if (response.id_viaje) {

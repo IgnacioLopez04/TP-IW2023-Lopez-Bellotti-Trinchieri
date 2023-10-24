@@ -272,7 +272,7 @@
                 <div class="h-100 w-100  map" id="map" ></div>
                 <button id="btn-ver-todos-los-destinos" type="button" class='btn-correo'>Ver todos los destinos</button>
                 {% if user == viaje.usuario %}
-                <a href="/viajes/?viaje_id={{viaje.id}}" class="btn btn-primary btn-editar-viaje">Editar viaje</a>
+                    <button class="btn btn-primary editar-viaje" data-id="{{ viaje.id }}">Editar viaje</button>
                 {% endif %}
             </section>
         </section>

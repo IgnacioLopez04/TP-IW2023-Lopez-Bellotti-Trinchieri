@@ -6,6 +6,7 @@ urlpatterns = [
     path('detalle-viaje/<int:viaje_id>/', views.detalle_viaje, name='detalle-viaje'),
     path('detalle-viaje/<tk>/', views.detalle_viaje_token, name='detalle-viaje-token'),
     path('aceptarSolicitud/<str:tk>',views.aceptar_solicitud, name='aceptar-solicitud'),
+    path('update/<int:viaje_pk>', views.ViajeUpdateView.as_view(), name='update-viaje'),
 
     path('create/', views.DiaViajeCreateView, name='create-dia-viaje'),
     path('update/<int:dia_pk>', views.DiaViajeUpdateView.as_view(), name='update-dia-viaje'),

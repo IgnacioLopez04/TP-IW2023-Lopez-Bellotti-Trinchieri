@@ -23,13 +23,9 @@
 {% endfor %} 
 <script>
 
-
-    
-    
     $(function(){
         //Boton actualizar dia
         $(".update-dia-viaje").on('click', function (){
-    
             var formUrl = $(this).data("form-url");
             $("#modal-content").empty(); // Limpia el contenido del modal
 
@@ -41,7 +37,6 @@
                 e.preventDefault();
     
                 var formData = new FormData($(this)[0]);
-                console.log(formData.serialize());
                 $.ajax({
                     url: formUrl,
                     type: 'POST',
@@ -54,9 +49,6 @@
                         $('.cont-dias').html(data.html_response);
                     },
                     error: function(xhr, status, error) {
-                        console.log("error: ", error);
-                        console.log("xhr: ", xhr);
-                        console.log("status: ", status);
                         alert('Error al actualizar');
                     }
                 })
