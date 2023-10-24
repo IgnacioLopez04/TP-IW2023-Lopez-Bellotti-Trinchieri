@@ -43,10 +43,12 @@
             </button>
             <div class='d-flex justify-content-end align-items-center my-1'>
                 <div id="loading-overlay-viaje" style="display: none;">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only"></span>
+                    <div class='d-flex justify-content-center align-items-center flex-column'>
+                        <div class="spinner-border text-primary " role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                        <p class='p-2 fs-5'>Guardando el viaje!</p>
                     </div>
-                    <p>Guardando el viaje!</p>
                 </div>
                 <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Siguiente</button>
                 <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar itinerario</button>
@@ -78,14 +80,16 @@
                               </div>
                           {% endfor %}
                       </div>
-                      <div class="modal-footer">
-                        <div id="loading-overlay" style="display: none;">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="sr-only"></span>
+                      <div class="modal-footer d-flex justify-content-center align-items-end flex-column">
+                        <div id="loading-overlay" style='display:none;'>
+                            <div class='d-flex justify-content-center align-items-center flex-column'>
+                                <div class="spinner-border text-primary my-1" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                                <p class='p-2 fs-5'>Cargando el día!</p>
                             </div>
-                            <p>Cargando el día!</p>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-confirmar-dia">Confirmar</button>
+                        <button type="submit" class="btn btn-primary btn-confirmar-dia" id='confirmar-dia'>Confirmar</button>
                       </div>
                   </form>
             </div>
@@ -175,6 +179,7 @@
                 e.preventDefault();
         
                 // Muestra el mensaje de "Cargando día"
+                $("#confirmar-dia").hide();
                 $("#loading-overlay").show();
 
                 var formData = new FormData($(this)[0]);
@@ -205,10 +210,12 @@
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
                                 cargarDiasViaje(formData);
+
                                 
                                 $("#loading-overlay").hide();
                                 // La carga de días se ha completado, ahora puedes cerrar el modal
                                 $("#create-modal").modal('hide');
+                                $("#confirmar-dia").show();
 
                             }
                         })
@@ -274,8 +281,9 @@
         $(document).ready(function() {
            $('#viaje-form').on('submit', function(event) {
                event.preventDefault();
+                $('#btn-cargar-info-viaje-general').hide();
+                $("#loading-overlay-viaje").show();
 
-               $("#loading-overlay-viaje").show();
             // Serializa el formulario para enviarlo como datos POST
             var formData = $(this).serialize();
 
@@ -284,14 +292,15 @@
               type: 'POST',
               data: formData,
               success: function(response) {
-                alert(response.message);
+                
+
                 if (response.success) {
                   // Actualiza el contexto pasado a la vista
                   if (response.id_viaje) {
                     // Actualiza el atributo data-idviaje del botón.
                     $('#create-dia-viaje').attr('data-idviaje', response.id_viaje);
                   }
-
+                  
                   if(response.success){
                     $('#create-dia-viaje').show();
                     $('#btn-confirmar-viaje').show();

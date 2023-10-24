@@ -64,7 +64,7 @@ main{
 }
 
 #viaje-invitacion{
-    height: 1000px;
+    height: 750px;
 
 }
 
@@ -202,37 +202,26 @@ li{
 
 /* imagenes */
 
-.cont-ctrl-fotos{
-    border-radius: 25px;
-    object-fit: cover;
-    aspect-ratio: 16/9;
-}
-
-.cont-ctrl-fotos .cont-fotos{
-    transition: all 0.2s ease;
-    transform: translateX(0%);
-}
-
-.cont-btn-fotos{
-    top: 50%;
-
-    width: 99%;
-}
-
-.cont-btn-fotos button{
-    background-color: transparent;
-    border: none;
-
-    width: 30px;
-    height: 30px;
-}
-
-.cont-btn-fotos button:hover{
-    background-color: rgba(255,128,0,0.3);
-    border-radius: 50%;
-}
-
 .divisor{
     border-bottom: 2px dotted #ff8000;
 }
+
+.cont-img{
+    width: 40%;
+    
+}
+
+.cont-img img{
+    object-fit: cover;
+    aspect-ratio: 16/9;
+    box-shadow: 0px 0px 15px black;
+}
+
+.cont-img img:hover{
+
+    transform: scale(1.4);
+}
+
+
+
 /* fin imagenes */

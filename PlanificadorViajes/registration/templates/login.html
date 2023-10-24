@@ -4,6 +4,9 @@
 {%block estilo%}<link rel="stylesheet" href={%static 'CSS/login.css'%}>{%endblock%}
 {% block title %}Login{% endblock %}
 
+{% block buscar%}
+{% endblock %}
+
 {% block content %}
 <main>
   <section class="cont-form-login">
@@ -17,7 +20,7 @@
       </form>
     <div class="border-top pt-3">
       <small class="text">
-          Necesitas una cuenta? <a class="link-signup" href="{% url 'signup'%}"> Registrarse </a>
+          Necesitas una cuenta? <a class=" text-decoration-none link-signup" href="{% url 'signup'%}"> Registrarse </a>
       </small>
     </div>
     <div class="cont-google">
@@ -28,7 +31,7 @@
       </div>
       {% load socialaccount %}
       <button class='btn-google'>
-        <a href="{% provider_login_url 'google' %}">Iniciar sesion con Google</a>
+        <a class='text-decoration-none' href="{% provider_login_url 'google' %}">Iniciar sesion con Google</a>
       </button>
     </div>
   </section>

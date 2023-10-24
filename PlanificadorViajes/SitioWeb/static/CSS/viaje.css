@@ -218,5 +218,8 @@ button:hover{
 /* fin titulo */
 
 /* loading */
-
+.color-spinner{
+    color: #FF8000;
+    fill: #FF8000;
+}
 /* fin loading */

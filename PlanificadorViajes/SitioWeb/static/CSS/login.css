@@ -43,8 +43,8 @@ main{
 .login-button{
     width: 100%;
     border: none;
-    background-color: rgba(0,0,0,0.5);
-    color: white;
+    background-color: #1B3358;
+    color: #FF8000;
     padding: 5px;
     margin: 10px 0px;
     border-radius: 10px;
@@ -53,6 +53,12 @@ main{
 
 .login-button:hover{
     background-color: #FF8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+
+.link-signup{
+    color: #FF8000;
 }
 
 .link-signup:hover{
