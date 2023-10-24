@@ -217,6 +217,10 @@ button:hover{
 
 /* fin titulo */
 
+.delete-dia-viaje:hover{
+    background-color: #B71313;
+}
+
 /* loading */
 .color-spinner{
     color: #FF8000;
