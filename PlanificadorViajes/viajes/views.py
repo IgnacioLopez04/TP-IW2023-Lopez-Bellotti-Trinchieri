@@ -209,15 +209,25 @@ class DiaViajeUpdateView(UpdateView):
         return get_object_or_404(self.model, pk=dia_pk)
 
     def post(self, request, *args, **kwargs):
+        print(request)
         obj = self.get_object()
-
         viaje = obj.viaje
         viaje_actual = get_object_or_404(Viaje_General, id=viaje.id)
+
+        obj_POST = request.POST
+        obj.nombreDia = obj_POST['nombreDia']
+        obj.notas = obj_POST['notas']
+        #faltaria el resto de campos
+        obj.save()
+
         dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
+
+        print("dias viaje: ", dias_viaje)
 
         response_data = {
             'html_response' : render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
         }
+
         return JsonResponse(response_data)
 
 # ELIMINAR

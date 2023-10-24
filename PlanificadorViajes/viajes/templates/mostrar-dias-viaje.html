@@ -22,23 +22,7 @@
     </div>
 {% endfor %} 
 <script>
-    function cargarDiasViaje(formData){
-        $.ajax({
-            url:"{% url 'mostrar-dias-viaje' %}",
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            processData: false,
-            contentType: false,
 
-            success: function(data) {
-                $('.cont-dias').html(data.html_response);
-            },
-            error: function(){
-                alert('No se pudieron cargar los dias.');
-            }
-        });
-    }
 
     
     
@@ -57,6 +41,7 @@
                 e.preventDefault();
     
                 var formData = new FormData($(this)[0]);
+                console.log(formData.serialize());
                 $.ajax({
                     url: formUrl,
                     type: 'POST',
@@ -66,9 +51,7 @@
                     contentType: false,
 
                     success: function(data){
-                        console.log("data: ", data.html_response);
                         $('.cont-dias').html(data.html_response);
-                        //cargarDiasViaje(formData);
                     },
                     error: function(xhr, status, error) {
                         console.log("error: ", error);
@@ -100,8 +83,10 @@
                     url: formUrl,
                     type: 'POST',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(){
-                        cargarDiasViaje(formData);
+                        //cargarDiasViaje(formData);
                     }
                 });
                 $("#modal").modal('hide');
