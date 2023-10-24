@@ -170,20 +170,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const viajeID = urlParams.get('viaje_id');
 
     if (viajeID) {
-        // Realiza una solicitud a la API o al servidor para obtener los detalles del viaje
-        // y luego llena los campos de datos con los detalles del viaje.
+        // Realiza una solicitud para obtener los detalles del viaje
         fetch(`/api/viaje_general/buscar_un_viaje/?id=${viajeID}`)
             .then(response => response.json())
             .then(data => {
-
+                // Llena los campos de datos con los detalles del viaje
                 document.getElementById('id_nombreViaje').value = data.nombreViaje;
                 document.getElementById('id_descripcion').value = data.descripcion;
                 document.getElementById('id_mesDesde').value = data.mesDesde;
                 document.getElementById('id_mesHasta').value = data.mesHasta;
                 document.getElementById('id_esPrivado').selectedIndex = data.esPrivado === false ? 0 : 1;
 
+                // Ahora, realiza una solicitud para obtener los días asociados al viaje
+                fetch(`/api/viaje_general/buscar_dias_por_viaje/?viaje_id=${viajeID}`)
+                    .then(response => response.json())
+                    .then(dias => {
+                        const contDiasAsociados = document.getElementById('dias-viaje-actualizo');
+
+                        // Limpia el contenedor de días
+                        contDiasAsociados.innerHTML = '';
+
+                        // Itera a través de los días y muestra la información
+                        dias.forEach(dia => {
+                            const diaElement = document.createElement('div');
+                            diaElement.className = 'm-2 p-2 d-flex justify-content-between align-items-center flex-column dia-viaje';
+                            diaElement.innerHTML = `
+                                <div class='d-flex justify-content-center align-items-center flex-column w-100'>
+                                    <div class="d-flex justify-content-center align-items-center w-75 nombre-dia">
+                                        <p class='m-1 font-weight-bold'>${dia.nombreDia}</p>
+                                    </div>
+                                    <p class='m-1'>${dia.notas}</p>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" data-target="#modal" class="my-1 bs-modal btn btn-sm btn-primary btn-accion-dia update-dia-viaje" data-form-url="{% url 'update-dia-viaje' dia.pk %}">
+                                        <span class="fa fa-pencil">Actualizar</span>
+                                    </button>
+                                    <button type="button" data-target="#modal" class="my-1 w-100 bs-modal btn btn-sm btn-danger btn-accion-dia delete-dia-viaje" data-form-url="{% url 'delete-dia-viaje' dia.pk %}">
+                                        <span class="fa fa-trash">Eliminar</span>
+                                    </button>
+                                </div>
+                            `;
+                            contDiasAsociados.appendChild(diaElement);
+                        });
+                    })
+                    .catch(error => console.error('Error al obtener los días asociados:', error));
             })
-            .catch(error => console.error('No entro:', error));
+            .catch(error => console.error('Error al obtener los detalles del viaje:', error));
     }
 });
 
