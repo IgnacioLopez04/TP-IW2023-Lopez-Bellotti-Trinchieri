@@ -10,6 +10,7 @@ urlpatterns = [
      path('todos_los_viajes/', views.ViajeGeneralViewSet.as_view({'get': 'todos_los_viajes'}), name='todos_los_viaj0es'),
      path('filtrar_viajes/', views.ViajeGeneralViewSet.as_view({'get': 'filtrar_viajes'}), name='filtrar_viajes'),
      path('viajes_usuario/', views.ViajeGeneralViewSet.as_view({'get': 'viajes_usuario'}), name='viajes_usuario'),
-     path('buscar_un_viaje/', views.ViajeGeneralViewSet.as_view({'get': 'buscar_un_viaje'}), name='buscar_un_viaje')
+     path('buscar_un_viaje/', views.ViajeGeneralViewSet.as_view({'get': 'buscar_un_viaje'}), name='buscar_un_viaje'),
+     path('buscar_dias_por_viaje/', views.ViajeGeneralViewSet.as_view({'get': 'buscar_dias_por_viaje'}), name='buscar_dias_por_viaje'),
 ]
     

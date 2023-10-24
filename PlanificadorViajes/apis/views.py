@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.http import HttpResponse
-from viajes.models import Viaje_General
-from .serializers import ViajeGeneralSerializer
+from viajes.models import Viaje_General, Viaje_Dia
+from .serializers import ViajeGeneralSerializer, DiaSerializer
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -29,7 +29,6 @@ def filtrar_viajes_queryset(viajes, destino, dias_hasta, calif):
         viajes = viajes.filter(calificacion__lte=calif)
 
     return viajes
-
 
 class ViajeGeneralViewSet(viewsets.ModelViewSet):
     serializer_class = ViajeGeneralSerializer
@@ -90,4 +89,13 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         viaje = self.get_queryset().filter(id=id).first()
         serializer = self.get_serializer(viaje)
 
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def buscar_dias_por_viaje(self, request):
+        id = request.GET.get('viaje_id')
+        viaje = self.get_queryset().filter(id=id).first()
+        dias = Viaje_Dia.objects.filter(viaje=viaje)  
+
+        serializer = DiaSerializer(dias, many=True) 
         return Response(serializer.data)

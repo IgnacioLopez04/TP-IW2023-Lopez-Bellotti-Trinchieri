@@ -73,7 +73,13 @@
                           {% endfor %}
                       </div>
                       <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary btn-confirmar-dia">Confirmar</button>
+                        <div id="loading-overlay" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                            <p>Cargando el día!</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-confirmar-dia">Confirmar</button>
                       </div>
                   </form>
             </div>
@@ -162,6 +168,9 @@
             $("#crear-dia-form").submit(function (e) {
                 e.preventDefault();
         
+                // Muestra el mensaje de "Cargando día"
+                $("#loading-overlay").show();
+
                 var formData = new FormData($(this)[0]);
 
                 $.ajax({
@@ -190,15 +199,20 @@
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
                                 cargarDiasViaje(formData);
+                                
+                                $("#loading-overlay").hide();
+                                // La carga de días se ha completado, ahora puedes cerrar el modal
+                                $("#create-modal").modal('hide');
+
                             }
                         })
                     },
                     error: function(xhr, status, error) {
                         alert('Error al guardar los datos del dia');
+                        $("#loading-overlay").hide();
                     }
                 })
-    
-                $("#create-modal").modal('hide');
+
             });
         });
 
