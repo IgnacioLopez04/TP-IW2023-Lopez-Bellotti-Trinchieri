@@ -42,6 +42,12 @@
                 Cargar Dia
             </button>
             <div class='d-flex justify-content-end align-items-center my-1'>
+                <div id="loading-overlay-viaje" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                    <p>Guardando el viaje!</p>
+                </div>
                 <button type="submit" id="btn-cargar-info-viaje-general" class="py-2 px-3 btn-guardar-viaje">Siguiente</button>
                 <button type="button" id='btn-confirmar-viaje' class="py-2 px-3 btn-confirmar-viaje mx-1">Confirmar itinerario</button>
             </div>
@@ -269,6 +275,7 @@
            $('#viaje-form').on('submit', function(event) {
                event.preventDefault();
 
+               $("#loading-overlay-viaje").show();
             // Serializa el formulario para enviarlo como datos POST
             var formData = $(this).serialize();
 
@@ -288,11 +295,13 @@
                   if(response.success){
                     $('#create-dia-viaje').show();
                     $('#btn-confirmar-viaje').show();
+                    $("#loading-overlay-viaje").hide();
                   }
                 }
               },
               error: function(xhr, status, error) {
                   alert('Error al guardar los datos del viaje');
+                  $("#loading-overlay-viaje").hide();
               }
             });
           });
