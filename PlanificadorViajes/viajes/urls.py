@@ -8,9 +8,9 @@ urlpatterns = [
     path('aceptarSolicitud/<str:tk>',views.aceptar_solicitud, name='aceptar-solicitud'),
     path('update/<int:viaje_pk>', views.ViajeUpdateView.as_view(), name='update-viaje'),
 
-    path('create/', views.DiaViajeCreateView, name='create-dia-viaje'),
-    path('update/<int:dia_pk>', views.DiaViajeUpdateView.as_view(), name='update-dia-viaje'),
-    path('delete/<int:dia_pk>', views.DiaViajeDeleteView.as_view(), name='delete-dia-viaje'),
-    path('mostrar/', views.mostrarDiasViaje, name='mostrar-dias-viaje'),
+    path('create-dia/', views.DiaViajeCreateView, name='create-dia-viaje'),
+    path('update-dia/<int:dia_pk>', views.DiaViajeUpdateView.as_view(), name='update-dia-viaje'),
+    path('delete-dia/<int:dia_pk>', views.DiaViajeDeleteView.as_view(), name='delete-dia-viaje'),
+    path('mostrar-dias/', views.mostrarDiasViaje, name='mostrar-dias-viaje'),
     path('confirmarViaje/', views.confirmarViaje, name='confirmar-viaje'),
 ]

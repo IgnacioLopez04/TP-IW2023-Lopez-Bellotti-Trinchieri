@@ -33,28 +33,30 @@
                 $("#modal-content").html(data);
                 $("#modal").modal('show');
             });
-            $("#modal").on('submit', "#update-dia-form", function (e) {
-                e.preventDefault();
-    
-                var formData = new FormData($(this)[0]);
-                $.ajax({
-                    url: formUrl,
-                    type: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
+        })
 
-                    success: function(data){
-                        $('.cont-dias').html(data.html_response);
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error al actualizar');
-                    }
-                })
-    
-                $("#modal").modal('hide');
+        $("#modal").on('submit', "#update-dia-form", function (e) {
+            e.preventDefault();
+            var formUrl = $(this).data("form-url");
+            console.log($(this).data);
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: formUrl,
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+
+                success: function(data){
+                    $('.cont-dias').html(data.html_response);
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al actualizar');
+                }
             })
+
+            $("#modal").modal('hide');
         })
     
         //Boton eliminar dia
