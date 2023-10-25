@@ -1,0 +1,18 @@
+.viaje{
+    border: 2px dotted  #1B3358;
+    border-radius: 10px;
+}
+
+.viaje h2{
+    color: #ff8000;
+}
+
+.viaje span{
+    color:  #134590;
+    font-weight: 700;
+}
+
+.viaje p{
+    color: black;
+    font-size: 20px;
+}
