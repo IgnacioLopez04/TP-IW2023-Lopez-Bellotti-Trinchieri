@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_pagina.html' %}
 {% load filters %}
 {% load static %}
 {% block estilo %}
     <link rel="stylesheet" href={%static 'CSS/inicio.css'%}>
+    <link rel='stylesheet' href={% static 'CSS/search.css' %}>
 {% endblock %}
 {% block content %}
-    <h2>Buscar:</h2>
-
+<main class='d-flex justify-content-center align-items-center flex-column w-100'>
+    <h2 class='mx-3 p-2'>Buscar:</h2>
     <form method="get" action=".">
-        <table>
+        <table class='table'>
             {{ form.as_table }}
-            <tr>
+            <tr class='my-2'>
                 <td>&nbsp;</td>
                 <td>
                     <input type="submit" value="Buscar">
@@ -20,16 +21,16 @@
 
         {% if query %}
             <h3>Resultados:</h3>
-            <div id="results">
+            <div id="results" class='w-100 d-flex justify-content-center align-items-center'>
                 {% for result in page.object_list %}
-                    <div class="viaje">
+                    <div class="m-2 p-2 viaje justify-content-center align-items-center flex-column w-100">
                         {% with numero_id=result.id|split:'.'|last %}
-                            <a href="/viajes/detalle-viaje/{{ numero_id }} ">
+                            <a class='text-decoration-none' href="/viajes/detalle-viaje/{{ numero_id }} ">
                         {% endwith %}
-                        <h2>{{ result.nombre}}</h2>
-                        <p><span>Descripción: </span> {{ result.descripcion }}</p>
-                        <p><span>Calificacion: </span> {{ result.calificacion }}</p>
-                        </a>
+                            <h2>{{ result.nombre}}</h2>
+                            <p><span>Descripción: </span> {{ result.descripcion }}</p>
+                            <p><span>Calificacion: </span> {{ result.calificacion }}</p>
+                            </a>
                     </div>
                 {% empty %}
                     <p>No se encontraron viajes.</p>
@@ -45,4 +46,5 @@
             {% endif %}
         {% endif %}
     </form>
+</main>
 {% endblock %}
