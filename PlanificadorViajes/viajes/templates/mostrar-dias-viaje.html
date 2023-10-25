@@ -73,11 +73,12 @@
         $("#modal").on('submit', "#delete-dia-form", function (e) {
             e.preventDefault();
             var formUrl = $("#modal").data("form-url");
-            var formData = $(this).serialize();
+            //var formData = $(this).serialize();
+            var formData = new FormData($(this)[0]);
             var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
             $.ajax({
                 url: formUrl,
-                type: 'POST',
+                type: 'DELETE',
                 data: formData,
                 headers: {
                     'X-CSRFToken': csrfToken

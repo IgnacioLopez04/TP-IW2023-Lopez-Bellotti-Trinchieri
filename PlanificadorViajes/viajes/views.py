@@ -218,8 +218,6 @@ class DiaViajeUpdateView(UpdateView):
 
         dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
 
-        print("dias viaje: ", dias_viaje)
-
         response_data = {
             'html_response' : render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
         }
@@ -242,13 +240,10 @@ class DiaViajeDeleteView(DeleteView):
         return get_object_or_404(self.model, pk=dia_pk)
 
     def delete(self, request, *args, **kwargs):
-        dia_pk = self.kwargs['dia_pk']
-        dia = get_object_or_404(Viaje_Dia, pk=dia_pk)
-
-        dias_viaje = Viaje_Dia.objects.filter(viaje=self.get_object())
+        dia = self.get_object()
+        dias_viaje = Viaje_Dia.objects.filter(viaje=dia.viaje)
 
         dia.delete()
-
 
         response = {
             'success': True,
