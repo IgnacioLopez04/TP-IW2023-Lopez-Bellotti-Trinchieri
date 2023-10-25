@@ -31,14 +31,15 @@
 
             $.get(formUrl, function (data) {
                 $("#modal-content").html(data);
+                $("#modal").data('form-url', formUrl);
                 $("#modal").modal('show');
             });
         })
 
         $("#modal").on('submit', "#update-dia-form", function (e) {
             e.preventDefault();
-            var formUrl = $(this).data("form-url");
-            console.log($(this).data);
+            var formUrl = $("#modal").data("form-url");
+            console.log(formUrl);
             var formData = new FormData($(this)[0]);
             $.ajax({
                 url: formUrl,
