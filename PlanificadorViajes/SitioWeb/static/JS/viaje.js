@@ -85,20 +85,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /* Ejecuta el ajax a esa url para que haga el get */
-$(document).ready(function (){
+$(document).ready(function () {
     var url = document.URL;
     $.ajax({
         url: url,
         type: 'GET',
     });
 
-    if(url.includes("viajes/update")) {
+    if (url.includes("viajes/update")) {
         $("#btn-cargar-info-viaje-general").hide();
         $("#btn-update-viaje").show();
         $("#create-dia-viaje").show();
         $('#create-dia-viaje').attr('data-idviaje', url.split('/')[5]);
 
-        $("#btn-update-viaje").on('click', function (){
+        $("#btn-update-viaje").on('click', function () {
             var formData = new FormData($("#viaje-form")[0]);
             var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
             $.ajax({
@@ -112,6 +112,7 @@ $(document).ready(function (){
                 processData: false,
                 contentType: false,
             });
+            window.location.href = '/sitio';
         });
     }
 });
