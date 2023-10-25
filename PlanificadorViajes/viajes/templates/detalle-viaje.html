@@ -211,7 +211,7 @@
         window.onload = initializeMapAndMarkers;
     </script>
     <div class='h-100 cont-detalle-mapa'>
-        {%if correo %}
+        {%if correo and viaje.esPrivado%}
             <form class='form-invitacion' method='post'>
                 {% csrf_token %}
                 <label for='correo'>Invita a tus amigos a ver tu viaje!</label>
