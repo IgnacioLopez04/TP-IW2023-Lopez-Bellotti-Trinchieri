@@ -244,11 +244,16 @@ class DiaViajeDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         dia_pk = self.kwargs['dia_pk']
         dia = get_object_or_404(Viaje_Dia, pk=dia_pk)
+
+        dias_viaje = Viaje_Dia.objects.filter(viaje=self.get_object())
+
         dia.delete()
+
 
         response = {
             'success': True,
             'message': 'El día fue eliminado con éxito.',
+            'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
         }
 
         return JsonResponse(response)

@@ -39,7 +39,6 @@
         $("#modal").on('submit', "#update-dia-form", function (e) {
             e.preventDefault();
             var formUrl = $("#modal").data("form-url");
-            console.log(formUrl);
             var formData = new FormData($(this)[0]);
             $.ajax({
                 url: formUrl,
@@ -67,25 +66,29 @@
 
             $.get(formUrl, function (data) {
                 $("#modal-content").html(data);
+                $("#modal").data('form-url', formUrl);
                 $("#modal").modal('show');
             });
-    
-            $("#modal").on('submit', "#delete-dia-form", function (e) {
-                e.preventDefault();
-    
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: formUrl,
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(){
-                        //cargarDiasViaje(formData);
-                    }
-                });
-                $("#modal").modal('hide');
-            })
+        })
+        $("#modal").on('submit', "#delete-dia-form", function (e) {
+            e.preventDefault();
+            var formUrl = $("#modal").data("form-url");
+            var formData = $(this).serialize();
+            var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                url: formUrl,
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    $('.cont-dias').html(data.html_response);
+                }
+            });
+            $("#modal").modal('hide');
         })
     });
 </script>
