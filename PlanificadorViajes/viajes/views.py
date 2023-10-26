@@ -208,15 +208,10 @@ class DiaViajeUpdateView(UpdateView):
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         viaje = obj.viaje
-        viaje_actual = get_object_or_404(Viaje_General, id=viaje.id)
 
-        obj_POST = request.POST
-        obj.nombreDia = obj_POST['nombreDia']
-        obj.notas = obj_POST['notas']
-        #faltaria el resto de campos
-        obj.save()
+        r = super().post(request, *args, **kwargs) #solo hacemos que se ejecute el super
 
-        dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
+        dias_viaje = Viaje_Dia.objects.filter(viaje=viaje)
 
         response_data = {
             'html_response' : render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
