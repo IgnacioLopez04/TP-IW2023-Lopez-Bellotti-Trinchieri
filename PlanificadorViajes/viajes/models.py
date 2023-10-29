@@ -18,7 +18,7 @@ class Viaje_General(models.Model):
     mesHasta = models.ForeignKey(Mes, related_name='mes_hasta', on_delete=models.SET_NULL, null=True, blank=True)
     esPrivado= models.BooleanField(null = True)
     token = models.CharField(max_length=250, null=True, blank=True)
-    # usuariosPermitidos = ArrayField(models.CharField(max_length=250), null=True, default=list)
+    usuariosPermitidos = models.ManyToManyField(User, related_name='viajes', blank=True)
     estado = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):

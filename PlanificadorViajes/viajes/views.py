@@ -28,6 +28,7 @@ from django.views.generic.detail import DetailView
 def detalle_viaje(request, viaje_id): 
     viaje_actual = get_object_or_404(Viaje_General, pk=viaje_id)
     dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_actual)
+    
     if request.user == viaje_actual.usuario:
         if request.method == 'POST':
             correo = request.POST.get('correo', '')
@@ -37,24 +38,34 @@ def detalle_viaje(request, viaje_id):
         return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': True})
     else:
         return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': False})
-        
+  
+
+@login_required        
 def detalle_viaje_token(request, tk):
-    viaje = get_object_or_404(Viaje_General, token=tk)
-    dias_viaje = get_object_or_404(Viaje_Dia, viaje = viaje)
+    viaje_actual = get_object_or_404(Viaje_General, token=tk)
     
-    if viaje  is not None:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje , 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+    if viaje_actual is not None:
+        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual , 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')
 
-def aceptar_solicitud(self, tk):
+# Esta view es utilizada cuando se hace click en el link que se envia por email
+@login_required
+def aceptar_solicitud(request, tk):
     try:
         viaje = get_object_or_404(Viaje_General, token = tk)
     except:
         viaje = None
-    # if viaje is not None and account_activation_token_viaje.check_token(viaje, tk): Esto no funciona, pero deberia funcionar xd
+        
+    # if viaje is not None and account_activation_token_viaje.check_token(viaje, tk):
+    print("Se asigna")
+    
+    viaje.usuariosPermitidos.add(request.user)
+    viaje.save()
+        
         # return redirect('detalle-viaje-token', tk = tk)
+    
     return redirect('detalle-viaje-token', tk = tk)
     
 

@@ -71,15 +71,20 @@ class ViajeGeneralViewSet(viewsets.ModelViewSet):
         estado= request.GET.get('estado')
           
         # Obtener todos los viajes desde la base de datos
-        viajes = self.get_queryset().filter(usuario=user_obj.pk)
-        viajes= filtrar_viajes_queryset(viajes,destino,dias_hasta,calif)
+        viajes = self.get_queryset()
+        todos_los_viajes1 = viajes.filter(usuario = user_obj)
+        todos_los_viajes2 = viajes.filter(usuariosPermitidos = user_obj)
+        
+        todos_los_viajes = todos_los_viajes1 | todos_los_viajes2
+        
+        todos_los_viajes = filtrar_viajes_queryset(todos_los_viajes,destino,dias_hasta,calif)
 
         if(estado == "no-terminado"):
-            viajes = viajes.filter(estado="BORRADOR")
+            todos_los_viajes = todos_los_viajes.filter(estado="BORRADOR")
         elif(estado == "privado"):
-            viajes = viajes.filter(esPrivado=True)
+            todos_los_viajes = todos_los_viajes.filter(esPrivado=True)
 
-        serializer = self.get_serializer(viajes.order_by('-calificacion'), many=True)
+        serializer = self.get_serializer(todos_los_viajes.order_by('-calificacion'), many=True)
       
         return Response(serializer.data)
     
