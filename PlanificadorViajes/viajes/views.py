@@ -45,7 +45,7 @@ def detalle_viaje_token(request, tk):
     viaje_actual = get_object_or_404(Viaje_General, token=tk)
     
     if viaje_actual is not None:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual , 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual , 'usuario': request.user,'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')
@@ -58,7 +58,7 @@ def aceptar_solicitud(request, tk):
     except:
         viaje = None
         
-    if viaje is not None: 
+    if viaje is not None and not viaje.usuariosPermitidos.filter(pk=request.user.pk).exists(): 
         viaje.usuariosPermitidos.add(request.user)
         viaje.save()       
     
@@ -114,6 +114,9 @@ def cargarViaje(request):
 
             viaje_form.cantidadDias= dias_viaje.count()
           
+            viaje_form.save()
+            
+            viaje_form.usuariosPermitidos.add(request.user)
             viaje_form.save()
 
             response_data = {

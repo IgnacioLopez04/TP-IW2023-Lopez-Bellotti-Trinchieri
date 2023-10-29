@@ -225,3 +225,25 @@ li{
 
 
 /* fin imagenes */
+
+.modal-header, .modal-body{
+    border-bottom: 2px dotted #ff8000;
+}
+
+.modal-footer{
+    border: none;
+}
+
+.color-btn{
+    background-color: #ff8000;
+    color: #1B3358;
+    font-weight: 700;
+  
+    border: none;
+}
+
+.color-btn:hover{
+    background-color: #1B3358;
+    color: #ff8000;
+    font-weight: 700;
+}

@@ -291,9 +291,78 @@
             </div>
         </section>
     </div>
+
+    {% comment %} Modal para aceptar/rechazar la invitacion al viaje {% endcomment %}
+    {% if usuario not in viaje.usuariosPermitidos%}
+        <div id="confirmation-modal" class="modal confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header w-100">
+                        <h5 class="modal-title">Confirmación</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas aceptar esta invitación?
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirm-accept-button" class="btn color-btn">Aceptar</button>
+                        <button id='cancelar-btn' type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </main>
 {% endblock %}
 
 {% block js %}
     <script src={% static 'JS/detalle_viaje.js'%}></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#confirmation-modal").modal('show');
+        
+            $("#confirm-accept-button").on("click", function() {
+
+                var url = window.location.href;
+                var segmentos = url.split('/');
+                var ultimoElemento = segmentos[5];
+
+                console.log(`/viajes.aceptarSolicitud/${ultimoElemento}/`);
+
+                // Realiza una solicitud Ajax para aceptar la invitación
+                $.ajax({
+                    type: "POST",  // Puedes usar POST o GET según tu configuración.
+                    url: `/viajes/aceptarSolicitud/${ultimoElemento}/`, // Reemplaza esto con tu URL.
+                    data: {},
+                    success: function(data) {
+                        // Maneja la respuesta de la solicitud Ajax, por ejemplo, redirige al usuario
+                        // a la vista 'detalle-viaje-token' si la invitación se acepta con éxito.
+                        window.location.href = `/viajes/detalle-viaje/${ultimoElemento}/`
+                    },
+                    error: function(xhr, status, error) {
+                        // Maneja errores si la solicitud Ajax falla.
+                        console.log("Error al aceptar la invitación:", error);
+                    }
+                });
+        
+                // Cierra el modal después de aceptar
+                $("#confirmation-modal").modal('hide');
+            });
+
+            $("#cancelar-btn").on("click", function() {
+
+                $("#confirmation-modal").modal('hide');
+                window.location.href = "{% url 'sitio-inicio' %}"
+
+            });
+
+            $(".close").on("click", function() {
+
+                $("#confirmation-modal").modal('hide');
+                window.location.href = "{% url 'sitio-inicio' %}"
+
+            });
+        });
+    </script>
 {% endblock %}

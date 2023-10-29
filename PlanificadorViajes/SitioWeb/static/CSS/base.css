@@ -28,7 +28,11 @@ nav h1 span{
     flex-grow: 1;
 }
 
-.cont-links a{
+.clr-links{
+    color: #FF8000;
+}
+
+.clr-links:hover{
     color: #FF8000;
 }
 
