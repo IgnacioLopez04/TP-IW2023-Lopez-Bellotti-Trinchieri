@@ -58,13 +58,9 @@ def aceptar_solicitud(request, tk):
     except:
         viaje = None
         
-    # if viaje is not None and account_activation_token_viaje.check_token(viaje, tk):
-    print("Se asigna")
-    
-    viaje.usuariosPermitidos.add(request.user)
-    viaje.save()
-        
-        # return redirect('detalle-viaje-token', tk = tk)
+    if viaje is not None: 
+        viaje.usuariosPermitidos.add(request.user)
+        viaje.save()       
     
     return redirect('detalle-viaje-token', tk = tk)
     
