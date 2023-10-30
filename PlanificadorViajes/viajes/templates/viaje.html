@@ -68,9 +68,6 @@
                           </button>
                       </div>
                       <div class="modal-body">
-                          <div id="hidden-fields">
-                            <input type="hidden" id="id-viaje-input" name="id-viaje">
-                          </div>
                           {% for field in dia_form %}
                               <div class="form-group{% if field.errors %} invalid{% endif %}">
                                   <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -80,6 +77,9 @@
                                   {% endfor %}
                               </div>
                           {% endfor %}
+                          <div id="hidden-fields">
+                            <input type="hidden" id="id-viaje-input" name="id-viaje">
+                          </div>
                       </div>
                       <div class="modal-footer d-flex justify-content-center align-items-end flex-column">
                         <div id="loading-overlay" style='display:none;'>
@@ -130,14 +130,18 @@
                 for (var i = 0; i < event.data.destinos.length; i++) {
                     var destino = event.data.destinos[i];
                     var hiddenField = document.createElement("input");
+                    var span_destino = document.createElement("span");
 
                     hiddenField.type = "hidden";
                     hiddenField.name = "input-destino";
                     hiddenField.id = "id-destino-" + i;
                     hiddenField.value = destino;
 
+                    span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1]
+
                     // Agrega el campo type="hidden" al contenedor
                     container.appendChild(hiddenField);
+                    container.appendChild(span_destino);
                 }
             }
         });
