@@ -77,7 +77,7 @@
                                   {% endfor %}
                               </div>
                           {% endfor %}
-                          <div id="hidden-fields">
+                          <div id="hidden-fields" class="hidden-fields">
                             <input type="hidden" id="id-viaje-input" name="id-viaje">
                           </div>
                       </div>
@@ -147,6 +147,40 @@
             }
         });
     </script>
+
+    <script>
+
+        $(".hidden-json").each(function (){
+            var hidden_json = $(this).val();
+            var json_parse = JSON.parse(hidden_json);
+
+            var container = $(this).closest(".dia-viaje").find(".hidden-fields")[0];
+            for (var i = 0; i < json_parse.length; i++){
+
+               var destino = json_parse[i];
+
+               var hiddenField = document.createElement("input");
+               var span_destino = document.createElement("span");
+
+               var destino_string = "";
+               destino_string += destino.nombre + ', ';
+               destino_string += destino.provincia + ', ';
+               destino_string += destino.latitud + ', ';
+               destino_string += destino.longitud;
+
+               hiddenField.type = "hidden";
+               hiddenField.name = "input-destino";
+               hiddenField.value = destino_string;
+
+               //span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1];
+               span_destino.className = "span-destino";
+
+               container.appendChild(hiddenField);
+               container.appendChild(span_destino);
+            }
+        });
+    </script>
+
     {% comment %} Detalle de los dias cargados  {% endcomment %}
     <script>
         $(function (){
