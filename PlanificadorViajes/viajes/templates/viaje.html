@@ -138,6 +138,7 @@
                     hiddenField.value = destino;
 
                     span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1]
+                    span_destino.className = "span-destino"
 
                     // Agrega el campo type="hidden" al contenedor
                     container.appendChild(hiddenField);
@@ -203,6 +204,7 @@
 
                         //Reseta los campos hidden 'input-destino'
                         $('#crear-dia-form').find('input[name="input-destino"]').remove();
+                        $('#crear-dia-form').find('span[class="span-destino"]').remove();
 
                         var url = "{% url 'mostrar-dias-viaje' %}";
                         $.ajax({
