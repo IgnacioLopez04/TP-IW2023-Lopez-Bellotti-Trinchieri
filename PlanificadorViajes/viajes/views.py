@@ -221,6 +221,26 @@ class DiaViajeUpdateView(UpdateView):
 
         r = super().post(request, *args, **kwargs) #solo hacemos que se ejecute el super
 
+        destinos = request.POST.getlist('input-destino')
+
+        destinos_viejos = obj.destinos
+        destinos_json = json.loads(destinos_viejos)
+
+        for destino in destinos:
+            ciudad, provincia, latitud, longitud = destino.split(", ")
+            destino_fomateado = {
+                'nombre': ciudad,
+                'provincia': provincia,
+                'latitud': latitud,
+                'longitud': longitud,
+            }
+
+            destinos_json.append(destino_fomateado)
+
+        obj.destinos = json.dumps(destinos_json)
+
+        obj.save()
+
         dias_viaje = Viaje_Dia.objects.filter(viaje=viaje)
 
         response_data = {

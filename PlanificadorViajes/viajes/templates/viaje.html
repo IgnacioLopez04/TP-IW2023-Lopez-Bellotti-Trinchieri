@@ -68,9 +68,6 @@
                           </button>
                       </div>
                       <div class="modal-body">
-                          <div id="hidden-fields">
-                            <input type="hidden" id="id-viaje-input" name="id-viaje">
-                          </div>
                           {% for field in dia_form %}
                               <div class="form-group{% if field.errors %} invalid{% endif %}">
                                   <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -80,6 +77,9 @@
                                   {% endfor %}
                               </div>
                           {% endfor %}
+                          <div id="hidden-fields" class="hidden-fields-create">
+                            <input type="hidden" id="id-viaje-input" name="id-viaje">
+                          </div>
                       </div>
                       <div class="modal-footer d-flex justify-content-center align-items-end flex-column">
                         <div id="loading-overlay" style='display:none;'>
@@ -123,25 +123,71 @@
     {% comment %} <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script> {% endcomment %}
 
     <script>
+        // Cuando se carguen destinos, los cargamos al modal de create dia
+        // Habria que ver de hacer esto mismo para cuando estemos actualizando
+        // Que pueda diferenciar cuando esta creando, y cuando esta actualizando
         window.addEventListener("message", function(event) {
             if (event.data && Array.isArray(event.data.destinos)) {
-                var container = document.getElementById("hidden-fields");
-
+                if (event.data.modal == 'create-modal'){
+                    var container = $(".hidden-fields-create")[0];
+                    console.log("container create: ", container)
+                }else{
+                    var container = $(".hidden-fields-update")[0];
+                    console.log("container update: ", container);
+                }
                 for (var i = 0; i < event.data.destinos.length; i++) {
                     var destino = event.data.destinos[i];
                     var hiddenField = document.createElement("input");
+                    var span_destino = document.createElement("span");
 
                     hiddenField.type = "hidden";
                     hiddenField.name = "input-destino";
-                    hiddenField.id = "id-destino-" + i;
                     hiddenField.value = destino;
 
-                    // Agrega el campo type="hidden" al contenedor
+                    span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1]
+                    span_destino.className = "span-destino"
+
                     container.appendChild(hiddenField);
+                    container.appendChild(span_destino);
                 }
             }
         });
     </script>
+
+    <script>
+        // Creamos los inputs de cada dia con sus destinos actuales
+        $(".hidden-json").each(function (){
+            // Descomentar lo comentado para que en contenedor se agg info
+            // de que destino hay en cada dia
+            var hidden_json = $(this).val();
+            var json_parse = JSON.parse(hidden_json);
+
+            var container = $(this).closest(".dia-viaje").find(".hidden-fields-update")[0];
+            for (var i = 0; i < json_parse.length; i++){
+               var destino = json_parse[i];
+
+               var hiddenField = document.createElement("input");
+               //var span_destino = document.createElement("span");
+
+               var destino_string = "";
+               destino_string += destino.nombre + ', ';
+               destino_string += destino.provincia + ', ';
+               destino_string += destino.latitud + ', ';
+               destino_string += destino.longitud;
+
+               hiddenField.type = "hidden";
+               hiddenField.name = "input-destino";
+               hiddenField.value = destino_string;
+
+               //span_destino.textContent = destino_string.split(',')[0] + ', ' + destino_string.split(',')[1];
+               //span_destino.className = "span-destino";
+
+               container.appendChild(hiddenField);
+               //container.appendChild(span_destino);
+            }
+        });
+    </script>
+
     {% comment %} Detalle de los dias cargados  {% endcomment %}
     <script>
         $(function (){
@@ -175,6 +221,9 @@
             //Boton crear dia
             $("#create-dia-viaje").on('click', function (){
                 $("#create-modal").modal('show');
+                $("#create-modal").find('#btn-cargar-destinos').on('click', function() {
+                    abrirMapaSinDia();
+                });
             });
         
             $("#crear-dia-form").submit(function (e) {
@@ -199,6 +248,7 @@
 
                         //Reseta los campos hidden 'input-destino'
                         $('#crear-dia-form').find('input[name="input-destino"]').remove();
+                        $('#crear-dia-form').find('span[class="span-destino"]').remove();
 
                         var url = "{% url 'mostrar-dias-viaje' %}";
                         $.ajax({

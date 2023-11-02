@@ -204,8 +204,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Agrega el evento click al botón "Confirmar destinos"
     $('#confirmar-destinos').on('click', function () {
         //Almacena los valores del input 'input-destino'
+        var modal_array = window.location.href.split('/');
+        var modal = modal_array[modal_array.length - 1];
+        var dia;
+        if (!isNaN(modal_array[modal_array.length - 2]))
+            dia = modal_array[modal_array.length - 2];
+
         var formData = {
-            'destinos': []
+            'destinos': [],
+            'modal': modal,
+            'dia':dia,
         }
 
         $('.input-destino').each(function () {
