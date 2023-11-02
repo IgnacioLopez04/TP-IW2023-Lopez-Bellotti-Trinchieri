@@ -2,11 +2,14 @@ const total_form = document.getElementById('id_form-TOTAL_FORMS');
 src = "https://code.jquery.com/jquery-3.6.0.min.js";
 
 function abrirMapa() {
-    var id_viaje = $('#id-viaje-input').val();
-    if(!id_viaje){
-        id_viaje = $('#modal').data('form-url').split('/')[3]
-    }
-    window.open(`/googleMaps/cargarDestino/${id_viaje}`, 'Mapa', 'width=800,height=600', { 'idViaje': id_viaje });
+    var id_dia = $('#modal').data('form-url').split('/')[3];
+    modal_abierto = 'modal';
+    window.open(`/googleMaps/cargarDestino/${id_dia}/${modal_abierto}`, 'Mapa', 'width=800,height=600', { 'idViaje': id_dia });
+}
+
+function abrirMapaSinDia() {
+    modal_abierto = 'create-modal';
+    window.open(`/googleMaps/cargarDestino/${modal_abierto}`, 'Mapa', 'width=800,height=600');
 }
 
 //agregar correos

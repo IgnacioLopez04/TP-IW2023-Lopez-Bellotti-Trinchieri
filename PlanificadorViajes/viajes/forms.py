@@ -28,7 +28,10 @@ class ViajeForm(forms.ModelForm):
 class CargarDiaViajeForm(forms.ModelForm):
     cargarDestino = forms.CharField(
         label="",
-        widget=forms.TextInput(attrs={'type': 'button', 'value': 'Cargar ubicaciones', 'onclick': 'abrirMapa()'}),
+        widget=forms.TextInput(attrs={'type': 'button',
+                                      'value': 'Cargar ubicaciones',
+                                      'onclick': 'abrirMapa()',
+                                      'id': 'btn-cargar-destinos'}),
         required=False,
     )
 
