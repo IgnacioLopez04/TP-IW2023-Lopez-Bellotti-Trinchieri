@@ -1,6 +1,10 @@
 {% autoescape off %}
 Hola!
 
-Por favor, haz click en el enlace de abajo para aceptar la invitacion al viaje.
+
+Para aceptar la invitación al viaje privado, por favor, haz click en el siguiente link:
 {{ domain }}{% url 'aceptar-solicitud' tk=token %}
+
+Si no estas esperando una invitacion a un viaje, por favor ignora este email.
+
 {% endautoescape %}

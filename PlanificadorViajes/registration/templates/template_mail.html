@@ -1,8 +1,7 @@
 {% autoescape off %}
 Hola {{user.username}}!
 
-Para aceptar la invitación al viaje privado, por favor, haz click en el siguiente link:
+Para activar tu cuenta haz click en el siguiente link:
 {{ domain }}{% url 'activate' uidb64=uid token=token %}
-Si no estas esperando una invitacion a un viaje, por favor ignora este email.
 
 {% endautoescape %}
