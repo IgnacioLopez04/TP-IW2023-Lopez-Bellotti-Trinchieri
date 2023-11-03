@@ -127,10 +127,8 @@
             if (event.data && Array.isArray(event.data.destinos)) {
                 if (event.data.modal == 'create-modal'){
                     var container = $(".hidden-fields-create")[0];
-                    console.log("container create: ", container)
                 }else{
                     var container = $(".hidden-fields-update")[0];
-                    console.log("container update: ", container);
                 }
                 for (var i = 0; i < event.data.destinos.length; i++) {
                     var destino = event.data.destinos[i];
