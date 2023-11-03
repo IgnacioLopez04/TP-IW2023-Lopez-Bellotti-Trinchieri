@@ -13,4 +13,5 @@ urlpatterns = [
     path('delete-dia/<int:dia_pk>', views.DiaViajeDeleteView.as_view(), name='delete-dia-viaje'),
     path('mostrar-dias/', views.mostrarDiasViaje, name='mostrar-dias-viaje'),
     path('confirmarViaje/', views.confirmarViaje, name='confirmar-viaje'),
+    path('aceptar-invitacion/<str:tk>/', views.boton_aceptar_invitacion, name='aceptar-invitacion'),
 ]

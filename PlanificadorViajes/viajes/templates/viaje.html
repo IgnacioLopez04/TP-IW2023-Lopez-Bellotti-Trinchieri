@@ -123,9 +123,6 @@
     {% comment %} <script src="{% static 'js/bootstrap5.modal.forms.js' %}"></script> {% endcomment %}
 
     <script>
-        // Cuando se carguen destinos, los cargamos al modal de create dia
-        // Habria que ver de hacer esto mismo para cuando estemos actualizando
-        // Que pueda diferenciar cuando esta creando, y cuando esta actualizando
         window.addEventListener("message", function(event) {
             if (event.data && Array.isArray(event.data.destinos)) {
                 if (event.data.modal == 'create-modal'){

@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from registration.token import account_activation_token_viaje 
+from registration.token import account_activation_token_viaje
 from django.contrib import messages
 import json
 
@@ -25,62 +25,81 @@ from django.views.generic.edit import (
 )
 from django.views.generic.detail import DetailView
 
-def detalle_viaje(request, viaje_id): 
+
+def detalle_viaje(request, viaje_id):
     viaje_actual = get_object_or_404(Viaje_General, pk=viaje_id)
-    dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_actual)
-    
+    dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
+
     if request.user == viaje_actual.usuario:
         if request.method == 'POST':
             correo = request.POST.get('correo', '')
             if correo:
-                enviar_correos_privados(request,correo,viaje_actual.token)
-        
-        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': True})
-    else:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY, 'correo': False})
-  
+                enviar_correos_privados(request, correo, viaje_actual.token)
 
-@login_required        
+        return render(request, 'detalle-viaje.html',
+                      {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
+                       'correo': True})
+    else:
+        return render(request, 'detalle-viaje.html',
+                      {'viaje': viaje_actual, 'imagen_dia': dias_viaje, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
+                       'correo': False})
+
+
+@login_required
 def detalle_viaje_token(request, tk):
     viaje_actual = get_object_or_404(Viaje_General, token=tk)
-    
+
     if viaje_actual is not None:
-        return render(request, 'detalle-viaje.html', {'viaje': viaje_actual , 'usuario': request.user,'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+        return render(request, 'detalle-viaje.html',
+                      {'viaje': viaje_actual, 'usuario': request.user, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
     else:
         messages.error(request, f'No se encontro el viaje.')
         return redirect('sitio-inicio')
+
 
 # Esta view es utilizada cuando se hace click en el link que se envia por email
 @login_required
 def aceptar_solicitud(request, tk):
     try:
-        viaje = get_object_or_404(Viaje_General, token = tk)
+        viaje = get_object_or_404(Viaje_General, token=tk)
     except:
         viaje = None
-        
-    if viaje is not None and not viaje.usuariosPermitidos.filter(pk=request.user.pk).exists(): 
+
+    return render(request, 'detalle-viaje.html',
+                  {'viaje': viaje, 'usuario': request.user, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+
+
+@login_required
+def boton_aceptar_invitacion(request, tk):
+    try:
+        viaje = get_object_or_404(Viaje_General, token=tk)
+    except:
+        viaje = None
+
+    if viaje is not None and not viaje.usuariosPermitidos.filter(pk=request.user.pk).exists():
         viaje.usuariosPermitidos.add(request.user)
-        viaje.save()       
-    
-    return redirect('detalle-viaje-token', tk = tk)
-    
+        viaje.save()
+    return render(request, 'detalle-viaje.html',
+                  {'viaje': viaje, 'usuario': request.user, 'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
+                   'esSolicitud': False})
+
 
 def enviar_correos_privados(request, to_email, token):
-    
     mail_subject = 'Invitacion a un viaje privado en Los Tres Viajeros'
-    messages_content = render_to_string('invitacion_mail.html',{
+    messages_content = render_to_string('invitacion_mail.html', {
         'domain': get_current_site(request).domain,
         'token': token,
         'protocol': 'https' if request.is_secure() else 'http'
     })
-    
+
     email = EmailMessage(mail_subject, messages_content, to=[to_email])
     if email.send():
         messages.success(request, f'La invitacion fue enviada.')
     else:
-        messages.error(request, f'No envie el mail.') 
+        messages.error(request, f'No envie el mail.')
 
-###########
+    ###########
+
 
 def buscarCorreo(request, viaje):
     correos = []
@@ -94,9 +113,9 @@ def buscarCorreo(request, viaje):
     for correo in correos:
         enviar_correos_privados(request, correo, viaje.token)
 
+
 @login_required
 def cargarViaje(request):
-
     if request.method == 'POST':
         viaje_form = ViajeForm(request.POST, request.FILES)
 
@@ -104,19 +123,20 @@ def cargarViaje(request):
             viaje_form = viaje_form.save(commit=False)
             viaje_form.usuario = request.user
 
-            viaje_form.calificacion = random.randint(1, 5)  # le doy una calificacion aleatoria por ahora para que ande el filtro
-            
+            viaje_form.calificacion = random.randint(1,
+                                                     5)  # le doy una calificacion aleatoria por ahora para que ande el filtro
+
             buscarCorreo(request, viaje_form)
             viaje_form.estado = 'BORRADOR'
 
-            
-            dias_viaje = Viaje_Dia.objects.filter(viaje = viaje_form.id)               
+            dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_form.id)
 
-            viaje_form.cantidadDias= dias_viaje.count()
-          
+            viaje_form.cantidadDias = dias_viaje.count()
+
             viaje_form.save()
-            
+
             viaje_form.usuariosPermitidos.add(request.user)
+
             viaje_form.save()
 
             response_data = {
@@ -129,44 +149,44 @@ def cargarViaje(request):
     else:
         viaje_form = ViajeForm()
 
-    
     # filtrar y devolver solo los de ese dia
     # por ahora devuelvo todos para testear
     dias_viaje = ''
     dia_form = CargarDiaViajeForm()
     return render(request, 'viaje.html', {
-        'dias_viaje' : dias_viaje,
+        'dias_viaje': dias_viaje,
         'viaje_form': viaje_form,
-        'dia_form' : dia_form,
-     })
-    
+        'dia_form': dia_form,
+    })
+
+
 def confirmarViaje(request):
     response_data = {}
-    
+
     if request.method == "POST":
         id_viaje = request.POST.get('id-viaje')
         if id_viaje == '':
             messages.error(request, f'Se necesita tener al menos cargado un dia del viaje.')
             response_data['success'] = False
-            
+
         else:
-            viaje_actual = get_object_or_404(Viaje_General, pk = id_viaje)
-            
+            viaje_actual = get_object_or_404(Viaje_General, pk=id_viaje)
+
             viaje_actual.estado = "ACTIVO"
             viaje_actual.cantidadDias = viaje_actual.viaje_dia.count()
             viaje_actual.save()
             messages.success(request, f'Se confirmo el viaje.')
             response_data['success'] = True
-            
+
             buscarCorreo(request, viaje_actual)
-           
+
         messages_list = [str(message) for message in messages.get_messages(request)]
         response_data['messages'] = messages_list
-        
-        
+
         return JsonResponse(response_data)
 
-#CREAR
+
+# CREAR
 def DiaViajeCreateView(request):
     id_viaje = request.POST.get('id-viaje')
     destinos = request.POST.getlist('input-destino')
@@ -183,10 +203,10 @@ def DiaViajeCreateView(request):
             for destino in destinos:
                 ciudad, provincia, latitud, longitud = destino.split(", ")
                 destino_fomateado = {
-                    'nombre' : ciudad,
-                    'provincia' : provincia,
-                    'latitud' : latitud,
-                    'longitud' : longitud,
+                    'nombre': ciudad,
+                    'provincia': provincia,
+                    'latitud': latitud,
+                    'longitud': longitud,
                 }
 
                 destinos_fomateados.append(destino_fomateado)
@@ -203,7 +223,9 @@ def DiaViajeCreateView(request):
             }
 
             return JsonResponse(response_data)
-#ACTUALIZAR
+
+
+# ACTUALIZAR
 class DiaViajeUpdateView(UpdateView):
     model = Viaje_Dia
     template_name = 'CRUD-dia-viaje/actualizar-dia-viaje.html'
@@ -219,7 +241,7 @@ class DiaViajeUpdateView(UpdateView):
         obj = self.get_object()
         viaje = obj.viaje
 
-        r = super().post(request, *args, **kwargs) #solo hacemos que se ejecute el super
+        r = super().post(request, *args, **kwargs)  # solo hacemos que se ejecute el super
 
         destinos = request.POST.getlist('input-destino')
 
@@ -244,10 +266,11 @@ class DiaViajeUpdateView(UpdateView):
         dias_viaje = Viaje_Dia.objects.filter(viaje=viaje)
 
         response_data = {
-            'html_response' : render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
+            'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje})
         }
 
         return JsonResponse(response_data)
+
 
 # ELIMINAR
 class DiaViajeDeleteView(DeleteView):
@@ -277,18 +300,20 @@ class DiaViajeDeleteView(DeleteView):
         }
 
         return JsonResponse(response)
-    
+
+
 # Mostrar dias viaje
 def mostrarDiasViaje(request):
     id_viaje = request.POST.get('id-viaje')
-    viaje_actual = get_object_or_404(Viaje_General, id = id_viaje)
+    viaje_actual = get_object_or_404(Viaje_General, id=id_viaje)
     dias_viaje = Viaje_Dia.objects.filter(viaje=viaje_actual)
 
     response = {
         'html_response': render_to_string('mostrar-dias-viaje.html', {'dias_viaje': dias_viaje}),
     }
-    
+
     return JsonResponse(response)
+
 
 class ViajeUpdateView(UpdateView):
     model = Viaje_General
