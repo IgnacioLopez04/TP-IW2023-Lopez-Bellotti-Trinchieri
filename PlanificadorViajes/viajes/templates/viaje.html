@@ -151,36 +151,39 @@
 
     <script>
         // Creamos los inputs de cada dia con sus destinos actuales
-        $(".hidden-json").each(function (){
-            // Descomentar lo comentado para que en contenedor se agg info
-            // de que destino hay en cada dia
-            var hidden_json = $(this).val();
-            var json_parse = JSON.parse(hidden_json);
+        function hidden_json(){
+            $(".hidden-json").each(function (){
+                // Descomentar lo comentado para que en contenedor se agg info
+                // de que destino hay en cada dia
+                var hidden_json = $(this).val();
+                var json_parse = JSON.parse(hidden_json);
 
-            var container = $(this).closest(".dia-viaje").find(".hidden-fields-update")[0];
-            for (var i = 0; i < json_parse.length; i++){
-               var destino = json_parse[i];
+                var container = $(this).closest(".dia-viaje").find(".hidden-fields-update")[0];
+                for (var i = 0; i < json_parse.length; i++){
+                   var destino = json_parse[i];
 
-               var hiddenField = document.createElement("input");
-               //var span_destino = document.createElement("span");
+                   var hiddenField = document.createElement("input");
+                   var span_destino = document.createElement("span");
 
-               var destino_string = "";
-               destino_string += destino.nombre + ', ';
-               destino_string += destino.provincia + ', ';
-               destino_string += destino.latitud + ', ';
-               destino_string += destino.longitud;
+                   var destino_string = "";
+                   destino_string += destino.nombre + ', ';
+                   destino_string += destino.provincia + ', ';
+                   destino_string += destino.latitud + ', ';
+                   destino_string += destino.longitud;
 
-               hiddenField.type = "hidden";
-               hiddenField.name = "input-destino";
-               hiddenField.value = destino_string;
+                   hiddenField.type = "hidden";
+                   hiddenField.name = "input-destino";
+                   hiddenField.value = destino_string;
 
-               //span_destino.textContent = destino_string.split(',')[0] + ', ' + destino_string.split(',')[1];
-               //span_destino.className = "span-destino";
+                   span_destino.textContent = destino_string.split(',')[0] + ', ' + destino_string.split(',')[1];
+                   span_destino.className = "span-destino";
 
-               container.appendChild(hiddenField);
-               //container.appendChild(span_destino);
-            }
-        });
+                   container.appendChild(hiddenField);
+                   container.appendChild(span_destino);
+                }
+            });
+        }
+        hidden_json();
     </script>
 
     {% comment %} Detalle de los dias cargados  {% endcomment %}

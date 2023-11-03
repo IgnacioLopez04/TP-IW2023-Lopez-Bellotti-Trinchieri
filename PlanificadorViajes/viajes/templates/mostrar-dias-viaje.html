@@ -26,12 +26,6 @@
     </div>
 {% endfor %}
 <script>
-    $(".btn-eliminar-destino").on('click', function (){
-        console.log("hola");
-    });
-</script>
-
-<script>
 
     $(function(){
         //Boton actualizar dia
@@ -58,8 +52,7 @@
                    button.innerText = 'x';
                    button.className = 'btn-eliminar-destino';
 
-                   button.addEventListener('click', function (e) {
-                       e.stopPropagation();
+                   button.addEventListener('click', function () {
                        input_clone.remove();
                        $(this).remove();
                        span.remove();
@@ -86,6 +79,7 @@
 
                 success: function(data){
                     $('.cont-dias').html(data.html_response);
+                    hidden_json();
                 },
                 error: function(xhr, status, error) {
                     alert('Error al actualizar');
