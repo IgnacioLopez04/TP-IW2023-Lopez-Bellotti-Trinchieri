@@ -33,10 +33,20 @@
             var formUrl = $(this).data("form-url");
             $("#modal-content").empty(); // Limpia el contenido del modal
 
+            var hidden_fields = $(this).closest(".dia-viaje").find(".hidden-fields-update");
+            var inputs = hidden_fields.find("input");
             $.get(formUrl, function (data) {
                 $("#modal-content").html(data);
                 $("#modal").data('form-url', formUrl);
+
                 $("#modal").modal('show');
+                var container = $("#modal").find(".hidden-fields-update")[0];
+                inputs.each(function (){
+                   container.append($(this)[0]);
+                   var span = document.createElement('span');
+                   span.textContent = $(this)[0].value.split(', ')[0] + ', ' + $(this)[0].value.split(', ')[1];
+                   container.append(span)
+                });
             });
         })
 

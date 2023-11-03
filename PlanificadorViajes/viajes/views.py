@@ -245,8 +245,7 @@ class DiaViajeUpdateView(UpdateView):
 
         destinos = request.POST.getlist('input-destino')
 
-        destinos_viejos = obj.destinos
-        destinos_json = json.loads(destinos_viejos)
+        destinos_json = []
 
         for destino in destinos:
             ciudad, provincia, latitud, longitud = destino.split(", ")
@@ -344,4 +343,3 @@ class ViajeUpdateView(UpdateView):
         viaje.save()
 
         return r
-
