@@ -24,7 +24,13 @@
 
         </div>
     </div>
-{% endfor %} 
+{% endfor %}
+<script>
+    $(".btn-eliminar-destino").on('click', function (){
+        console.log("hola");
+    });
+</script>
+
 <script>
 
     $(function(){
@@ -41,11 +47,27 @@
 
                 $("#modal").modal('show');
                 var container = $("#modal").find(".hidden-fields-update")[0];
+
                 inputs.each(function (){
-                   container.append($(this).clone()[0]);
+                   var input_clone = $(this).clone();
+
                    var span = document.createElement('span');
                    span.textContent = $(this)[0].value.split(', ')[0] + ', ' + $(this)[0].value.split(', ')[1];
-                   container.append(span)
+
+                   var button = document.createElement('button');
+                   button.innerText = 'x';
+                   button.className = 'btn-eliminar-destino';
+
+                   button.addEventListener('click', function (e) {
+                       e.stopPropagation();
+                       input_clone.remove();
+                       $(this).remove();
+                       span.remove();
+                   });
+
+                   span.appendChild(button);
+                   container.append(input_clone[0]);
+                   container.append(span);
                 });
             });
         })
