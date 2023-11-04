@@ -142,6 +142,19 @@
                     span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1]
                     span_destino.className = "span-destino"
 
+                    var button = document.createElement('button');
+                    button.innerText = 'x';
+                    button.className = 'btn-eliminar-destino';
+
+                    var input_clone = hiddenField.cloneNode();
+                    console.log(input_clone);
+                    button.addEventListener('click', function () {
+                       hiddenField.remove();
+                       $(this).remove();
+                       span_destino.remove();
+                   });
+
+                    span_destino.appendChild(button);
                     container.appendChild(hiddenField);
                     container.appendChild(span_destino);
                 }
@@ -221,6 +234,14 @@
                 $("#create-modal").modal('show');
                 $("#create-modal").find('#btn-cargar-destinos').on('click', function() {
                     abrirMapaSinDia();
+                });
+                var button = document.createElement('button');
+                button.innerText = 'x';
+                button.className = 'btn-eliminar-destino';
+                button.addEventListener('click', function () {
+                   input_clone.remove();
+                   $(this).remove();
+                   span.remove();
                 });
             });
         
