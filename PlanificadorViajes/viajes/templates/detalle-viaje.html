@@ -293,7 +293,7 @@
     </div>
 
     {% comment %} Modal para aceptar/rechazar la invitacion al viaje {% endcomment %}
-    {% if user not in viaje.usuariosPermitidos.all %}
+    {% if user not in viaje.usuariosPermitidos.all and viaje.esPrivado%}
     {% csrf_token %}
         <div id="confirmation-modal" class="modal confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
