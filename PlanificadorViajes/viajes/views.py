@@ -260,10 +260,9 @@ class DiaViajeUpdateView(UpdateView):
 
         obj.destinos = json.dumps(destinos_json)
 
-        obj.imagen = request.FILES['imagen']
-
+        if 'imagen' in request.FILES:
+            obj.imagen = request.FILES['imagen']
         obj.save()
-
         dias_viaje = Viaje_Dia.objects.filter(viaje=viaje)
 
         response_data = {

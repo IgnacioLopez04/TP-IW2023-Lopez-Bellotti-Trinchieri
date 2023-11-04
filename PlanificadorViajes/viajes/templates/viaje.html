@@ -140,11 +140,11 @@
                     hiddenField.value = destino;
 
                     span_destino.textContent = destino.split(',')[0] + ', ' + destino.split(',')[1]
-                    span_destino.className = "span-destino"
+                    span_destino.className = "my-1 span-destino"
 
                     var button = document.createElement('button');
                     button.innerText = 'x';
-                    button.className = 'btn-eliminar-destino';
+                    button.className = 'px-1 mx-2 btn-eliminar-destino';
 
                     button.addEventListener('click', function () {
                        hiddenField.remove();

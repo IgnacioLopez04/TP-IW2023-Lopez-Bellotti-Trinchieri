@@ -140,13 +140,24 @@ button:hover{
 /* fin eliminar correo */
 
 /* btn guardar viaje */
-.btn-guardar-viaje, .btn-confirmar-viaje{
+.btn-guardar-viaje, .btn-confirmar-viaje, #btn-cargar-destinos{
     background-color: #1B3358;
     border: none;
     color: #FF8000;
 }
 
+#btn-cargar-destinos{
+    padding: 5px;
+    border-radius: 10px;
+}
+
 .btn-guardar-viaje:hover{
+    background-color: #FF8000;
+    color: #1B3358;
+    font-weight: 700;
+}
+
+#btn-cargar-destinos:hover{
     background-color: #FF8000;
     color: #1B3358;
     font-weight: 700;
@@ -186,7 +197,7 @@ button:hover{
     border-radius: 10px;
 
     width: 250px;
-    height: 220px;
+    height: auto;
 
     text-overflow: ellipsis;
 }
@@ -227,3 +238,13 @@ button:hover{
     fill: #FF8000;
 }
 /* fin loading */
+
+/* hidden fields */
+.hidden-fields-create, .hidden-fields-update{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+
+/* fin hidden fields */
