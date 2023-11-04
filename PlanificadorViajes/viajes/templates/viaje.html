@@ -146,8 +146,6 @@
                     button.innerText = 'x';
                     button.className = 'btn-eliminar-destino';
 
-                    var input_clone = hiddenField.cloneNode();
-                    console.log(input_clone);
                     button.addEventListener('click', function () {
                        hiddenField.remove();
                        $(this).remove();
@@ -235,14 +233,6 @@
                 $("#create-modal").find('#btn-cargar-destinos').on('click', function() {
                     abrirMapaSinDia();
                 });
-                var button = document.createElement('button');
-                button.innerText = 'x';
-                button.className = 'btn-eliminar-destino';
-                button.addEventListener('click', function () {
-                   input_clone.remove();
-                   $(this).remove();
-                   span.remove();
-                });
             });
         
             $("#crear-dia-form").submit(function (e) {
@@ -280,6 +270,7 @@
     
                             success: function(data) {
                                 $('.cont-dias').html(data.html_response);
+                                hidden_json();
 
                                 
                                 $("#loading-overlay").hide();
