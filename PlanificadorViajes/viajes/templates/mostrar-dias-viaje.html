@@ -23,6 +23,7 @@
             </button> 
 
         </div>
+        
     </div>
 {% endfor %}
 <script>
@@ -67,8 +68,14 @@
 
         $("#modal").on('submit', "#update-dia-form", function (e) {
             e.preventDefault();
+
+            $("#loading").show();
+            $("#btn-actualizar-dia-viaje").hide();
+
             var formUrl = $("#modal").data("form-url");
             var formData = new FormData($(this)[0]);
+
+
             $.ajax({
                 url: formUrl,
                 type: 'POST',
@@ -80,13 +87,12 @@
                 success: function(data){
                     $('.cont-dias').html(data.html_response);
                     hidden_json();
+                    $("#modal").modal('hide');
                 },
                 error: function(xhr, status, error) {
                     alert('Error al actualizar');
                 }
-            })
-
-            $("#modal").modal('hide');
+            })       
         })
     
         //Boton eliminar dia
