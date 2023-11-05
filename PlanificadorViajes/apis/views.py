@@ -26,7 +26,7 @@ def filtrar_viajes_queryset(viajes, destino, dias_hasta, calif):
         viajes = viajes.filter(cantidadDias__lte=dias_hasta)
 
     if calif:
-        viajes = viajes.filter(calificacion__lte=calif)
+        viajes = viajes.filter(calificacion__gte=calif)
 
     return viajes
 
