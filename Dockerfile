@@ -1,4 +1,4 @@
-FROM python:3.11.4
+FROM python:3.9.18
 
 ENV PYTHONUNBUFFERED 1
 
@@ -13,12 +13,10 @@ WORKDIR /app_grupo3
 COPY requirements.txt /app_grupo3/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app_grupo3/
+COPY . /app_grupo3
 
 EXPOSE 8000
 
-RUN python PlanificadorViajes/manage.py makemigrations
-RUN python PlanificadorViajes/manage.py migrate
-RUN python PlanificadorViajes/manage.py rebuild_index --noinput
-
-CMD python PlanificadorViajes/manage.py makemigrations; python PlanificadorViajes/manage.py migrate; python PlanificadorViajes/manage.py runserver 0.0.0.0:8000
+CMD python PlanificadorViajes/manage.py migrate; \
+    python PlanificadorViajes/manage.py runserver 0.0.0.0:8000; \
+    python donarsangre/manage.py rebuild_index --noinput ; \
