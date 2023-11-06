@@ -18,6 +18,6 @@ COPY . /app_grupo3
 EXPOSE 8000
 
 CMD python PlanificadorViajes/manage.py migrate; \
-    python donarsangre/manage.py loaddata testData.json ; \
-    python donarsangre/manage.py rebuild_index --noinput ; \
+    python PlanificadorViajes/manage.py loaddata data.json ; \
+    python PlanificadorViajes/manage.py rebuild_index --noinput ; \
     python PlanificadorViajes/manage.py runserver 0.0.0.0:8000; \
